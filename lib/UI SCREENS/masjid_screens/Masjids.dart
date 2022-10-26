@@ -478,34 +478,34 @@ class MasjidsState extends State<Masjids> {
                                                       //     ? ""
                                                       // : masjids[index]
                                                       //     .SecondJuma,
-                                                      startDate: ramadanTimes[
-                                                                      index]
-                                                                  .startDate ==
-                                                              null
-                                                          ? ''
-                                                          : ramadanTimes[index]
-                                                              .startDate,
-                                                      endDate: ramadanTimes[
-                                                                      index]
-                                                                  .endDate ==
-                                                              null
-                                                          ? ''
-                                                          : ramadanTimes[index]
-                                                              .endDate,
-                                                      format: ramadanTimes[
-                                                                      index]
-                                                                  .format ==
-                                                              null
-                                                          ? 2
-                                                          : ramadanTimes[index]
-                                                              .format,
-                                                      ram_sno: ramadanTimes[
-                                                                      index]
-                                                                  .sNo ==
-                                                              null
-                                                          ? 1
-                                                          : ramadanTimes[index]
-                                                              .sNo,
+                                                      // startDate: ramadanTimes[
+                                                      //                 index]
+                                                      //             .startDate ==
+                                                      //         null
+                                                      //     ? ''
+                                                      //     : ramadanTimes[index]
+                                                      //         .startDate,
+                                                      // endDate: ramadanTimes[
+                                                      //                 index]
+                                                      //             .endDate ==
+                                                      //         null
+                                                      //     ? ''
+                                                      //     : ramadanTimes[index]
+                                                      //         .endDate,
+                                                      // format: ramadanTimes[
+                                                      //                 index]
+                                                      //             .format ==
+                                                      //         null
+                                                      //     ? 2
+                                                      //     : ramadanTimes[index]
+                                                      //         .format,
+                                                      // ram_sno: ramadanTimes[
+                                                      //                 index]
+                                                      //             .sNo ==
+                                                      //         null
+                                                      //     ? 1
+                                                      //     : ramadanTimes[index]
+                                                      //         .sNo,
                                                       // takberat: eidTimes[index]
                                                       //             .takbeeratTime ==
                                                       //         null
