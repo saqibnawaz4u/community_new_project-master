@@ -38,6 +38,7 @@ class ApiServices {
   static String postingAccommodationUrl = baseUrl + '/accommodationposting';
   static String RamadanTimesUrl = baseUrl + '/ramadantimes';
   static String eidTimingUrl = baseUrl + '/eidtimings';
+  static String yearlyTimingUrl = baseUrl + '/yearlyiqamatime';
   static String aladhanUrl = baseUrl +
       '/aladhan/getprayertimecity?city=karachi&country=pakistan&method=5';
   static String RssfeedchangehistoryURl = baseUrl + '/rssfeedchangehistory';

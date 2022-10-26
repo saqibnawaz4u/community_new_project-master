@@ -12,6 +12,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../api_services/api_services.dart';
 import '../../constants/styles.dart';
 
@@ -41,6 +42,16 @@ class _Fav_masajidsState extends State<Fav_masajids>
     for (int i = 0; i < selectedendUserMasjids!.length; i++)
       if (selectedendUserMasjids?[i].masjidid == p_Id) return true;
     return false;
+  }
+
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
   }
 
   final _controller = TextEditingController();

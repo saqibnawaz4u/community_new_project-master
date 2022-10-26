@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:community_new/models/rssFeedChangeHistory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,12 +10,15 @@ import '../../models/masjid.dart';
 
 class masjidContactUpdate extends StatefulWidget {
   final int masjid_id;
+  final int? id;
   final String title, date, description;
   final String name;
   const masjidContactUpdate({
     Key? key,
+    this.id,
     required this.date,
     required this.masjid_id,
+    // required this.id,
     required this.title,
     required this.description,
     required this.name,
@@ -49,11 +53,28 @@ class _masjidContactUpdate extends State<masjidContactUpdate> {
     });
   }
 
+  List<RssFeedChangeHistory> rssFeedChangeHistory = [];
+  _getRssFeedChange() async {
+    int currentUserId = await prefs.get('userId');
+    await ApiServices.fetch(
+      'rssfeedchangehistory',
+      // actionName: 'GetForEndUser', param1: currentUserId.toString(),
+    ).then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body);
+        print(response.body);
+        rssFeedChangeHistory =
+            list.map((model) => RssFeedChangeHistory.fromJson(model)).toList();
+      });
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getMasjids();
+    _getRssFeedChange();
   }
 
   @override
@@ -118,6 +139,30 @@ class _masjidContactUpdate extends State<masjidContactUpdate> {
                 ],
               ),
             ),
+          ),
+          midPadding2,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  Text('OLD'),
+                  widget.id == rssFeedChangeHistory[0].rssFeedId
+                      ? Text(
+                          rssFeedChangeHistory[0].oldValue.toString(),
+                        )
+                      : Text(''),
+                ],
+              ),
+              Column(
+                children: [
+                  Text('NEW'),
+                  widget.id == rssFeedChangeHistory[0].rssFeedId
+                      ? Text(rssFeedChangeHistory[0].newValue.toString())
+                      : Text(''),
+                ],
+              ),
+            ],
           ),
           midPadding2,
           Padding(

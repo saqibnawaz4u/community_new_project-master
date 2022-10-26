@@ -16,21 +16,21 @@ class RssFeedChangeHistory {
 
   RssFeedChangeHistory.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    rssFeedId = json['RssFeedId'];
-    moduleName = json['ModuleName'];
-    fieldName = json['FieldName'];
-    oldValue = json['OldValue'];
-    newValue = json['NewValue'];
+    rssFeedId = json['rssFeedId'];
+    moduleName = json['moduleName'];
+    fieldName = json['fieldName'];
+    oldValue = json['oldValue'];
+    newValue = json['newValue'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['RssFeedId'] = this.rssFeedId;
-    data['ModuleName'] = this.moduleName;
-    data['FieldName'] = this.fieldName;
-    data['OldValue'] = this.oldValue;
-    data['NewValue'] = this.newValue;
+    data['rssFeedId'] = this.rssFeedId;
+    data['moduleName'] = this.moduleName;
+    data['fieldName'] = this.fieldName;
+    data['oldValue'] = this.oldValue;
+    data['newValue'] = this.newValue;
     return data;
   }
 }

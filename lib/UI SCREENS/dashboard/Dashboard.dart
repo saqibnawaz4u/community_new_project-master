@@ -504,7 +504,11 @@ class _DashboardState extends State<Dashboard> {
                                           description: rss_List[index]
                                               .description
                                               .toString(),
+                                          id: int.parse(
+                                            rss_List[index].id.toString(),
+                                          ),
                                           masjid_id: //rss_List[index].source_id!,
+
                                               int.parse(rss_List[index]
                                                   .source_id
                                                   .toString()),
