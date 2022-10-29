@@ -1,14 +1,28 @@
+import 'package:community_new/UI%20SCREENS/create_accomodation/screens/home/bathrooms.dart';
+import 'package:community_new/UI%20SCREENS/create_accomodation/screens/home/bedrooms.dart';
 import 'package:community_new/UI%20SCREENS/create_accomodation/screens/home/searchFilter.dart';
+import 'package:community_new/UI%20SCREENS/create_accomodation/screens/home/unitType.dart';
+import 'package:community_new/UI%20SCREENS/create_accomodation/screens/postAccomodation.dart';
 import 'package:community_new/UI%20SCREENS/create_accomodation/widgets/buttons.dart';
 import 'package:community_new/UI%20SCREENS/create_accomodation/widgets/customTextField.dart';
 import 'package:community_new/constants/styles.dart';
 import 'package:community_new/models/accommodationPosting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class PostingDetails extends StatefulWidget {
+  String? unitType, bedrooms, bathrooms;
+  int? num;
   final bool? isNew;
-  const PostingDetails({super.key, this.isNew});
+  PostingDetails({
+    super.key,
+    this.isNew,
+    this.unitType,
+    this.bedrooms,
+    this.bathrooms,
+    this.num,
+  });
 
   @override
   State<PostingDetails> createState() => _PostingDetailsState();
@@ -16,6 +30,7 @@ class PostingDetails extends StatefulWidget {
 
 class _PostingDetailsState extends State<PostingDetails> {
   TextEditingController _sizeController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
   String noofbedrroms = '';
   String NoOFBathrooms = '';
   String untilityIncluded = '';
@@ -30,6 +45,38 @@ class _PostingDetailsState extends State<PostingDetails> {
   String smookingPermitted = '';
   String forRentBy = '';
   String agreementTypeString = '';
+  String laundryInUnit = '';
+  String laundryInBuilding = '';
+  String dishwasher = '';
+  String airConditioning = '';
+  String fridge = '';
+  String balcony = '';
+  String hydro = '';
+  String heat = '';
+  String water = '';
+  String yard = '';
+  String cable = '';
+  String internet = '';
+  String adType = '';
+
+  Future onTappedFunctionOfStartDate() async {
+    DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(
+            2000), //DateTime.now() - not to allow to choose before today.
+        lastDate: DateTime(2101));
+    if (pickedDate != null) {
+      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+      setState(() {
+        dateController.text =
+            formattedDate; //set output date to TextField value.
+      });
+    } else {
+      print("Date is not selected");
+    }
+  }
+
   showAlertDialog(BuildContext context) {
     // Create button
     Widget yesButton = TextButton(
@@ -144,127 +191,151 @@ class _PostingDetailsState extends State<PostingDetails> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ),
-                      ),
-                      // color: Colors.grey.shade300,
-                    ),
-                    padding: EdgeInsets.only(
-                      top: 10.0,
-                      bottom: 10,
-                      left: 10,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Unit type ',
-                          style: TextStyle(
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UnitTypeScreen()));
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
                             color: Colors.grey,
+                            width: 1,
                           ),
                         ),
-                        Spacer(),
-                        // Text(
-                        //   'Any',
-                        //   style: TextStyle(
-                        //       color: blackColor, fontWeight: FontWeight.bold),
-                        // ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 20.0,
-                          color: Colors.grey.shade300,
-                        ),
-                      ],
+                        // color: Colors.grey.shade300,
+                      ),
+                      padding: EdgeInsets.only(
+                        top: 10.0,
+                        bottom: 10,
+                        left: 10,
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Unit type ',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Spacer(),
+                          // Text(
+                          //   'Any',
+                          //   style: TextStyle(
+                          //       color: blackColor, fontWeight: FontWeight.bold),
+                          // ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 20.0,
+                            color: Colors.grey.shade300,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ),
-                      ),
-                      // color: Colors.grey.shade300,
-                    ),
-                    padding: EdgeInsets.only(
-                      top: 10.0,
-                      bottom: 10,
-                      left: 10,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Bedrooms ',
-                          style: TextStyle(
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BedroomsScreen()));
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
                             color: Colors.grey,
+                            width: 1,
                           ),
                         ),
-                        Spacer(),
-                        // Text(
-                        //   'Any',
-                        //   style: TextStyle(
-                        //       color: blackColor, fontWeight: FontWeight.bold),
-                        // ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 20.0,
-                          color: Colors.grey.shade300,
-                        ),
-                      ],
+                        // color: Colors.grey.shade300,
+                      ),
+                      padding: EdgeInsets.only(
+                        top: 10.0,
+                        bottom: 10,
+                        left: 10,
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Bedrooms ',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Spacer(),
+                          // Text(
+                          //   'Any',
+                          //   style: TextStyle(
+                          //       color: blackColor, fontWeight: FontWeight.bold),
+                          // ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 20.0,
+                            color: Colors.grey.shade300,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ),
-                      ),
-                      // color: Colors.grey.shade300,
-                    ),
-                    padding: EdgeInsets.only(
-                      top: 10.0,
-                      bottom: 10,
-                      left: 10,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Bathrooms ',
-                          style: TextStyle(
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BathroomScreen()));
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
                             color: Colors.grey,
+                            width: 1,
                           ),
                         ),
-                        Spacer(),
-                        // Text(
-                        //   'Any',
-                        //   style: TextStyle(
-                        //       color: blackColor, fontWeight: FontWeight.bold),
-                        // ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 20.0,
-                          color: Colors.grey.shade300,
-                        ),
-                      ],
+                        // color: Colors.grey.shade300,
+                      ),
+                      padding: EdgeInsets.only(
+                        top: 10.0,
+                        bottom: 10,
+                        left: 10,
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Bathrooms ',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Spacer(),
+                          // Text(
+                          //   'Any',
+                          //   style: TextStyle(
+                          //       color: blackColor, fontWeight: FontWeight.bold),
+                          // ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 20.0,
+                            color: Colors.grey.shade300,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   customRadio(
                     fn: (v) {
                       setState(() {
-                        forRentBy = v;
+                        agreementTypeString = v;
                       });
                     },
                     title: 'Agreement Type',
@@ -274,45 +345,52 @@ class _PostingDetailsState extends State<PostingDetails> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ),
-                      ),
-                      // color: Colors.grey.shade300,
-                    ),
-                    padding: EdgeInsets.only(
-                      top: 10.0,
-                      bottom: 10,
-                      left: 10,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Select Move-in Date ',
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Spacer(),
-                        // Text(
-                        //   'Any',
-                        //   style: TextStyle(
-                        //       color: blackColor, fontWeight: FontWeight.bold),
-                        // ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 20.0,
-                          color: Colors.grey.shade300,
-                        ),
-                      ],
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: onTappedFunctionOfStartDate,
+                  //   child: Container(
+                  //     width: MediaQuery.of(context).size.width,
+                  //     height: 40,
+                  //     decoration: BoxDecoration(
+                  //       border: Border(
+                  //         bottom: BorderSide(
+                  //           color: Colors.grey,
+                  //           width: 1,
+                  //         ),
+                  //       ),
+                  //       // color: Colors.grey.shade300,
+                  //     ),
+                  //     padding: EdgeInsets.only(
+                  //       top: 10.0,
+                  //       bottom: 10,
+                  //       left: 10,
+                  //     ),
+                  //     child: Row(
+                  //       children: [
+                  //         Text(
+                  //           'Select Move-in Date ',
+                  //           style: TextStyle(
+                  //             color: Colors.grey,
+                  //           ),
+                  //         ),
+                  //         Spacer(),
+                  //         // Text(
+                  //         //   'Any',
+                  //         //   style: TextStyle(
+                  //         //       color: blackColor, fontWeight: FontWeight.bold),
+                  //         // ),
+                  //         Icon(
+                  //           Icons.arrow_forward_ios,
+                  //           size: 20.0,
+                  //           color: Colors.grey.shade300,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  //  customTextField(
+                  //   text: 'Move-in Date',
+                  //   controller: dateController,
+                  // ),
                   customRadio(
                     fn: (v) {
                       setState(() {
@@ -345,7 +423,7 @@ class _PostingDetailsState extends State<PostingDetails> {
                   customRadio(
                     fn: (v) {
                       setState(() {
-                        furnished = v;
+                        laundryInUnit = v;
                       });
                     },
                     //width: 55,
@@ -356,7 +434,7 @@ class _PostingDetailsState extends State<PostingDetails> {
                   customRadio(
                     fn: (v) {
                       setState(() {
-                        furnished = v;
+                        laundryInBuilding = v;
                       });
                     },
                     //width: 55,
@@ -367,7 +445,7 @@ class _PostingDetailsState extends State<PostingDetails> {
                   customRadio(
                     fn: (v) {
                       setState(() {
-                        furnished = v;
+                        dishwasher = v;
                       });
                     },
                     //width: 55,
@@ -378,7 +456,7 @@ class _PostingDetailsState extends State<PostingDetails> {
                   customRadio(
                     fn: (v) {
                       setState(() {
-                        furnished = v;
+                        fridge = v;
                       });
                     },
                     //width: 55,
@@ -389,7 +467,7 @@ class _PostingDetailsState extends State<PostingDetails> {
                   customRadio(
                     fn: (v) {
                       setState(() {
-                        furnished = v;
+                        airConditioning = v;
                       });
                     },
                     //width: 55,
@@ -400,7 +478,7 @@ class _PostingDetailsState extends State<PostingDetails> {
                   customRadio(
                     fn: (v) {
                       setState(() {
-                        furnished = v;
+                        yard = v;
                       });
                     },
                     //width: 55,
@@ -411,7 +489,7 @@ class _PostingDetailsState extends State<PostingDetails> {
                   customRadio(
                     fn: (v) {
                       setState(() {
-                        furnished = v;
+                        balcony = v;
                       });
                     },
                     //width: 55,
@@ -465,7 +543,7 @@ class _PostingDetailsState extends State<PostingDetails> {
                   customRadio(
                     fn: (v) {
                       setState(() {
-                        furnished = v;
+                        hydro = v;
                       });
                     },
                     //width: 55,
@@ -476,7 +554,7 @@ class _PostingDetailsState extends State<PostingDetails> {
                   customRadio(
                     fn: (v) {
                       setState(() {
-                        furnished = v;
+                        heat = v;
                       });
                     },
                     //width: 55,
@@ -487,7 +565,7 @@ class _PostingDetailsState extends State<PostingDetails> {
                   customRadio(
                     fn: (v) {
                       setState(() {
-                        furnished = v;
+                        water = v;
                       });
                     },
                     //width: 55,
@@ -498,7 +576,7 @@ class _PostingDetailsState extends State<PostingDetails> {
                   customRadio(
                     fn: (v) {
                       setState(() {
-                        furnished = v;
+                        cable = v;
                       });
                     },
                     //width: 55,
@@ -509,7 +587,7 @@ class _PostingDetailsState extends State<PostingDetails> {
                   customRadio(
                     fn: (v) {
                       setState(() {
-                        furnished = v;
+                        internet = v;
                       });
                     },
                     //width: 55,
@@ -539,7 +617,7 @@ class _PostingDetailsState extends State<PostingDetails> {
                   customRadio(
                     fn: (v) {
                       setState(() {
-                        furnished = v;
+                        adType = v;
                       });
                     },
                     //width: 55,
@@ -571,7 +649,45 @@ class _PostingDetailsState extends State<PostingDetails> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: customEmailBtn(
-                    () {},
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PostAccommodation(
+                            isNew: true,
+                            // NoOFBathrooms: double.parse(widget.bathrooms!),
+                            // NoOFBathrooms: double.parse(NoOFBathrooms),
+                            accessibleWahshroms: accessibleWahshroms,
+                            adType: adType,
+                            agreementTypeString: agreementTypeString,
+                            airConditioning: airConditioning,
+                            // appliances: appliances,
+                            balcony: balcony,
+                            barrierFreeEntrance: barrierFreeEntrance,
+                            cable: cable,
+                            dishwasher: dishwasher,
+                            forRentBy: forRentBy,
+                            fridge: fridge,
+                            furnished: furnished,
+                            heat: heat,
+                            hydro: hydro,
+                            internet: internet,
+                            laundryInBuilding: laundryInBuilding,
+                            laundryInUnit: laundryInUnit,
+                            // noofbedrroms: int.parse(widget.bedrooms!),
+                            parkingIncluded: parkingIncluded,
+                            personalOutdoorSpaces: personalOutdoorSpaces,
+                            petFriendly: petFriendly,
+                            size: int.parse(_sizeController.text),
+                            smookingPermitted: smookingPermitted,
+                            untilityIncluded: untilityIncluded,
+                            visualAids: visualAids,
+                            water: water,
+                            yard: yard,
+                          ),
+                        ),
+                      );
+                    },
                     'Done',
                   ),
                 ),

@@ -308,7551 +308,7929 @@ class _masjidPrayerTimeDetailsState extends State<masjidPrayerTimeDetails>
     );
 
     return DefaultTabController(
-      length: 6,
-      child: NestedScrollView(
-        controller: scrollController,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            flexibleSpaceWidget,
-            SliverPersistentHeader(
-              delegate: _SliverAppBarDelegate(
-                TabBar(
-                  isScrollable: true,
-                  labelColor: appColor,
-                  unselectedLabelColor: Colors.black26,
-                  indicatorColor: appColor,
-                  indicatorSize: TabBarIndicatorSize.label,
-                  tabs: [
-                    Tab(
-                      text: "Today",
+        length: 6,
+        child: NestedScrollView(
+            controller: scrollController,
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                flexibleSpaceWidget,
+                SliverPersistentHeader(
+                  delegate: _SliverAppBarDelegate(
+                    TabBar(
+                      isScrollable: true,
+                      labelColor: appColor,
+                      unselectedLabelColor: Colors.black26,
+                      indicatorColor: appColor,
+                      indicatorSize: TabBarIndicatorSize.label,
+                      tabs: [
+                        Tab(
+                          text: "Today",
+                        ),
+                        Tab(text: "Weekly"),
+                        Tab(text: "Jumma"),
+                        Tab(
+                          text: 'Yearly',
+                        ),
+                        Tab(
+                          text: 'Ramadan Times',
+                        ),
+                        Tab(
+                          text: 'Eid Timings',
+                        )
+                      ],
                     ),
-                    Tab(text: "Weekly"),
-                    Tab(text: "Jumma"),
-                    Tab(
-                      text: 'Yearly',
-                    ),
-                    Tab(
-                      text: 'Ramadan Times',
-                    ),
-                    Tab(
-                      text: 'Eid Timings',
-                    )
-                  ],
+                  ),
+                  // pinned: true,
+                ),
+              ];
+            },
+            body: new TabBarView(children: <Widget>[
+              Container(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      DataTable(
+                        columnSpacing: MediaQuery.of(context).size.width / 2.5,
+                        headingRowColor: MaterialStateColor.resolveWith(
+                            (states) => Color(0xffddc2ae)),
+                        columns: const <DataColumn>[
+                          DataColumn(
+                            label: Text(
+                              'Prayers',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'Iqama Time',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                        ],
+                        rows: <DataRow>[
+                          DataRow(
+                            cells: <DataCell>[
+                              DataCell(Text('Fajr')),
+                              DataCell(Text(widget.fajr.toString())),
+                            ],
+                          ),
+                          DataRow(
+                            cells: <DataCell>[
+                              DataCell(Text('Duhr')),
+                              DataCell(Text(widget.duhr.toString())),
+                            ],
+                          ),
+                          DataRow(
+                            cells: <DataCell>[
+                              DataCell(Text('Asr')),
+                              DataCell(Text(widget.asr.toString())),
+                            ],
+                          ),
+                          DataRow(
+                            cells: <DataCell>[
+                              DataCell(Text('Maghrib')),
+                              DataCell(Text(widget.maghrib.toString())),
+                            ],
+                          ),
+                          DataRow(
+                            cells: <DataCell>[
+                              DataCell(Text('Isha')),
+                              DataCell(Text(widget.isha.toString())),
+                            ],
+                          ),
+                          // DataRow(
+                          //   cells: <DataCell>[
+                          //     DataCell(Text('First Juma')),
+                          //     DataCell(Text(widget.juma.toString())),
+                          //   ],
+                          // ),
+                          // DataRow(
+                          //   cells: <DataCell>[
+                          //     DataCell(Text('Second Juma')),
+                          //     DataCell(Text(widget.juma.toString())),
+                          //   ],
+                          // ),
+                        ],
+                      ),
+                      // Divider(
+                      //   color: Colors.grey,
+                      // ),
+                      // widget.isprayerTime == true
+                      //     ? Container()
+                      //     : detailRow(
+                      //         title1: 'City : ',
+                      //         value1: widget.city,
+                      //         title2: 'Country : ',
+                      //         value2: widget.country,
+                      //       ),
+                      // widget.isprayerTime == true
+                      //     ? Container()
+                      //     : detailRow(
+                      //         title1: 'Description :\n',
+                      //         value1: widget.desc,
+                      //         title2: '   Capacity : ',
+                      //         value2: widget.capacity == null
+                      //             ? ''
+                      //             : widget.capacity.toString(),
+                      //       ),
+                      // widget.isprayerTime == true
+                      //     ? Container()
+                      //     : detailRow(
+                      //         title1: 'Address : ',
+                      //         value1: widget.address,
+                      //       ),
+                    ],
+                  ),
                 ),
               ),
-              // pinned: true,
-            ),
-          ];
-        },
-        body: new TabBarView(
-          children: <Widget>[
-            Container(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    DataTable(
-                      columnSpacing: MediaQuery.of(context).size.width / 2.5,
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      columns: const <DataColumn>[
-                        DataColumn(
-                          label: Text(
-                            'Prayers',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
+              Container(
+                child: SingleChildScrollView(
+                  child: DataTable(
+                    headingRowColor: MaterialStateColor.resolveWith(
+                        (states) => Color(0xffddc2ae)),
+                    columnSpacing: widget.fajr == null ||
+                            widget.fajr == '' ||
+                            widget.duhr == '' ||
+                            widget.duhr == null ||
+                            widget.asr == '' ||
+                            widget.asr == null ||
+                            widget.maghrib == null ||
+                            widget.maghrib == '' ||
+                            widget.isha == '' ||
+                            widget.isha == null
+                        ? 20
+                        : 13,
+                    columns: const <DataColumn>[
+                      DataColumn(
+                        label: Text(
+                          'Days',
+                          style: TextStyle(fontStyle: FontStyle.italic),
                         ),
-                        DataColumn(
-                          label: Text(
-                            'Iqama Time',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Fajr',
+                          style: TextStyle(fontStyle: FontStyle.italic),
                         ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('Fajr')),
-                            DataCell(Text(widget.fajr.toString())),
-                          ],
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Duhr',
+                          style: TextStyle(fontStyle: FontStyle.italic),
                         ),
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('Duhr')),
-                            DataCell(Text(widget.duhr.toString())),
-                          ],
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Asr',
+                          style: TextStyle(fontStyle: FontStyle.italic),
                         ),
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('Asr')),
-                            DataCell(Text(widget.asr.toString())),
-                          ],
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Maghrib',
+                          style: TextStyle(fontStyle: FontStyle.italic),
                         ),
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('Maghrib')),
-                            DataCell(Text(widget.maghrib.toString())),
-                          ],
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Isha',
+                          style: TextStyle(fontStyle: FontStyle.italic),
                         ),
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('Isha')),
-                            DataCell(Text(widget.isha.toString())),
-                          ],
-                        ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('First Juma')),
-                        //     DataCell(Text(widget.juma.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Second Juma')),
-                        //     DataCell(Text(widget.juma.toString())),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                    // Divider(
-                    //   color: Colors.grey,
-                    // ),
-                    // widget.isprayerTime == true
-                    //     ? Container()
-                    //     : detailRow(
-                    //         title1: 'City : ',
-                    //         value1: widget.city,
-                    //         title2: 'Country : ',
-                    //         value2: widget.country,
-                    //       ),
-                    // widget.isprayerTime == true
-                    //     ? Container()
-                    //     : detailRow(
-                    //         title1: 'Description :\n',
-                    //         value1: widget.desc,
-                    //         title2: '   Capacity : ',
-                    //         value2: widget.capacity == null
-                    //             ? ''
-                    //             : widget.capacity.toString(),
-                    //       ),
-                    // widget.isprayerTime == true
-                    //     ? Container()
-                    //     : detailRow(
-                    //         title1: 'Address : ',
-                    //         value1: widget.address,
-                    //       ),
-                  ],
+                      ),
+                    ],
+                    rows: <DataRow>[
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text('Monday')),
+                          DataCell(Text(widget.fajr.toString())),
+                          DataCell(Text(widget.duhr.toString())),
+                          DataCell(Text(widget.asr.toString())),
+                          DataCell(Text(
+                            widget.maghrib.toString(),
+                            style: TextStyle(
+                              fontSize: 10.0,
+                            ),
+                          )),
+                          DataCell(Text(widget.isha.toString())),
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text('Tuesday')),
+                          DataCell(Text(widget.fajr.toString())),
+                          DataCell(Text(widget.duhr.toString())),
+                          DataCell(Text(widget.asr.toString())),
+                          DataCell(Text(
+                            widget.maghrib.toString(),
+                            style: TextStyle(
+                              fontSize: 10.0,
+                            ),
+                          )),
+                          DataCell(Text(widget.isha.toString())),
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text('Wednesday')),
+                          DataCell(Text(widget.fajr.toString())),
+                          DataCell(Text(widget.duhr.toString())),
+                          DataCell(Text(widget.asr.toString())),
+                          DataCell(Text(
+                            widget.maghrib.toString(),
+                            style: TextStyle(
+                              fontSize: 10.0,
+                            ),
+                          )),
+                          DataCell(Text(widget.isha.toString())),
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text('Thursday')),
+                          DataCell(Text(widget.fajr.toString())),
+                          DataCell(Text(widget.duhr.toString())),
+                          DataCell(Text(widget.asr.toString())),
+                          DataCell(Text(
+                            widget.maghrib.toString(),
+                            style: TextStyle(
+                              fontSize: 10.0,
+                            ),
+                          )),
+                          DataCell(Text(widget.isha.toString())),
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text('Friday')),
+                          DataCell(Text(widget.fajr.toString())),
+                          DataCell(Text(widget.duhr.toString())),
+                          DataCell(Text(widget.asr.toString())),
+                          DataCell(Text(
+                            widget.maghrib.toString(),
+                            style: TextStyle(
+                              fontSize: 10.0,
+                            ),
+                          )),
+                          DataCell(Text(widget.isha.toString())),
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text('Saturday')),
+                          DataCell(Text(widget.fajr.toString())),
+                          DataCell(Text(widget.duhr.toString())),
+                          DataCell(Text(widget.asr.toString())),
+                          DataCell(Text(
+                            widget.maghrib.toString(),
+                            style: TextStyle(
+                              fontSize: 10.0,
+                            ),
+                          )),
+                          DataCell(Text(widget.isha.toString())),
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text('Sunday')),
+                          DataCell(Text(widget.fajr.toString())),
+                          DataCell(Text(widget.duhr.toString())),
+                          DataCell(Text(widget.asr.toString())),
+                          DataCell(Text(
+                            widget.maghrib.toString(),
+                            style: TextStyle(
+                              fontSize: 10.0,
+                            ),
+                          )),
+                          DataCell(Text(widget.isha.toString())),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Container(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      columnSpacing: widget.fajr == null ||
-                              widget.fajr == '' ||
-                              widget.duhr == '' ||
-                              widget.duhr == null ||
-                              widget.asr == '' ||
-                              widget.asr == null ||
-                              widget.maghrib == null ||
-                              widget.maghrib == '' ||
-                              widget.isha == '' ||
-                              widget.isha == null
-                          ? 20
-                          : 13,
-                      columns: const <DataColumn>[
-                        DataColumn(
-                          label: Text(
-                            'Days',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Fajr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Duhr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Asr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Maghrib',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Isha',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('Monday')),
-                            DataCell(Text(widget.fajr.toString())),
-                            DataCell(Text(widget.duhr.toString())),
-                            DataCell(Text(widget.asr.toString())),
-                            DataCell(Text(
-                              widget.maghrib.toString(),
-                              style: TextStyle(
-                                fontSize: 10.0,
+              Container(
+                  // color: Colors.blue,
+                  child: ListView.builder(
+                      itemCount: jummaList.length,
+                      primary: true,
+                      shrinkWrap: true,
+                      itemBuilder: (_, index) {
+                        return DataTable(
+                          columnSpacing: MediaQuery.of(context).size.width / 35,
+                          headingRowColor: MaterialStateColor.resolveWith(
+                              (states) => Color(0xffddc2ae)),
+                          columns: <DataColumn>[
+                            DataColumn(
+                              label: Text(
+                                'Jumma',
+                                style: TextStyle(fontStyle: FontStyle.italic),
                               ),
-                            )),
-                            DataCell(Text(widget.isha.toString())),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('Tuesday')),
-                            DataCell(Text(widget.fajr.toString())),
-                            DataCell(Text(widget.duhr.toString())),
-                            DataCell(Text(widget.asr.toString())),
-                            DataCell(Text(
-                              widget.maghrib.toString(),
-                              style: TextStyle(
-                                fontSize: 10.0,
+                            ),
+                            DataColumn(
+                              label: Text(
+                                'Lecture Time',
+                                style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                ),
                               ),
-                            )),
-                            DataCell(Text(widget.isha.toString())),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('Wednesday')),
-                            DataCell(Text(widget.fajr.toString())),
-                            DataCell(Text(widget.duhr.toString())),
-                            DataCell(Text(widget.asr.toString())),
-                            DataCell(Text(
-                              widget.maghrib.toString(),
-                              style: TextStyle(
-                                fontSize: 10.0,
+                            ),
+                            DataColumn(
+                              label: Text(
+                                'Khutba Time',
+                                style: TextStyle(fontStyle: FontStyle.italic),
                               ),
-                            )),
-                            DataCell(Text(widget.isha.toString())),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('Thursday')),
-                            DataCell(Text(widget.fajr.toString())),
-                            DataCell(Text(widget.duhr.toString())),
-                            DataCell(Text(widget.asr.toString())),
-                            DataCell(Text(
-                              widget.maghrib.toString(),
-                              style: TextStyle(
-                                fontSize: 10.0,
+                            ),
+                            DataColumn(
+                              label: Text(
+                                'Iqama Time',
+                                style: TextStyle(fontStyle: FontStyle.italic),
                               ),
-                            )),
-                            DataCell(Text(widget.isha.toString())),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('Friday')),
-                            DataCell(Text(widget.fajr.toString())),
-                            DataCell(Text(widget.duhr.toString())),
-                            DataCell(Text(widget.asr.toString())),
-                            DataCell(Text(
-                              widget.maghrib.toString(),
-                              style: TextStyle(
-                                fontSize: 10.0,
-                              ),
-                            )),
-                            DataCell(Text(widget.isha.toString())),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('Saturday')),
-                            DataCell(Text(widget.fajr.toString())),
-                            DataCell(Text(widget.duhr.toString())),
-                            DataCell(Text(widget.asr.toString())),
-                            DataCell(Text(
-                              widget.maghrib.toString(),
-                              style: TextStyle(
-                                fontSize: 10.0,
-                              ),
-                            )),
-                            DataCell(Text(widget.isha.toString())),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('Sunday')),
-                            DataCell(Text(widget.fajr.toString())),
-                            DataCell(Text(widget.duhr.toString())),
-                            DataCell(Text(widget.asr.toString())),
-                            DataCell(Text(
-                              widget.maghrib.toString(),
-                              style: TextStyle(
-                                fontSize: 10.0,
-                              ),
-                            )),
-                            DataCell(Text(widget.isha.toString())),
-                          ],
-                        ),
-                      ],
-                    ),
-                    // Divider(
-                    //   color: Colors.grey,
-                    // ),
-                    // detailRow(
-                    //   title1: 'City : ',
-                    //   value1: widget.city,
-                    //   title2: 'Country : ',
-                    //   value2: widget.country,
-                    // ),
-                    // detailRow(
-                    //   title1: 'Description : ',
-                    //   value1: widget.desc,
-                    //   title2: 'Capacity : ',
-                    //   value2: widget.capacity == null
-                    //       ? ''
-                    //       : widget.capacity.toString(),
-                    // ),
-                    // detailRow(
-                    //   title1: 'Address : ',
-                    //   value1: widget.address,
-                    // ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Column(
-                  children: [
-                    DataTable(
-                      columnSpacing: MediaQuery.of(context).size.width / 35,
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      columns: const <DataColumn>[
-                        DataColumn(
-                          label: Text(
-                            'Jumma',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Lecture Time',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Khutba Time',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Iqama Time',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('1st')),
-                            DataCell(
-                              widget.masjidId == jummaList[0].masjidId
-                                  ? Text(
-                                      jummaList[0].lectureTime.toString(),
-                                    )
-                                  : Text(''),
-                            ),
-                            DataCell(
-                              widget.masjidId == jummaList[0].masjidId
-                                  ? Text(
-                                      jummaList[0].khutbaTime.toString(),
-                                    )
-                                  : Text(''),
-                            ),
-                            DataCell(
-                              widget.masjidId == jummaList[0].masjidId
-                                  ? Text(
-                                      jummaList[0].iqamaTime.toString(),
-                                    )
-                                  : Text(''),
                             ),
                           ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('2nd')),
-                            DataCell(
-                              widget.masjidId == jummaList[0].masjidId
-                                  ? Text(
-                                      jummaList[0].lectureTime.toString(),
-                                    )
-                                  : Text(''),
+                          rows: <DataRow>[
+                            DataRow(
+                              cells: <DataCell>[
+                                DataCell(Text('${index + 1}')),
+                                DataCell(
+                                  widget.masjidId == jummaList[index].masjidId
+                                      ? Text(
+                                          jummaList[index]
+                                              .lectureTime
+                                              .toString(),
+                                        )
+                                      : Text(''),
+                                ),
+                                DataCell(
+                                  widget.masjidId == jummaList[index].masjidId
+                                      ? Text(
+                                          jummaList[index]
+                                              .khutbaTime
+                                              .toString(),
+                                        )
+                                      : Text(''),
+                                ),
+                                DataCell(
+                                  widget.masjidId == jummaList[index].masjidId
+                                      ? Text(
+                                          jummaList[index].iqamaTime.toString(),
+                                        )
+                                      : Text(''),
+                                ),
+                              ],
                             ),
-                            DataCell(
-                              widget.masjidId == jummaList[0].masjidId
-                                  ? Text(
-                                      jummaList[0].khutbaTime.toString(),
-                                    )
-                                  : Text(''),
+                            // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(Text('2nd')),
+                            //     DataCell(
+                            //       widget.masjidId ==
+                            //               jummaList[index].masjidId
+                            //           ? Text(
+                            //               jummaList[index]
+                            //                   .lectureTime
+                            //                   .toString(),
+                            //             )
+                            //           : Text(''),
+                            //     ),
+                            //     DataCell(
+                            //       widget.masjidId ==
+                            //               jummaList[index].masjidId
+                            //           ? Text(
+                            //               jummaList[index]
+                            //                   .khutbaTime
+                            //                   .toString(),
+                            //             )
+                            //           : Text(''),
+                            //     ),
+                            //     DataCell(
+                            //       widget.masjidId ==
+                            //               jummaList[index].masjidId
+                            //           ? Text(
+                            //               jummaList[index]
+                            //                   .iqamaTime
+                            //                   .toString(),
+                            //             )
+                            //           : Text(''),
+                            //     ),
+                            //   ],
+                            // ),
+                            // // // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(Text('Asr')),
+                            //     DataCell(Text(widget.asr.toString())),
+                            //   ],
+                            // ),
+                            // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(Text('Maghrib')),
+                            //     DataCell(Text(widget.maghrib.toString())),
+                            //   ],
+                            // ),
+                            // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(Text('Isha')),
+                            //     DataCell(Text(widget.isha.toString())),
+                            //   ],
+                            // ),
+                            // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(Text('First Juma')),
+                            //     DataCell(Text(widget.juma.toString())),
+                            //   ],
+                            // ),
+                            // DataRow(
+                            //   cells: <DataCell>[
+                            //     DataCell(Text('Second Juma')),
+                            //     DataCell(Text(widget.juma.toString())),
+                            //   ],
+                            // ),
+                          ],
+                        );
+                      })),
+              Container(
+                  child: ListView.builder(
+                      itemCount: yearlyList.length,
+                      shrinkWrap: true,
+                      itemBuilder: (_, index) {
+                        return Column(
+                          children: [
+                            DataTable(
+                              headingRowColor: MaterialStateColor.resolveWith(
+                                  (states) => Color(0xffddc2ae)),
+                              // columnSpacing: widget.fajr == null ||
+                              //         widget.fajr == '' ||
+                              //         widget.duhr == '' ||
+                              //         widget.duhr == null ||
+                              //         widget.asr == '' ||
+                              //         widget.asr == null ||
+                              //         widget.maghrib == null ||
+                              //         widget.maghrib == '' ||
+                              //         widget.isha == '' ||
+                              //         widget.isha == null
+                              //     ? 25
+                              //     : 18,
+                              columnSpacing: 20,
+                              columns: <DataColumn>[
+                                // DataColumn(
+                                //   label: Text(
+                                //     'Month',
+                                //     style: TextStyle(fontStyle: FontStyle.italic),
+                                //   ),
+                                // ),
+                                DataColumn(
+                                  label: SizedBox(
+                                    child: widget.masjidId ==
+                                            yearlyList[index].masjidId
+                                        ? Text(
+                                            yearlyList[index]
+                                                .monthName
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontStyle: FontStyle.italic),
+                                          )
+                                        : Text(''),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Text(
+                                    'Fajr',
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Text(
+                                    'Duhr',
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Text(
+                                    'Asr',
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Text(
+                                    'Maghrib',
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Text(
+                                    'Isha',
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                              ],
+                              rows: <DataRow>[
+                                DataRow(
+                                  cells: <DataCell>[
+                                    // DataCell(Text('January')),
+                                    DataCell(widget.masjidId ==
+                                            yearlyList[index].masjidId
+                                        ? Text(
+                                            yearlyList[index]
+                                                .dateRange
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontSize: 10.0,
+                                            ),
+                                          )
+                                        : Text('')),
+                                    DataCell(widget.masjidId ==
+                                            yearlyList[index].masjidId
+                                        ? Text(
+                                            yearlyList[index].fajar.toString(),
+                                            style: TextStyle(
+                                              fontSize: 10.0,
+                                            ),
+                                          )
+                                        : Text('')),
+                                    DataCell(widget.masjidId ==
+                                            yearlyList[index].masjidId
+                                        ? Text(
+                                            yearlyList[index].zuhar.toString(),
+                                            style: TextStyle(
+                                              fontSize: 10.0,
+                                            ),
+                                          )
+                                        : Text('')),
+                                    DataCell(widget.masjidId ==
+                                            yearlyList[index].masjidId
+                                        ? Text(
+                                            yearlyList[index].asr.toString(),
+                                            style: TextStyle(
+                                              fontSize: 10.0,
+                                            ),
+                                          )
+                                        : Text('')),
+                                    DataCell(widget.masjidId ==
+                                            yearlyList[index].masjidId
+                                        ? Text(
+                                            yearlyList[index]
+                                                .maghrib
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontSize: 10.0,
+                                            ),
+                                          )
+                                        : Text('')),
+                                    DataCell(widget.masjidId ==
+                                            yearlyList[index].masjidId
+                                        ? Text(
+                                            yearlyList[index].isha.toString(),
+                                            style: TextStyle(
+                                              fontSize: 10.0,
+                                            ),
+                                          )
+                                        : Text('')),
+                                  ],
+                                ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     // DataCell(Text('January')),
+                                //     DataCell(widget.masjidId ==
+                                //             yearlyList[index].masjidId
+                                //         ? Text(
+                                //             yearlyList[index]
+                                //                 .dateRange
+                                //                 .toString(),
+                                //             style: TextStyle(
+                                //               fontSize: 10.0,
+                                //             ),
+                                //           )
+                                //         : Text('')),
+                                //     DataCell(widget.masjidId ==
+                                //             yearlyList[index].masjidId
+                                //         ? Text(
+                                //             yearlyList[index].fajar.toString(),
+                                //             style: TextStyle(
+                                //               fontSize: 10.0,
+                                //             ),
+                                //           )
+                                //         : Text('')),
+                                //     DataCell(widget.masjidId ==
+                                //             yearlyList[index].masjidId
+                                //         ? Text(
+                                //             yearlyList[index].zuhar.toString(),
+                                //             style: TextStyle(
+                                //               fontSize: 10.0,
+                                //             ),
+                                //           )
+                                //         : Text('')),
+                                //     DataCell(widget.masjidId ==
+                                //             yearlyList[index].masjidId
+                                //         ? Text(
+                                //             yearlyList[index].asr.toString(),
+                                //             style: TextStyle(
+                                //               fontSize: 10.0,
+                                //             ),
+                                //           )
+                                //         : Text('')),
+                                //     DataCell(widget.masjidId ==
+                                //             yearlyList[index].masjidId
+                                //         ? Text(
+                                //             yearlyList[index]
+                                //                 .maghrib
+                                //                 .toString(),
+                                //             style: TextStyle(
+                                //               fontSize: 10.0,
+                                //             ),
+                                //           )
+                                //         : Text('')),
+                                //     DataCell(widget.masjidId ==
+                                //             yearlyList[index].masjidId
+                                //         ? Text(
+                                //             yearlyList[index].isha.toString(),
+                                //             style: TextStyle(
+                                //               fontSize: 10.0,
+                                //             ),
+                                //           )
+                                //         : Text('')),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     // DataCell(Text('January')),
+                                //     DataCell(widget.masjidId ==
+                                //             yearlyList[index].masjidId
+                                //         ? Text(
+                                //             yearlyList[index]
+                                //                 .dateRange
+                                //                 .toString(),
+                                //             style: TextStyle(
+                                //               fontSize: 10.0,
+                                //             ),
+                                //           )
+                                //         : Text('')),
+                                //     DataCell(widget.masjidId ==
+                                //             yearlyList[index].masjidId
+                                //         ? Text(
+                                //             yearlyList[index].fajar.toString(),
+                                //             style: TextStyle(
+                                //               fontSize: 10.0,
+                                //             ),
+                                //           )
+                                //         : Text('')),
+                                //     DataCell(widget.masjidId ==
+                                //             yearlyList[index].masjidId
+                                //         ? Text(
+                                //             yearlyList[index].zuhar.toString(),
+                                //             style: TextStyle(
+                                //               fontSize: 10.0,
+                                //             ),
+                                //           )
+                                //         : Text('')),
+                                //     DataCell(widget.masjidId ==
+                                //             yearlyList[index].masjidId
+                                //         ? Text(
+                                //             yearlyList[index].asr.toString(),
+                                //             style: TextStyle(
+                                //               fontSize: 10.0,
+                                //             ),
+                                //           )
+                                //         : Text('')),
+                                //     DataCell(widget.masjidId ==
+                                //             yearlyList[index].masjidId
+                                //         ? Text(
+                                //             yearlyList[index]
+                                //                 .maghrib
+                                //                 .toString(),
+                                //             style: TextStyle(
+                                //               fontSize: 10.0,
+                                //             ),
+                                //           )
+                                //         : Text('')),
+                                //     DataCell(widget.masjidId ==
+                                //             yearlyList[index].masjidId
+                                //         ? Text(
+                                //             yearlyList[index].isha.toString(),
+                                //             style: TextStyle(
+                                //               fontSize: 10.0,
+                                //             ),
+                                //           )
+                                //         : Text('')),
+                                //   ],
+                                // ), // DataRow(
+                                // //   cells: <DataCell>[
+                                //     DataCell(Text('February')),
+                                //     DataCell(Text('01 to 10')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('February')),
+                                //     DataCell(Text('11 to 20')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('February')),
+                                //     DataCell(Text('21 to 28')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('March')),
+                                //     DataCell(Text('01 to 13')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('March')),
+                                //     DataCell(Text('14 to 20')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('March')),
+                                //     DataCell(Text('21 to 31')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('April')),
+                                //     DataCell(Text('01 to 12')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('April')),
+                                //     DataCell(Text('13 to 20')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('April')),
+                                //     DataCell(Text('21 to 30')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('May')),
+                                //     DataCell(Text('01 to 10')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('May')),
+                                //     DataCell(Text('11 to 20')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('May')),
+                                //     DataCell(Text('21 to 31')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('June')),
+                                //     DataCell(Text('01 to 10')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('June')),
+                                //     DataCell(Text('11 to 20')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('June')),
+                                //     DataCell(Text('21 to 30')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('July')),
+                                //     DataCell(Text('01 to 10')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('July')),
+                                //     DataCell(Text('11 to 20')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('July')),
+                                //     DataCell(Text('21 to 31')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('August')),
+                                //     DataCell(Text('01 to 10')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('August')),
+                                //     DataCell(Text('11 to 20')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('August')),
+                                //     DataCell(Text('21 to 31')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('September')),
+                                //     DataCell(Text('01 to 10')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('September')),
+                                //     DataCell(Text('11 to 20')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('September')),
+                                //     DataCell(Text('21 to 30')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('October')),
+                                //     DataCell(Text('01 to 10')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('October')),
+                                //     DataCell(Text('11 to 20')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('October')),
+                                //     DataCell(Text('21 to 31')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('November')),
+                                //     DataCell(Text('01 to 10')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('November')),
+                                //     DataCell(Text('11 to 20')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('November')),
+                                //     DataCell(Text('21 to 30')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('December')),
+                                //     DataCell(Text('01 to 10')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('December')),
+                                //     DataCell(Text('11 to 20')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                                // DataRow(
+                                //   cells: <DataCell>[
+                                //     DataCell(Text('Decembet')),
+                                //     DataCell(Text('21 to 31')),
+                                //     DataCell(Text(widget.fajr.toString())),
+                                //     DataCell(Text(widget.duhr.toString())),
+                                //     DataCell(Text(widget.asr.toString())),
+                                //     DataCell(Text(widget.maghrib.toString())),
+                                //     DataCell(Text(widget.isha.toString())),
+                                //   ],
+                                // ),
+                              ],
                             ),
-                            DataCell(
-                              widget.masjidId == jummaList[0].masjidId
-                                  ? Text(
-                                      jummaList[0].iqamaTime.toString(),
-                                    )
-                                  : Text(''),
-                            ),
-                          ],
-                        ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Asr')),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Maghrib')),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Isha')),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('First Juma')),
-                        //     DataCell(Text(widget.juma.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Second Juma')),
-                        //     DataCell(Text(widget.juma.toString())),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                    // Divider(
-                    //   color: Colors.grey,
-                    // ),
-                    // widget.isprayerTime == true
-                    //     ? Container()
-                    //     : detailRow(
-                    //         title1: 'City : ',
-                    //         value1: widget.city,
-                    //         title2: 'Country : ',
-                    //         value2: widget.country,
-                    //       ),
-                    // widget.isprayerTime == true
-                    //     ? Container()
-                    //     : detailRow(
-                    //         title1: 'Description :\n',
-                    //         value1: widget.desc,
-                    //         title2: '   Capacity : ',
-                    //         value2: widget.capacity == null
-                    //             ? ''
-                    //             : widget.capacity.toString(),
-                    //       ),
-                    // widget.isprayerTime == true
-                    //     ? Container()
-                    //     : detailRow(
-                    //         title1: 'Address : ',
-                    //         value1: widget.address,
-                    //       ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      // columnSpacing: widget.fajr == null ||
-                      //         widget.fajr == '' ||
-                      //         widget.duhr == '' ||
-                      //         widget.duhr == null ||
-                      //         widget.asr == '' ||
-                      //         widget.asr == null ||
-                      //         widget.maghrib == null ||
-                      //         widget.maghrib == '' ||
-                      //         widget.isha == '' ||
-                      //         widget.isha == null
-                      //     ? 25
-                      //     : 18,
-                      columnSpacing: 20,
-                      columns: const <DataColumn>[
-                        // DataColumn(
-                        //   label: Text(
-                        //     'Month',
-                        //     style: TextStyle(fontStyle: FontStyle.italic),
-                        //   ),
-                        // ),
-                        DataColumn(
-                          label: SizedBox(
-                            child: Text(
-                              'Jan',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Fajr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Duhr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Asr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Maghrib',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Isha',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[0].masjidId
-                                ? Text(
-                                    yearlyList[0].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[0].masjidId
-                                ? Text(
-                                    yearlyList[0].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[0].masjidId
-                                ? Text(
-                                    yearlyList[0].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[0].masjidId
-                                ? Text(
-                                    yearlyList[0].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[0].masjidId
-                                ? Text(
-                                    yearlyList[0].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[0].masjidId
-                                ? Text(
-                                    yearlyList[0].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[1].masjidId
-                                ? Text(
-                                    yearlyList[1].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[1].masjidId
-                                ? Text(
-                                    yearlyList[1].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[1].masjidId
-                                ? Text(
-                                    yearlyList[1].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[1].masjidId
-                                ? Text(
-                                    yearlyList[1].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[1].masjidId
-                                ? Text(
-                                    yearlyList[1].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[1].masjidId
-                                ? Text(
-                                    yearlyList[1].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[2].masjidId
-                                ? Text(
-                                    yearlyList[2].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[2].masjidId
-                                ? Text(
-                                    yearlyList[2].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[2].masjidId
-                                ? Text(
-                                    yearlyList[2].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[2].masjidId
-                                ? Text(
-                                    yearlyList[2].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[2].masjidId
-                                ? Text(
-                                    yearlyList[2].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[2].masjidId
-                                ? Text(
-                                    yearlyList[2].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ), // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('21 to 28')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('01 to 13')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('14 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('01 to 12')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('13 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Decembet')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                    DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      // columnSpacing: widget.fajr == null ||
-                      //         widget.fajr == '' ||
-                      //         widget.duhr == '' ||
-                      //         widget.duhr == null ||
-                      //         widget.asr == '' ||
-                      //         widget.asr == null ||
-                      //         widget.maghrib == null ||
-                      //         widget.maghrib == '' ||
-                      //         widget.isha == '' ||
-                      //         widget.isha == null
-                      //     ? 25
-                      //     : 18,
-                      columnSpacing: 20,
-                      columns: const <DataColumn>[
-                        // DataColumn(
-                        //   label: Text(
-                        //     'Month',
-                        //     style: TextStyle(fontStyle: FontStyle.italic),
-                        //   ),
-                        // ),
-                        DataColumn(
-                          label: SizedBox(
-                            child: Text(
-                              'Feb',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Fajr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Duhr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Asr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Maghrib',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Isha',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[3].masjidId
-                                ? Text(
-                                    yearlyList[3].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[3].masjidId
-                                ? Text(
-                                    yearlyList[3].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[3].masjidId
-                                ? Text(
-                                    yearlyList[3].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[3].masjidId
-                                ? Text(
-                                    yearlyList[3].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[3].masjidId
-                                ? Text(
-                                    yearlyList[3].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[3].masjidId
-                                ? Text(
-                                    yearlyList[3].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[4].masjidId
-                                ? Text(
-                                    yearlyList[4].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[4].masjidId
-                                ? Text(
-                                    yearlyList[4].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[4].masjidId
-                                ? Text(
-                                    yearlyList[4].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[4].masjidId
-                                ? Text(
-                                    yearlyList[4].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[4].masjidId
-                                ? Text(
-                                    yearlyList[4].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[4].masjidId
-                                ? Text(
-                                    yearlyList[4].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[5].masjidId
-                                ? Text(
-                                    yearlyList[5].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[5].masjidId
-                                ? Text(
-                                    yearlyList[5].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[5].masjidId
-                                ? Text(
-                                    yearlyList[5].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[5].masjidId
-                                ? Text(
-                                    yearlyList[5].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[5].masjidId
-                                ? Text(
-                                    yearlyList[5].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[5].masjidId
-                                ? Text(
-                                    yearlyList[5].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ), // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('21 to 28')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('01 to 13')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('14 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('01 to 12')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('13 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Decembet')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                    DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      // columnSpacing: widget.fajr == null ||
-                      //         widget.fajr == '' ||
-                      //         widget.duhr == '' ||
-                      //         widget.duhr == null ||
-                      //         widget.asr == '' ||
-                      //         widget.asr == null ||
-                      //         widget.maghrib == null ||
-                      //         widget.maghrib == '' ||
-                      //         widget.isha == '' ||
-                      //         widget.isha == null
-                      //     ? 25
-                      //     : 18,
-                      columnSpacing: 20,
-                      columns: const <DataColumn>[
-                        // DataColumn(
-                        //   label: Text(
-                        //     'Month',
-                        //     style: TextStyle(fontStyle: FontStyle.italic),
-                        //   ),
-                        // ),
-                        DataColumn(
-                          label: SizedBox(
-                            child: Text(
-                              'Mar',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Fajr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Duhr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Asr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Maghrib',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Isha',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[6].masjidId
-                                ? Text(
-                                    yearlyList[6].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[6].masjidId
-                                ? Text(
-                                    yearlyList[6].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[6].masjidId
-                                ? Text(
-                                    yearlyList[6].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[6].masjidId
-                                ? Text(
-                                    yearlyList[6].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[6].masjidId
-                                ? Text(
-                                    yearlyList[6].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[6].masjidId
-                                ? Text(
-                                    yearlyList[6].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[7].masjidId
-                                ? Text(
-                                    yearlyList[7].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[7].masjidId
-                                ? Text(
-                                    yearlyList[7].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[7].masjidId
-                                ? Text(
-                                    yearlyList[7].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[7].masjidId
-                                ? Text(
-                                    yearlyList[7].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[7].masjidId
-                                ? Text(
-                                    yearlyList[7].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[7].masjidId
-                                ? Text(
-                                    yearlyList[7].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[8].masjidId
-                                ? Text(
-                                    yearlyList[8].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[8].masjidId
-                                ? Text(
-                                    yearlyList[8].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[8].masjidId
-                                ? Text(
-                                    yearlyList[8].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[8].masjidId
-                                ? Text(
-                                    yearlyList[8].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[8].masjidId
-                                ? Text(
-                                    yearlyList[8].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[8].masjidId
-                                ? Text(
-                                    yearlyList[8].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ), // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('21 to 28')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('01 to 13')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('14 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('01 to 12')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('13 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Decembet')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                    DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      // columnSpacing: widget.fajr == null ||
-                      //         widget.fajr == '' ||
-                      //         widget.duhr == '' ||
-                      //         widget.duhr == null ||
-                      //         widget.asr == '' ||
-                      //         widget.asr == null ||
-                      //         widget.maghrib == null ||
-                      //         widget.maghrib == '' ||
-                      //         widget.isha == '' ||
-                      //         widget.isha == null
-                      //     ? 25
-                      //     : 18,
-                      columnSpacing: 20,
-                      columns: const <DataColumn>[
-                        // DataColumn(
-                        //   label: Text(
-                        //     'Month',
-                        //     style: TextStyle(fontStyle: FontStyle.italic),
-                        //   ),
-                        // ),
-                        DataColumn(
-                          label: SizedBox(
-                            child: Text(
-                              'April',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Fajr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Duhr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Asr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Maghrib',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Isha',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[9].masjidId
-                                ? Text(
-                                    yearlyList[9].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[9].masjidId
-                                ? Text(
-                                    yearlyList[9].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[9].masjidId
-                                ? Text(
-                                    yearlyList[9].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[9].masjidId
-                                ? Text(
-                                    yearlyList[9].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[9].masjidId
-                                ? Text(
-                                    yearlyList[9].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[9].masjidId
-                                ? Text(
-                                    yearlyList[9].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[10].masjidId
-                                ? Text(
-                                    yearlyList[10].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[10].masjidId
-                                ? Text(
-                                    yearlyList[10].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[10].masjidId
-                                ? Text(
-                                    yearlyList[10].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[10].masjidId
-                                ? Text(
-                                    yearlyList[10].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[10].masjidId
-                                ? Text(
-                                    yearlyList[10].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[10].masjidId
-                                ? Text(
-                                    yearlyList[10].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[11].masjidId
-                                ? Text(
-                                    yearlyList[11].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[11].masjidId
-                                ? Text(
-                                    yearlyList[11].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[11].masjidId
-                                ? Text(
-                                    yearlyList[11].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[11].masjidId
-                                ? Text(
-                                    yearlyList[11].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[11].masjidId
-                                ? Text(
-                                    yearlyList[11].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[11].masjidId
-                                ? Text(
-                                    yearlyList[11].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ), // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('21 to 28')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('01 to 13')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('14 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('01 to 12')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('13 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Decembet')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                    DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      // columnSpacing: widget.fajr == null ||
-                      //         widget.fajr == '' ||
-                      //         widget.duhr == '' ||
-                      //         widget.duhr == null ||
-                      //         widget.asr == '' ||
-                      //         widget.asr == null ||
-                      //         widget.maghrib == null ||
-                      //         widget.maghrib == '' ||
-                      //         widget.isha == '' ||
-                      //         widget.isha == null
-                      //     ? 25
-                      //     : 18,
-                      columnSpacing: 20,
-                      columns: const <DataColumn>[
-                        // DataColumn(
-                        //   label: Text(
-                        //     'Month',
-                        //     style: TextStyle(fontStyle: FontStyle.italic),
-                        //   ),
-                        // ),
-                        DataColumn(
-                          label: SizedBox(
-                            child: Text(
-                              'May',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Fajr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Duhr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Asr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Maghrib',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Isha',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[12].masjidId
-                                ? Text(
-                                    yearlyList[12].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[12].masjidId
-                                ? Text(
-                                    yearlyList[12].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[12].masjidId
-                                ? Text(
-                                    yearlyList[12].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[12].masjidId
-                                ? Text(
-                                    yearlyList[12].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[12].masjidId
-                                ? Text(
-                                    yearlyList[12].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[12].masjidId
-                                ? Text(
-                                    yearlyList[12].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[13].masjidId
-                                ? Text(
-                                    yearlyList[13].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[13].masjidId
-                                ? Text(
-                                    yearlyList[13].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[13].masjidId
-                                ? Text(
-                                    yearlyList[13].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[13].masjidId
-                                ? Text(
-                                    yearlyList[13].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[13].masjidId
-                                ? Text(
-                                    yearlyList[13].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[13].masjidId
-                                ? Text(
-                                    yearlyList[13].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[14].masjidId
-                                ? Text(
-                                    yearlyList[14].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[14].masjidId
-                                ? Text(
-                                    yearlyList[14].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[14].masjidId
-                                ? Text(
-                                    yearlyList[14].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[14].masjidId
-                                ? Text(
-                                    yearlyList[14].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[14].masjidId
-                                ? Text(
-                                    yearlyList[14].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[14].masjidId
-                                ? Text(
-                                    yearlyList[14].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ), // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('21 to 28')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('01 to 13')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('14 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('01 to 12')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('13 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Decembet')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                    DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      // columnSpacing: widget.fajr == null ||
-                      //         widget.fajr == '' ||
-                      //         widget.duhr == '' ||
-                      //         widget.duhr == null ||
-                      //         widget.asr == '' ||
-                      //         widget.asr == null ||
-                      //         widget.maghrib == null ||
-                      //         widget.maghrib == '' ||
-                      //         widget.isha == '' ||
-                      //         widget.isha == null
-                      //     ? 25
-                      //     : 18,
-                      columnSpacing: 20,
-                      columns: const <DataColumn>[
-                        // DataColumn(
-                        //   label: Text(
-                        //     'Month',
-                        //     style: TextStyle(fontStyle: FontStyle.italic),
-                        //   ),
-                        // ),
-                        DataColumn(
-                          label: SizedBox(
-                            child: Text(
-                              'June',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Fajr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Duhr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Asr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Maghrib',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Isha',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[15].masjidId
-                                ? Text(
-                                    yearlyList[15].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[15].masjidId
-                                ? Text(
-                                    yearlyList[15].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[15].masjidId
-                                ? Text(
-                                    yearlyList[15].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[15].masjidId
-                                ? Text(
-                                    yearlyList[15].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[15].masjidId
-                                ? Text(
-                                    yearlyList[15].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[15].masjidId
-                                ? Text(
-                                    yearlyList[15].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[16].masjidId
-                                ? Text(
-                                    yearlyList[16].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[16].masjidId
-                                ? Text(
-                                    yearlyList[16].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[16].masjidId
-                                ? Text(
-                                    yearlyList[16].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[16].masjidId
-                                ? Text(
-                                    yearlyList[16].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[16].masjidId
-                                ? Text(
-                                    yearlyList[16].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[16].masjidId
-                                ? Text(
-                                    yearlyList[16].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[17].masjidId
-                                ? Text(
-                                    yearlyList[17].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[17].masjidId
-                                ? Text(
-                                    yearlyList[17].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[17].masjidId
-                                ? Text(
-                                    yearlyList[17].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[17].masjidId
-                                ? Text(
-                                    yearlyList[17].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[17].masjidId
-                                ? Text(
-                                    yearlyList[17].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[17].masjidId
-                                ? Text(
-                                    yearlyList[17].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ), // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('21 to 28')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('01 to 13')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('14 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('01 to 12')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('13 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Decembet')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                    DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      // columnSpacing: widget.fajr == null ||
-                      //         widget.fajr == '' ||
-                      //         widget.duhr == '' ||
-                      //         widget.duhr == null ||
-                      //         widget.asr == '' ||
-                      //         widget.asr == null ||
-                      //         widget.maghrib == null ||
-                      //         widget.maghrib == '' ||
-                      //         widget.isha == '' ||
-                      //         widget.isha == null
-                      //     ? 25
-                      //     : 18,
-                      columnSpacing: 20,
-                      columns: const <DataColumn>[
-                        // DataColumn(
-                        //   label: Text(
-                        //     'Month',
-                        //     style: TextStyle(fontStyle: FontStyle.italic),
-                        //   ),
-                        // ),
-                        DataColumn(
-                          label: SizedBox(
-                            child: Text(
-                              'July',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Fajr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Duhr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Asr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Maghrib',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Isha',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[18].masjidId
-                                ? Text(
-                                    yearlyList[18].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[18].masjidId
-                                ? Text(
-                                    yearlyList[18].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[18].masjidId
-                                ? Text(
-                                    yearlyList[18].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[18].masjidId
-                                ? Text(
-                                    yearlyList[18].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[18].masjidId
-                                ? Text(
-                                    yearlyList[18].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[18].masjidId
-                                ? Text(
-                                    yearlyList[18].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[19].masjidId
-                                ? Text(
-                                    yearlyList[19].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[19].masjidId
-                                ? Text(
-                                    yearlyList[19].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[19].masjidId
-                                ? Text(
-                                    yearlyList[19].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[19].masjidId
-                                ? Text(
-                                    yearlyList[19].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[19].masjidId
-                                ? Text(
-                                    yearlyList[19].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[19].masjidId
-                                ? Text(
-                                    yearlyList[19].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[20].masjidId
-                                ? Text(
-                                    yearlyList[20].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[20].masjidId
-                                ? Text(
-                                    yearlyList[20].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[20].masjidId
-                                ? Text(
-                                    yearlyList[20].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[20].masjidId
-                                ? Text(
-                                    yearlyList[20].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[20].masjidId
-                                ? Text(
-                                    yearlyList[20].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[20].masjidId
-                                ? Text(
-                                    yearlyList[20].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ), // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('21 to 28')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('01 to 13')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('14 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('01 to 12')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('13 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Decembet')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                    DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      // columnSpacing: widget.fajr == null ||
-                      //         widget.fajr == '' ||
-                      //         widget.duhr == '' ||
-                      //         widget.duhr == null ||
-                      //         widget.asr == '' ||
-                      //         widget.asr == null ||
-                      //         widget.maghrib == null ||
-                      //         widget.maghrib == '' ||
-                      //         widget.isha == '' ||
-                      //         widget.isha == null
-                      //     ? 25
-                      //     : 18,
-                      columnSpacing: 20,
-                      columns: const <DataColumn>[
-                        // DataColumn(
-                        //   label: Text(
-                        //     'Month',
-                        //     style: TextStyle(fontStyle: FontStyle.italic),
-                        //   ),
-                        // ),
-                        DataColumn(
-                          label: SizedBox(
-                            child: Text(
-                              'Aug',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Fajr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Duhr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Asr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Maghrib',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Isha',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[21].masjidId
-                                ? Text(
-                                    yearlyList[21].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[21].masjidId
-                                ? Text(
-                                    yearlyList[21].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[21].masjidId
-                                ? Text(
-                                    yearlyList[21].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[21].masjidId
-                                ? Text(
-                                    yearlyList[21].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[21].masjidId
-                                ? Text(
-                                    yearlyList[21].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[21].masjidId
-                                ? Text(
-                                    yearlyList[21].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[22].masjidId
-                                ? Text(
-                                    yearlyList[22].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[22].masjidId
-                                ? Text(
-                                    yearlyList[22].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[22].masjidId
-                                ? Text(
-                                    yearlyList[22].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[22].masjidId
-                                ? Text(
-                                    yearlyList[22].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[22].masjidId
-                                ? Text(
-                                    yearlyList[22].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[22].masjidId
-                                ? Text(
-                                    yearlyList[22].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[23].masjidId
-                                ? Text(
-                                    yearlyList[23].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[23].masjidId
-                                ? Text(
-                                    yearlyList[23].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[23].masjidId
-                                ? Text(
-                                    yearlyList[23].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[23].masjidId
-                                ? Text(
-                                    yearlyList[23].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[23].masjidId
-                                ? Text(
-                                    yearlyList[23].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[23].masjidId
-                                ? Text(
-                                    yearlyList[23].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ), // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('21 to 28')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('01 to 13')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('14 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('01 to 12')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('13 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Decembet')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                    DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      // columnSpacing: widget.fajr == null ||
-                      //         widget.fajr == '' ||
-                      //         widget.duhr == '' ||
-                      //         widget.duhr == null ||
-                      //         widget.asr == '' ||
-                      //         widget.asr == null ||
-                      //         widget.maghrib == null ||
-                      //         widget.maghrib == '' ||
-                      //         widget.isha == '' ||
-                      //         widget.isha == null
-                      //     ? 25
-                      //     : 18,
-                      columnSpacing: 20,
-                      columns: const <DataColumn>[
-                        // DataColumn(
-                        //   label: Text(
-                        //     'Month',
-                        //     style: TextStyle(fontStyle: FontStyle.italic),
-                        //   ),
-                        // ),
-                        DataColumn(
-                          label: SizedBox(
-                            child: Text(
-                              'Sep',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Fajr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Duhr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Asr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Maghrib',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Isha',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[24].masjidId
-                                ? Text(
-                                    yearlyList[24].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[24].masjidId
-                                ? Text(
-                                    yearlyList[24].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[24].masjidId
-                                ? Text(
-                                    yearlyList[24].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[24].masjidId
-                                ? Text(
-                                    yearlyList[24].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[24].masjidId
-                                ? Text(
-                                    yearlyList[24].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[24].masjidId
-                                ? Text(
-                                    yearlyList[24].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[25].masjidId
-                                ? Text(
-                                    yearlyList[25].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[25].masjidId
-                                ? Text(
-                                    yearlyList[25].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[25].masjidId
-                                ? Text(
-                                    yearlyList[25].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[25].masjidId
-                                ? Text(
-                                    yearlyList[25].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[25].masjidId
-                                ? Text(
-                                    yearlyList[25].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[25].masjidId
-                                ? Text(
-                                    yearlyList[25].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[26].masjidId
-                                ? Text(
-                                    yearlyList[26].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[26].masjidId
-                                ? Text(
-                                    yearlyList[26].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[26].masjidId
-                                ? Text(
-                                    yearlyList[26].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[26].masjidId
-                                ? Text(
-                                    yearlyList[26].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[26].masjidId
-                                ? Text(
-                                    yearlyList[26].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[26].masjidId
-                                ? Text(
-                                    yearlyList[26].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ), // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('21 to 28')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('01 to 13')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('14 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('01 to 12')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('13 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Decembet')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                    DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      // columnSpacing: widget.fajr == null ||
-                      //         widget.fajr == '' ||
-                      //         widget.duhr == '' ||
-                      //         widget.duhr == null ||
-                      //         widget.asr == '' ||
-                      //         widget.asr == null ||
-                      //         widget.maghrib == null ||
-                      //         widget.maghrib == '' ||
-                      //         widget.isha == '' ||
-                      //         widget.isha == null
-                      //     ? 25
-                      //     : 18,
-                      columnSpacing: 20,
-                      columns: const <DataColumn>[
-                        // DataColumn(
-                        //   label: Text(
-                        //     'Month',
-                        //     style: TextStyle(fontStyle: FontStyle.italic),
-                        //   ),
-                        // ),
-                        DataColumn(
-                          label: SizedBox(
-                            child: Text(
-                              'Oct',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Fajr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Duhr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Asr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Maghrib',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Isha',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[27].masjidId
-                                ? Text(
-                                    yearlyList[27].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[27].masjidId
-                                ? Text(
-                                    yearlyList[27].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[27].masjidId
-                                ? Text(
-                                    yearlyList[27].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[27].masjidId
-                                ? Text(
-                                    yearlyList[27].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[27].masjidId
-                                ? Text(
-                                    yearlyList[27].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[27].masjidId
-                                ? Text(
-                                    yearlyList[27].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[28].masjidId
-                                ? Text(
-                                    yearlyList[28].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[28].masjidId
-                                ? Text(
-                                    yearlyList[28].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[28].masjidId
-                                ? Text(
-                                    yearlyList[28].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[28].masjidId
-                                ? Text(
-                                    yearlyList[28].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[28].masjidId
-                                ? Text(
-                                    yearlyList[28].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[28].masjidId
-                                ? Text(
-                                    yearlyList[28].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[29].masjidId
-                                ? Text(
-                                    yearlyList[29].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[29].masjidId
-                                ? Text(
-                                    yearlyList[29].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[29].masjidId
-                                ? Text(
-                                    yearlyList[29].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[29].masjidId
-                                ? Text(
-                                    yearlyList[29].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[29].masjidId
-                                ? Text(
-                                    yearlyList[29].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[29].masjidId
-                                ? Text(
-                                    yearlyList[29].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ), // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('21 to 28')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('01 to 13')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('14 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('01 to 12')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('13 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Decembet')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                    DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      // columnSpacing: widget.fajr == null ||
-                      //         widget.fajr == '' ||
-                      //         widget.duhr == '' ||
-                      //         widget.duhr == null ||
-                      //         widget.asr == '' ||
-                      //         widget.asr == null ||
-                      //         widget.maghrib == null ||
-                      //         widget.maghrib == '' ||
-                      //         widget.isha == '' ||
-                      //         widget.isha == null
-                      //     ? 25
-                      //     : 18,
-                      columnSpacing: 20,
-                      columns: const <DataColumn>[
-                        // DataColumn(
-                        //   label: Text(
-                        //     'Month',
-                        //     style: TextStyle(fontStyle: FontStyle.italic),
-                        //   ),
-                        // ),
-                        DataColumn(
-                          label: SizedBox(
-                            child: Text(
-                              'Nov',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Fajr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Duhr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Asr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Maghrib',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Isha',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[30].masjidId
-                                ? Text(
-                                    yearlyList[30].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[30].masjidId
-                                ? Text(
-                                    yearlyList[30].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[30].masjidId
-                                ? Text(
-                                    yearlyList[30].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[30].masjidId
-                                ? Text(
-                                    yearlyList[30].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[30].masjidId
-                                ? Text(
-                                    yearlyList[30].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[30].masjidId
-                                ? Text(
-                                    yearlyList[30].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[31].masjidId
-                                ? Text(
-                                    yearlyList[31].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[31].masjidId
-                                ? Text(
-                                    yearlyList[31].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[31].masjidId
-                                ? Text(
-                                    yearlyList[31].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[31].masjidId
-                                ? Text(
-                                    yearlyList[31].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[31].masjidId
-                                ? Text(
-                                    yearlyList[31].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[31].masjidId
-                                ? Text(
-                                    yearlyList[31].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[32].masjidId
-                                ? Text(
-                                    yearlyList[32].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[32].masjidId
-                                ? Text(
-                                    yearlyList[32].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[32].masjidId
-                                ? Text(
-                                    yearlyList[32].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[32].masjidId
-                                ? Text(
-                                    yearlyList[32].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[32].masjidId
-                                ? Text(
-                                    yearlyList[32].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[32].masjidId
-                                ? Text(
-                                    yearlyList[32].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ), // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('21 to 28')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('01 to 13')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('14 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('01 to 12')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('13 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Decembet')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                    DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Color(0xffddc2ae)),
-                      // columnSpacing: widget.fajr == null ||
-                      //         widget.fajr == '' ||
-                      //         widget.duhr == '' ||
-                      //         widget.duhr == null ||
-                      //         widget.asr == '' ||
-                      //         widget.asr == null ||
-                      //         widget.maghrib == null ||
-                      //         widget.maghrib == '' ||
-                      //         widget.isha == '' ||
-                      //         widget.isha == null
-                      //     ? 25
-                      //     : 18,
-                      columnSpacing: 20,
-                      columns: const <DataColumn>[
-                        // DataColumn(
-                        //   label: Text(
-                        //     'Month',
-                        //     style: TextStyle(fontStyle: FontStyle.italic),
-                        //   ),
-                        // ),
-                        DataColumn(
-                          label: SizedBox(
-                            child: Text(
-                              'Dec',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Fajr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Duhr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Asr',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Maghrib',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Isha',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
-                        ),
-                      ],
-                      rows: <DataRow>[
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[33].masjidId
-                                ? Text(
-                                    yearlyList[33].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[33].masjidId
-                                ? Text(
-                                    yearlyList[33].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[33].masjidId
-                                ? Text(
-                                    yearlyList[33].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[33].masjidId
-                                ? Text(
-                                    yearlyList[33].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[33].masjidId
-                                ? Text(
-                                    yearlyList[33].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[33].masjidId
-                                ? Text(
-                                    yearlyList[33].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[34].masjidId
-                                ? Text(
-                                    yearlyList[34].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[34].masjidId
-                                ? Text(
-                                    yearlyList[34].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[34].masjidId
-                                ? Text(
-                                    yearlyList[34].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[34].masjidId
-                                ? Text(
-                                    yearlyList[34].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[34].masjidId
-                                ? Text(
-                                    yearlyList[34].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[34].masjidId
-                                ? Text(
-                                    yearlyList[34].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            // DataCell(Text('January')),
-                            DataCell(widget.masjidId == yearlyList[35].masjidId
-                                ? Text(
-                                    yearlyList[35].dateRange.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[35].masjidId
-                                ? Text(
-                                    yearlyList[35].fajar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[35].masjidId
-                                ? Text(
-                                    yearlyList[35].zuhar.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[35].masjidId
-                                ? Text(
-                                    yearlyList[35].asr.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[35].masjidId
-                                ? Text(
-                                    yearlyList[35].maghrib.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                            DataCell(widget.masjidId == yearlyList[35].masjidId
-                                ? Text(
-                                    yearlyList[35].isha.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10.0,
-                                    ),
-                                  )
-                                : Text('')),
-                          ],
-                        ), // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('February')),
-                        //     DataCell(Text('21 to 28')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('01 to 13')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('14 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('March')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('01 to 12')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('13 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('April')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('May')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('June')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('July')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('August')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('September')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('October')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('November')),
-                        //     DataCell(Text('21 to 30')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('01 to 10')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('December')),
-                        //     DataCell(Text('11 to 20')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                        // DataRow(
-                        //   cells: <DataCell>[
-                        //     DataCell(Text('Decembet')),
-                        //     DataCell(Text('21 to 31')),
-                        //     DataCell(Text(widget.fajr.toString())),
-                        //     DataCell(Text(widget.duhr.toString())),
-                        //     DataCell(Text(widget.asr.toString())),
-                        //     DataCell(Text(widget.maghrib.toString())),
-                        //     DataCell(Text(widget.isha.toString())),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 70.0,
-                    )
+                            // DataTable(
+                            //   headingRowColor: MaterialStateColor.resolveWith(
+                            //       (states) => Color(0xffddc2ae)),
+                            //   // columnSpacing: widget.fajr == null ||
+                            //   //         widget.fajr == '' ||
+                            //   //         widget.duhr == '' ||
+                            //   //         widget.duhr == null ||
+                            //   //         widget.asr == '' ||
+                            //   //         widget.asr == null ||
+                            //   //         widget.maghrib == null ||
+                            //   //         widget.maghrib == '' ||
+                            //   //         widget.isha == '' ||
+                            //   //         widget.isha == null
+                            //   //     ? 25
+                            //   //     : 18,
+                            //   columnSpacing: 20,
+                            //   columns: const <DataColumn>[
+                            //     // DataColumn(
+                            //     //   label: Text(
+                            //     //     'Month',
+                            //     //     style: TextStyle(fontStyle: FontStyle.italic),
+                            //     //   ),
+                            //     // ),
+                            //     DataColumn(
+                            //       label: SizedBox(
+                            //         child: Text(
+                            //           'Feb',
+                            //           style: TextStyle(fontStyle: FontStyle.italic),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Fajr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Duhr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Asr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Maghrib',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Isha',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //   ],
+                            //   rows: <DataRow>[
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(widget.masjidId == yearlyList[3].masjidId
+                            //             ? Text(
+                            //                 yearlyList[3].dateRange.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[3].masjidId
+                            //             ? Text(
+                            //                 yearlyList[3].fajar.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[3].masjidId
+                            //             ? Text(
+                            //                 yearlyList[3].zuhar.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[3].masjidId
+                            //             ? Text(
+                            //                 yearlyList[3].asr.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[3].masjidId
+                            //             ? Text(
+                            //                 yearlyList[3].maghrib.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[3].masjidId
+                            //             ? Text(
+                            //                 yearlyList[3].isha.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(widget.masjidId == yearlyList[4].masjidId
+                            //             ? Text(
+                            //                 yearlyList[4].dateRange.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[4].masjidId
+                            //             ? Text(
+                            //                 yearlyList[4].fajar.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[4].masjidId
+                            //             ? Text(
+                            //                 yearlyList[4].zuhar.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[4].masjidId
+                            //             ? Text(
+                            //                 yearlyList[4].asr.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[4].masjidId
+                            //             ? Text(
+                            //                 yearlyList[4].maghrib.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[4].masjidId
+                            //             ? Text(
+                            //                 yearlyList[4].isha.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(widget.masjidId == yearlyList[5].masjidId
+                            //             ? Text(
+                            //                 yearlyList[5].dateRange.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[5].masjidId
+                            //             ? Text(
+                            //                 yearlyList[5].fajar.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[5].masjidId
+                            //             ? Text(
+                            //                 yearlyList[5].zuhar.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[5].masjidId
+                            //             ? Text(
+                            //                 yearlyList[5].asr.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[5].masjidId
+                            //             ? Text(
+                            //                 yearlyList[5].maghrib.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[5].masjidId
+                            //             ? Text(
+                            //                 yearlyList[5].isha.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //       ],
+                            //     ), // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('21 to 28')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('01 to 13')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('14 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('01 to 12')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('13 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('Decembet')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //   ],
+                            // ),
+                            // DataTable(
+                            //   headingRowColor: MaterialStateColor.resolveWith(
+                            //       (states) => Color(0xffddc2ae)),
+                            //   // columnSpacing: widget.fajr == null ||
+                            //   //         widget.fajr == '' ||
+                            //   //         widget.duhr == '' ||
+                            //   //         widget.duhr == null ||
+                            //   //         widget.asr == '' ||
+                            //   //         widget.asr == null ||
+                            //   //         widget.maghrib == null ||
+                            //   //         widget.maghrib == '' ||
+                            //   //         widget.isha == '' ||
+                            //   //         widget.isha == null
+                            //   //     ? 25
+                            //   //     : 18,
+                            //   columnSpacing: 20,
+                            //   columns: const <DataColumn>[
+                            //     // DataColumn(
+                            //     //   label: Text(
+                            //     //     'Month',
+                            //     //     style: TextStyle(fontStyle: FontStyle.italic),
+                            //     //   ),
+                            //     // ),
+                            //     DataColumn(
+                            //       label: SizedBox(
+                            //         child: Text(
+                            //           'Mar',
+                            //           style: TextStyle(fontStyle: FontStyle.italic),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Fajr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Duhr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Asr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Maghrib',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Isha',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //   ],
+                            //   rows: <DataRow>[
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(widget.masjidId == yearlyList[6].masjidId
+                            //             ? Text(
+                            //                 yearlyList[6].dateRange.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[6].masjidId
+                            //             ? Text(
+                            //                 yearlyList[6].fajar.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[6].masjidId
+                            //             ? Text(
+                            //                 yearlyList[6].zuhar.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[6].masjidId
+                            //             ? Text(
+                            //                 yearlyList[6].asr.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[6].masjidId
+                            //             ? Text(
+                            //                 yearlyList[6].maghrib.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[6].masjidId
+                            //             ? Text(
+                            //                 yearlyList[6].isha.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(widget.masjidId == yearlyList[7].masjidId
+                            //             ? Text(
+                            //                 yearlyList[7].dateRange.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[7].masjidId
+                            //             ? Text(
+                            //                 yearlyList[7].fajar.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[7].masjidId
+                            //             ? Text(
+                            //                 yearlyList[7].zuhar.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[7].masjidId
+                            //             ? Text(
+                            //                 yearlyList[7].asr.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[7].masjidId
+                            //             ? Text(
+                            //                 yearlyList[7].maghrib.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[7].masjidId
+                            //             ? Text(
+                            //                 yearlyList[7].isha.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(widget.masjidId == yearlyList[8].masjidId
+                            //             ? Text(
+                            //                 yearlyList[8].dateRange.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[8].masjidId
+                            //             ? Text(
+                            //                 yearlyList[8].fajar.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[8].masjidId
+                            //             ? Text(
+                            //                 yearlyList[8].zuhar.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[8].masjidId
+                            //             ? Text(
+                            //                 yearlyList[8].asr.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[8].masjidId
+                            //             ? Text(
+                            //                 yearlyList[8].maghrib.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[8].masjidId
+                            //             ? Text(
+                            //                 yearlyList[8].isha.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //       ],
+                            //     ), // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('21 to 28')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('01 to 13')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('14 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('01 to 12')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('13 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('Decembet')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //   ],
+                            // ),
+                            // DataTable(
+                            //   headingRowColor: MaterialStateColor.resolveWith(
+                            //       (states) => Color(0xffddc2ae)),
+                            //   // columnSpacing: widget.fajr == null ||
+                            //   //         widget.fajr == '' ||
+                            //   //         widget.duhr == '' ||
+                            //   //         widget.duhr == null ||
+                            //   //         widget.asr == '' ||
+                            //   //         widget.asr == null ||
+                            //   //         widget.maghrib == null ||
+                            //   //         widget.maghrib == '' ||
+                            //   //         widget.isha == '' ||
+                            //   //         widget.isha == null
+                            //   //     ? 25
+                            //   //     : 18,
+                            //   columnSpacing: 20,
+                            //   columns: const <DataColumn>[
+                            //     // DataColumn(
+                            //     //   label: Text(
+                            //     //     'Month',
+                            //     //     style: TextStyle(fontStyle: FontStyle.italic),
+                            //     //   ),
+                            //     // ),
+                            //     DataColumn(
+                            //       label: SizedBox(
+                            //         child: Text(
+                            //           'April',
+                            //           style: TextStyle(fontStyle: FontStyle.italic),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Fajr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Duhr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Asr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Maghrib',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Isha',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //   ],
+                            //   rows: <DataRow>[
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(widget.masjidId == yearlyList[9].masjidId
+                            //             ? Text(
+                            //                 yearlyList[9].dateRange.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[9].masjidId
+                            //             ? Text(
+                            //                 yearlyList[9].fajar.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[9].masjidId
+                            //             ? Text(
+                            //                 yearlyList[9].zuhar.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[9].masjidId
+                            //             ? Text(
+                            //                 yearlyList[9].asr.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[9].masjidId
+                            //             ? Text(
+                            //                 yearlyList[9].maghrib.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //         DataCell(widget.masjidId == yearlyList[9].masjidId
+                            //             ? Text(
+                            //                 yearlyList[9].isha.toString(),
+                            //                 style: TextStyle(
+                            //                   fontSize: 10.0,
+                            //                 ),
+                            //               )
+                            //             : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[10].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[10].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[10].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[10].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[10].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[10].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[10].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[10].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[10].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[10].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[10].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[10].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[11].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[11].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[11].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[11].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[11].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[11].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[11].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[11].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[11].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[11].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[11].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[11].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ), // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('21 to 28')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('01 to 13')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('14 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('01 to 12')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('13 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('Decembet')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //   ],
+                            // ),
+                            // DataTable(
+                            //   headingRowColor: MaterialStateColor.resolveWith(
+                            //       (states) => Color(0xffddc2ae)),
+                            //   // columnSpacing: widget.fajr == null ||
+                            //   //         widget.fajr == '' ||
+                            //   //         widget.duhr == '' ||
+                            //   //         widget.duhr == null ||
+                            //   //         widget.asr == '' ||
+                            //   //         widget.asr == null ||
+                            //   //         widget.maghrib == null ||
+                            //   //         widget.maghrib == '' ||
+                            //   //         widget.isha == '' ||
+                            //   //         widget.isha == null
+                            //   //     ? 25
+                            //   //     : 18,
+                            //   columnSpacing: 20,
+                            //   columns: const <DataColumn>[
+                            //     // DataColumn(
+                            //     //   label: Text(
+                            //     //     'Month',
+                            //     //     style: TextStyle(fontStyle: FontStyle.italic),
+                            //     //   ),
+                            //     // ),
+                            //     DataColumn(
+                            //       label: SizedBox(
+                            //         child: Text(
+                            //           'May',
+                            //           style: TextStyle(fontStyle: FontStyle.italic),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Fajr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Duhr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Asr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Maghrib',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Isha',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //   ],
+                            //   rows: <DataRow>[
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[12].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[12].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[12].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[12].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[12].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[12].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[12].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[12].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[12].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[12].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[12].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[12].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[13].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[13].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[13].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[13].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[13].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[13].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[13].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[13].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[13].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[13].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[13].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[13].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[14].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[14].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[14].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[14].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[14].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[14].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[14].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[14].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[14].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[14].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[14].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[14].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ), // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('21 to 28')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('01 to 13')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('14 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('01 to 12')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('13 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('Decembet')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //   ],
+                            // ),
+                            // DataTable(
+                            //   headingRowColor: MaterialStateColor.resolveWith(
+                            //       (states) => Color(0xffddc2ae)),
+                            //   // columnSpacing: widget.fajr == null ||
+                            //   //         widget.fajr == '' ||
+                            //   //         widget.duhr == '' ||
+                            //   //         widget.duhr == null ||
+                            //   //         widget.asr == '' ||
+                            //   //         widget.asr == null ||
+                            //   //         widget.maghrib == null ||
+                            //   //         widget.maghrib == '' ||
+                            //   //         widget.isha == '' ||
+                            //   //         widget.isha == null
+                            //   //     ? 25
+                            //   //     : 18,
+                            //   columnSpacing: 20,
+                            //   columns: const <DataColumn>[
+                            //     // DataColumn(
+                            //     //   label: Text(
+                            //     //     'Month',
+                            //     //     style: TextStyle(fontStyle: FontStyle.italic),
+                            //     //   ),
+                            //     // ),
+                            //     DataColumn(
+                            //       label: SizedBox(
+                            //         child: Text(
+                            //           'June',
+                            //           style: TextStyle(fontStyle: FontStyle.italic),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Fajr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Duhr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Asr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Maghrib',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Isha',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //   ],
+                            //   rows: <DataRow>[
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[15].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[15].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[15].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[15].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[15].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[15].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[15].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[15].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[15].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[15].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[15].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[15].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[16].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[16].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[16].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[16].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[16].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[16].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[16].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[16].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[16].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[16].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[16].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[16].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[17].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[17].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[17].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[17].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[17].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[17].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[17].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[17].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[17].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[17].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[17].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[17].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ), // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('21 to 28')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('01 to 13')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('14 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('01 to 12')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('13 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('Decembet')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //   ],
+                            // ),
+                            // DataTable(
+                            //   headingRowColor: MaterialStateColor.resolveWith(
+                            //       (states) => Color(0xffddc2ae)),
+                            //   // columnSpacing: widget.fajr == null ||
+                            //   //         widget.fajr == '' ||
+                            //   //         widget.duhr == '' ||
+                            //   //         widget.duhr == null ||
+                            //   //         widget.asr == '' ||
+                            //   //         widget.asr == null ||
+                            //   //         widget.maghrib == null ||
+                            //   //         widget.maghrib == '' ||
+                            //   //         widget.isha == '' ||
+                            //   //         widget.isha == null
+                            //   //     ? 25
+                            //   //     : 18,
+                            //   columnSpacing: 20,
+                            //   columns: const <DataColumn>[
+                            //     // DataColumn(
+                            //     //   label: Text(
+                            //     //     'Month',
+                            //     //     style: TextStyle(fontStyle: FontStyle.italic),
+                            //     //   ),
+                            //     // ),
+                            //     DataColumn(
+                            //       label: SizedBox(
+                            //         child: Text(
+                            //           'July',
+                            //           style: TextStyle(fontStyle: FontStyle.italic),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Fajr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Duhr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Asr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Maghrib',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Isha',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //   ],
+                            //   rows: <DataRow>[
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[18].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[18].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[18].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[18].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[18].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[18].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[18].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[18].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[18].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[18].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[18].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[18].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[19].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[19].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[19].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[19].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[19].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[19].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[19].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[19].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[19].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[19].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[19].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[19].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[20].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[20].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[20].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[20].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[20].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[20].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[20].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[20].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[20].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[20].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[20].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[20].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ), // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('21 to 28')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('01 to 13')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('14 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('01 to 12')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('13 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('Decembet')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //   ],
+                            // ),
+                            // DataTable(
+                            //   headingRowColor: MaterialStateColor.resolveWith(
+                            //       (states) => Color(0xffddc2ae)),
+                            //   // columnSpacing: widget.fajr == null ||
+                            //   //         widget.fajr == '' ||
+                            //   //         widget.duhr == '' ||
+                            //   //         widget.duhr == null ||
+                            //   //         widget.asr == '' ||
+                            //   //         widget.asr == null ||
+                            //   //         widget.maghrib == null ||
+                            //   //         widget.maghrib == '' ||
+                            //   //         widget.isha == '' ||
+                            //   //         widget.isha == null
+                            //   //     ? 25
+                            //   //     : 18,
+                            //   columnSpacing: 20,
+                            //   columns: const <DataColumn>[
+                            //     // DataColumn(
+                            //     //   label: Text(
+                            //     //     'Month',
+                            //     //     style: TextStyle(fontStyle: FontStyle.italic),
+                            //     //   ),
+                            //     // ),
+                            //     DataColumn(
+                            //       label: SizedBox(
+                            //         child: Text(
+                            //           'Aug',
+                            //           style: TextStyle(fontStyle: FontStyle.italic),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Fajr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Duhr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Asr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Maghrib',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Isha',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //   ],
+                            //   rows: <DataRow>[
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[21].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[21].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[21].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[21].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[21].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[21].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[21].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[21].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[21].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[21].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[21].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[21].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[22].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[22].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[22].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[22].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[22].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[22].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[22].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[22].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[22].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[22].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[22].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[22].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[23].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[23].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[23].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[23].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[23].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[23].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[23].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[23].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[23].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[23].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[23].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[23].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ), // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('21 to 28')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('01 to 13')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('14 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('01 to 12')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('13 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('Decembet')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //   ],
+                            // ),
+                            // DataTable(
+                            //   headingRowColor: MaterialStateColor.resolveWith(
+                            //       (states) => Color(0xffddc2ae)),
+                            //   // columnSpacing: widget.fajr == null ||
+                            //   //         widget.fajr == '' ||
+                            //   //         widget.duhr == '' ||
+                            //   //         widget.duhr == null ||
+                            //   //         widget.asr == '' ||
+                            //   //         widget.asr == null ||
+                            //   //         widget.maghrib == null ||
+                            //   //         widget.maghrib == '' ||
+                            //   //         widget.isha == '' ||
+                            //   //         widget.isha == null
+                            //   //     ? 25
+                            //   //     : 18,
+                            //   columnSpacing: 20,
+                            //   columns: const <DataColumn>[
+                            //     // DataColumn(
+                            //     //   label: Text(
+                            //     //     'Month',
+                            //     //     style: TextStyle(fontStyle: FontStyle.italic),
+                            //     //   ),
+                            //     // ),
+                            //     DataColumn(
+                            //       label: SizedBox(
+                            //         child: Text(
+                            //           'Sep',
+                            //           style: TextStyle(fontStyle: FontStyle.italic),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Fajr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Duhr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Asr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Maghrib',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Isha',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //   ],
+                            //   rows: <DataRow>[
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[24].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[24].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[24].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[24].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[24].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[24].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[24].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[24].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[24].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[24].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[24].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[24].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[25].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[25].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[25].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[25].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[25].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[25].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[25].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[25].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[25].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[25].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[25].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[25].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[26].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[26].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[26].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[26].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[26].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[26].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[26].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[26].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[26].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[26].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[26].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[26].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ), // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('21 to 28')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('01 to 13')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('14 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('01 to 12')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('13 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('Decembet')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //   ],
+                            // ),
+                            // DataTable(
+                            //   headingRowColor: MaterialStateColor.resolveWith(
+                            //       (states) => Color(0xffddc2ae)),
+                            //   // columnSpacing: widget.fajr == null ||
+                            //   //         widget.fajr == '' ||
+                            //   //         widget.duhr == '' ||
+                            //   //         widget.duhr == null ||
+                            //   //         widget.asr == '' ||
+                            //   //         widget.asr == null ||
+                            //   //         widget.maghrib == null ||
+                            //   //         widget.maghrib == '' ||
+                            //   //         widget.isha == '' ||
+                            //   //         widget.isha == null
+                            //   //     ? 25
+                            //   //     : 18,
+                            //   columnSpacing: 20,
+                            //   columns: const <DataColumn>[
+                            //     // DataColumn(
+                            //     //   label: Text(
+                            //     //     'Month',
+                            //     //     style: TextStyle(fontStyle: FontStyle.italic),
+                            //     //   ),
+                            //     // ),
+                            //     DataColumn(
+                            //       label: SizedBox(
+                            //         child: Text(
+                            //           'Oct',
+                            //           style: TextStyle(fontStyle: FontStyle.italic),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Fajr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Duhr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Asr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Maghrib',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Isha',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //   ],
+                            //   rows: <DataRow>[
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[27].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[27].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[27].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[27].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[27].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[27].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[27].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[27].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[27].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[27].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[27].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[27].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[28].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[28].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[28].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[28].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[28].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[28].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[28].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[28].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[28].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[28].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[28].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[28].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[29].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[29].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[29].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[29].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[29].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[29].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[29].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[29].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[29].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[29].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[29].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[29].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ), // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('21 to 28')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('01 to 13')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('14 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('01 to 12')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('13 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('Decembet')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //   ],
+                            // ),
+                            // DataTable(
+                            //   headingRowColor: MaterialStateColor.resolveWith(
+                            //       (states) => Color(0xffddc2ae)),
+                            //   // columnSpacing: widget.fajr == null ||
+                            //   //         widget.fajr == '' ||
+                            //   //         widget.duhr == '' ||
+                            //   //         widget.duhr == null ||
+                            //   //         widget.asr == '' ||
+                            //   //         widget.asr == null ||
+                            //   //         widget.maghrib == null ||
+                            //   //         widget.maghrib == '' ||
+                            //   //         widget.isha == '' ||
+                            //   //         widget.isha == null
+                            //   //     ? 25
+                            //   //     : 18,
+                            //   columnSpacing: 20,
+                            //   columns: const <DataColumn>[
+                            //     // DataColumn(
+                            //     //   label: Text(
+                            //     //     'Month',
+                            //     //     style: TextStyle(fontStyle: FontStyle.italic),
+                            //     //   ),
+                            //     // ),
+                            //     DataColumn(
+                            //       label: SizedBox(
+                            //         child: Text(
+                            //           'Nov',
+                            //           style: TextStyle(fontStyle: FontStyle.italic),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Fajr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Duhr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Asr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Maghrib',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Isha',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //   ],
+                            //   rows: <DataRow>[
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[30].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[30].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[30].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[30].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[30].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[30].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[30].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[30].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[30].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[30].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[30].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[30].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[31].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[31].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[31].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[31].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[31].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[31].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[31].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[31].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[31].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[31].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[31].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[31].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[32].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[32].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[32].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[32].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[32].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[32].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[32].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[32].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[32].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[32].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[32].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[32].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ), // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('21 to 28')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('01 to 13')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('14 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('01 to 12')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('13 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('Decembet')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //   ],
+                            // ),
+                            // DataTable(
+                            //   headingRowColor: MaterialStateColor.resolveWith(
+                            //       (states) => Color(0xffddc2ae)),
+                            //   // columnSpacing: widget.fajr == null ||
+                            //   //         widget.fajr == '' ||
+                            //   //         widget.duhr == '' ||
+                            //   //         widget.duhr == null ||
+                            //   //         widget.asr == '' ||
+                            //   //         widget.asr == null ||
+                            //   //         widget.maghrib == null ||
+                            //   //         widget.maghrib == '' ||
+                            //   //         widget.isha == '' ||
+                            //   //         widget.isha == null
+                            //   //     ? 25
+                            //   //     : 18,
+                            //   columnSpacing: 20,
+                            //   columns: const <DataColumn>[
+                            //     // DataColumn(
+                            //     //   label: Text(
+                            //     //     'Month',
+                            //     //     style: TextStyle(fontStyle: FontStyle.italic),
+                            //     //   ),
+                            //     // ),
+                            //     DataColumn(
+                            //       label: SizedBox(
+                            //         child: Text(
+                            //           'Dec',
+                            //           style: TextStyle(fontStyle: FontStyle.italic),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Fajr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Duhr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Asr',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Maghrib',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //     DataColumn(
+                            //       label: Text(
+                            //         'Isha',
+                            //         style: TextStyle(fontStyle: FontStyle.italic),
+                            //       ),
+                            //     ),
+                            //   ],
+                            //   rows: <DataRow>[
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[33].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[33].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[33].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[33].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[33].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[33].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[33].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[33].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[33].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[33].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[33].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[33].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[34].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[34].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[34].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[34].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[34].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[34].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[34].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[34].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[34].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[34].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[34].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[34].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ),
+                            //     DataRow(
+                            //       cells: <DataCell>[
+                            //         // DataCell(Text('January')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[35].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[35].dateRange.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[35].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[35].fajar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[35].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[35].zuhar.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[35].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[35].asr.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[35].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[35].maghrib.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //         DataCell(
+                            //             widget.masjidId == yearlyList[35].masjidId
+                            //                 ? Text(
+                            //                     yearlyList[35].isha.toString(),
+                            //                     style: TextStyle(
+                            //                       fontSize: 10.0,
+                            //                     ),
+                            //                   )
+                            //                 : Text('')),
+                            //       ],
+                            //     ), // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('February')),
+                            //     //     DataCell(Text('21 to 28')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('01 to 13')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('14 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('March')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('01 to 12')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('13 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('April')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('May')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('June')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('July')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('August')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('September')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('October')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('November')),
+                            //     //     DataCell(Text('21 to 30')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('01 to 10')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('December')),
+                            //     //     DataCell(Text('11 to 20')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //     // DataRow(
+                            //     //   cells: <DataCell>[
+                            //     //     DataCell(Text('Decembet')),
+                            //     //     DataCell(Text('21 to 31')),
+                            //     //     DataCell(Text(widget.fajr.toString())),
+                            //     //     DataCell(Text(widget.duhr.toString())),
+                            //     //     DataCell(Text(widget.asr.toString())),
+                            //     //     DataCell(Text(widget.maghrib.toString())),
+                            //     //     DataCell(Text(widget.isha.toString())),
+                            //     //   ],
+                            //     // ),
+                            //   ],
+                            // ),
 
-                    // Divider(
-                    //   color: Colors.grey,
-                    // ),
-                    // detailRow(
-                    //   title1: 'City : ',
-                    //   value1: widget.city,
-                    //   title2: 'Country : ',
-                    //   value2: widget.country,
-                    // ),
-                    // detailRow(
-                    //   title1: 'Description : ',
-                    //   value1: widget.desc,
-                    //   title2: 'Capacity : ',
-                    //   value2: widget.capacity == null
-                    //       ? ''
-                    //       : widget.capacity.toString(),
-                    // ),
-                    // detailRow(
-                    //   title1: 'Address : ',
-                    //   value1: widget.address,
-                    // ),
-                  ],
+                            SizedBox(
+                              height: 70.0,
+                            ),
+
+                            //       //     // Divider(
+                            //       //     //   color: Colors.grey,
+                            //       //     // ),
+                            //       //     // detailRow(
+                            //       //     //   title1: 'City : ',
+                            //       //     //   value1: widget.city,
+                            //       //     //   title2: 'Country : ',
+                            //       //     //   value2: widget.country,
+                            //       //     // ),
+                            //       //     // detailRow(
+                            //       //     //   title1: 'Description : ',
+                            //       //     //   value1: widget.desc,
+                            //       //     //   title2: 'Capacity : ',
+                            //       //     //   value2: widget.capacity == null
+                            //       //     //       ? ''
+                            //       //     //       : widget.capacity.toString(),
+                            //       //     // ),
+                            //       //     // detailRow(
+                            //       //     //   title1: 'Address : ',
+                            //       //     //   value1: widget.address,
+                            //       //     // ),
+                            //       //   ],
+                            //       // ),
+
+                            //       ),
+                            // ),
+
+                            // new TabScreen("Detail"),
+                            // new TabScreen("Address"),
+                            // new TabScreen("Earning"),
+                          ],
+                        );
+                      })),
+              Container(
+                child: SingleChildScrollView(
+                  // scrollDirection: Axis.horizontal,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Ramadan 1447',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(
+                            '16th Mar, 2023',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            'to',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Text(
+                            '15th Apr, 2023',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      DataTable(
+                        headingRowColor: MaterialStateColor.resolveWith(
+                            (states) => Color(0xffddc2ae)),
+                        columnSpacing: widget.Sno == null ||
+                                widget.Sno == '' ||
+                                widget.format == '' ||
+                                widget.format == null ||
+                                widget.startDate == '' ||
+                                widget.startDate == null ||
+                                widget.endDate == null ||
+                                widget.endDate == ''
+                            // widget.isha == '' ||
+                            // widget.isha == null
+                            ? 18
+                            : 10,
+                        // columnSpacing: 35,
+                        columns: const <DataColumn>[
+                          DataColumn(
+                            label: Text(
+                              'S.No',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'Format',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'Start Date',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'End Date',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                          // DataColumn(
+                          //   label: Text(
+                          //     'Maghrib',
+                          //     style: TextStyle(fontStyle: FontStyle.italic),
+                          //   ),
+                          // ),
+                          // DataColumn(
+                          //   label: Text(
+                          //     'Isha',
+                          //     style: TextStyle(fontStyle: FontStyle.italic),
+                          //   ),
+                          // ),
+                        ],
+                        rows: <DataRow>[
+                          DataRow(
+                            cells: <DataCell>[
+                              DataCell(Text('1st')),
+                              DataCell(Text('3 juz')),
+                              DataCell(Text('19th Oct, 2022')),
+                              DataCell(Text('19th Nov, 2022')),
+                              // DataCell(Text(widget.maghrib.toString())),
+                              // DataCell(Text(widget.isha.toString())),
+                            ],
+                          ),
+                          DataRow(
+                            cells: <DataCell>[
+                              DataCell(Text('2nd')),
+                              DataCell(Text('4 juz')),
+                              DataCell(Text('10th Sep, 2022')),
+                              DataCell(Text('10th OCt, 2022')),
+                              // DataCell(Text(widget.maghrib.toString())),
+                              // DataCell(Text(widget.isha.toString())),
+                            ],
+                          ),
+                          DataRow(
+                            cells: <DataCell>[
+                              DataCell(Text('3rd')),
+                              DataCell(Text('10 juz')),
+                              DataCell(Text('16th Mar, 2023')),
+                              DataCell(Text('05th Apr, 2023')),
+                              // DataCell(Text(widget.maghrib.toString())),
+                              // DataCell(Text(widget.isha.toString())),
+                            ],
+                          ),
+                          // DataRow(
+                          //   cells: <DataCell>[
+                          //     DataCell(Text('Thursday')),
+                          //     DataCell(Text(widget.fajr.toString())),
+                          //     DataCell(Text(widget.duhr.toString())),
+                          //     DataCell(Text(widget.asr.toString())),
+                          //     DataCell(Text(widget.maghrib.toString())),
+                          //     DataCell(Text(widget.isha.toString())),
+                          //   ],
+                          // ),
+                          // DataRow(
+                          //   cells: <DataCell>[
+                          //     DataCell(Text('Friday')),
+                          //     DataCell(Text(widget.fajr.toString())),
+                          //     DataCell(Text(widget.duhr.toString())),
+                          //     DataCell(Text(widget.asr.toString())),
+                          //     DataCell(Text(widget.maghrib.toString())),
+                          //     DataCell(Text(widget.isha.toString())),
+                          //   ],
+                          // ),
+                          // DataRow(
+                          //   cells: <DataCell>[
+                          //     DataCell(Text('Saturday')),
+                          //     DataCell(Text(widget.fajr.toString())),
+                          //     DataCell(Text(widget.duhr.toString())),
+                          //     DataCell(Text(widget.asr.toString())),
+                          //     DataCell(Text(widget.maghrib.toString())),
+                          //     DataCell(Text(widget.isha.toString())),
+                          //   ],
+                          // ),
+                          // DataRow(
+                          //   cells: <DataCell>[
+                          //     DataCell(Text('Sunday')),
+                          //     DataCell(Text(widget.fajr.toString())),
+                          //     DataCell(Text(widget.duhr.toString())),
+                          //     DataCell(Text(widget.asr.toString())),
+                          //     DataCell(Text(widget.maghrib.toString())),
+                          //     DataCell(Text(widget.isha.toString())),
+                          //   ],
+                          // ),
+                        ],
+                      ),
+                      // Divider(
+                      //   color: Colors.grey,
+                      // ),
+                      // detailRow(
+                      //   title1: 'City : ',
+                      //   value1: widget.city,
+                      //   title2: 'Country : ',
+                      //   value2: widget.country,
+                      // ),
+                      // detailRow(
+                      //   title1: 'Description : ',
+                      //   value1: widget.desc,
+                      //   title2: 'Capacity : ',
+                      //   value2: widget.capacity == null
+                      //       ? ''
+                      //       : widget.capacity.toString(),
+                      // ),
+                      // detailRow(
+                      //   title1: 'Address : ',
+                      //   value1: widget.address,
+                      // ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Container(
-              child: SingleChildScrollView(
-                // scrollDirection: Axis.horizontal,
+              Container(
                 child: Column(
                   children: [
                     SizedBox(
@@ -7862,44 +8240,22 @@ class _masjidPrayerTimeDetailsState extends State<masjidPrayerTimeDetails>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Ramadan 1447',
+                          'Eid Ul Fitr',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 12.0,
+                            fontSize: 15.0,
                           ),
                         ),
                         SizedBox(
-                          width: 10.0,
-                        ),
-                        Text(
-                          '16th Mar, 2023',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12.0,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          'to',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12.0,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5.0,
+                          width: 20.0,
                         ),
                         Text(
                           '15th Apr, 2023',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 12.0,
+                            fontSize: 15.0,
                           ),
                         ),
                       ],
@@ -7912,16 +8268,14 @@ class _masjidPrayerTimeDetailsState extends State<masjidPrayerTimeDetails>
                           (states) => Color(0xffddc2ae)),
                       columnSpacing: widget.Sno == null ||
                               widget.Sno == '' ||
-                              widget.format == '' ||
-                              widget.format == null ||
-                              widget.startDate == '' ||
-                              widget.startDate == null ||
-                              widget.endDate == null ||
-                              widget.endDate == ''
-                          // widget.isha == '' ||
-                          // widget.isha == null
-                          ? 18
-                          : 10,
+                              widget.takberat_time == '' ||
+                              widget.takberat_time == null ||
+                              widget.lec_time == '' ||
+                              widget.lec_time == null ||
+                              widget.salah_time == null ||
+                              widget.salah_time == ''
+                          ? 35
+                          : 13,
                       // columnSpacing: 35,
                       columns: const <DataColumn>[
                         DataColumn(
@@ -7932,31 +8286,31 @@ class _masjidPrayerTimeDetailsState extends State<masjidPrayerTimeDetails>
                         ),
                         DataColumn(
                           label: Text(
-                            'Format',
+                            'Takberat',
                             style: TextStyle(fontStyle: FontStyle.italic),
                           ),
                         ),
                         DataColumn(
                           label: Text(
-                            'Start Date',
+                            'Lecture',
                             style: TextStyle(fontStyle: FontStyle.italic),
                           ),
                         ),
                         DataColumn(
                           label: Text(
-                            'End Date',
+                            'Salah Time',
                             style: TextStyle(fontStyle: FontStyle.italic),
                           ),
                         ),
                         // DataColumn(
                         //   label: Text(
-                        //     'Maghrib',
+                        //     'Salah Type',
                         //     style: TextStyle(fontStyle: FontStyle.italic),
                         //   ),
                         // ),
                         // DataColumn(
                         //   label: Text(
-                        //     'Isha',
+                        //     'Year',
                         //     style: TextStyle(fontStyle: FontStyle.italic),
                         //   ),
                         // ),
@@ -7964,34 +8318,34 @@ class _masjidPrayerTimeDetailsState extends State<masjidPrayerTimeDetails>
                       rows: <DataRow>[
                         DataRow(
                           cells: <DataCell>[
-                            DataCell(Text('1st')),
-                            DataCell(Text('3 juz')),
-                            DataCell(Text('19th Oct, 2022')),
-                            DataCell(Text('19th Nov, 2022')),
-                            // DataCell(Text(widget.maghrib.toString())),
-                            // DataCell(Text(widget.isha.toString())),
+                            DataCell(Text('2022')),
+                            DataCell(Text('7:00 AM')),
+                            DataCell(Text('7:30 AM')),
+                            DataCell(Text('8:00 AM')),
+                            // DataCell(Text(widget.salahType.toString())),
+                            // DataCell(Text(widget.year.toString())),
                           ],
                         ),
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('2nd')),
-                            DataCell(Text('4 juz')),
-                            DataCell(Text('10th Sep, 2022')),
-                            DataCell(Text('10th OCt, 2022')),
-                            // DataCell(Text(widget.maghrib.toString())),
-                            // DataCell(Text(widget.isha.toString())),
-                          ],
-                        ),
-                        DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text('3rd')),
-                            DataCell(Text('10 juz')),
-                            DataCell(Text('16th Mar, 2023')),
-                            DataCell(Text('05th Apr, 2023')),
-                            // DataCell(Text(widget.maghrib.toString())),
-                            // DataCell(Text(widget.isha.toString())),
-                          ],
-                        ),
+                        // DataRow(
+                        //   cells: <DataCell>[
+                        //     DataCell(Text('Tuesday')),
+                        //     DataCell(Text(widget.fajr.toString())),
+                        //     DataCell(Text(widget.duhr.toString())),
+                        //     DataCell(Text(widget.asr.toString())),
+                        //     DataCell(Text(widget.maghrib.toString())),
+                        //     DataCell(Text(widget.isha.toString())),
+                        //   ],
+                        // ),
+                        // DataRow(
+                        //   cells: <DataCell>[
+                        //     DataCell(Text('Wednesday')),
+                        //     DataCell(Text(widget.fajr.toString())),
+                        //     DataCell(Text(widget.duhr.toString())),
+                        //     DataCell(Text(widget.asr.toString())),
+                        //     DataCell(Text(widget.maghrib.toString())),
+                        //     DataCell(Text(widget.isha.toString())),
+                        //   ],
+                        // ),
                         // DataRow(
                         //   cells: <DataCell>[
                         //     DataCell(Text('Thursday')),
@@ -8058,197 +8412,7 @@ class _masjidPrayerTimeDetailsState extends State<masjidPrayerTimeDetails>
                   ],
                 ),
               ),
-            ),
-            Container(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Eid Ul Fitr',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.0,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20.0,
-                      ),
-                      Text(
-                        '15th Apr, 2023',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  DataTable(
-                    headingRowColor: MaterialStateColor.resolveWith(
-                        (states) => Color(0xffddc2ae)),
-                    columnSpacing: widget.Sno == null ||
-                            widget.Sno == '' ||
-                            widget.takberat_time == '' ||
-                            widget.takberat_time == null ||
-                            widget.lec_time == '' ||
-                            widget.lec_time == null ||
-                            widget.salah_time == null ||
-                            widget.salah_time == ''
-                        ? 35
-                        : 13,
-                    // columnSpacing: 35,
-                    columns: const <DataColumn>[
-                      DataColumn(
-                        label: Text(
-                          'S.No',
-                          style: TextStyle(fontStyle: FontStyle.italic),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Takberat',
-                          style: TextStyle(fontStyle: FontStyle.italic),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Lecture',
-                          style: TextStyle(fontStyle: FontStyle.italic),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Salah Time',
-                          style: TextStyle(fontStyle: FontStyle.italic),
-                        ),
-                      ),
-                      // DataColumn(
-                      //   label: Text(
-                      //     'Salah Type',
-                      //     style: TextStyle(fontStyle: FontStyle.italic),
-                      //   ),
-                      // ),
-                      // DataColumn(
-                      //   label: Text(
-                      //     'Year',
-                      //     style: TextStyle(fontStyle: FontStyle.italic),
-                      //   ),
-                      // ),
-                    ],
-                    rows: <DataRow>[
-                      DataRow(
-                        cells: <DataCell>[
-                          DataCell(Text('2022')),
-                          DataCell(Text('7:00 AM')),
-                          DataCell(Text('7:30 AM')),
-                          DataCell(Text('8:00 AM')),
-                          // DataCell(Text(widget.salahType.toString())),
-                          // DataCell(Text(widget.year.toString())),
-                        ],
-                      ),
-                      // DataRow(
-                      //   cells: <DataCell>[
-                      //     DataCell(Text('Tuesday')),
-                      //     DataCell(Text(widget.fajr.toString())),
-                      //     DataCell(Text(widget.duhr.toString())),
-                      //     DataCell(Text(widget.asr.toString())),
-                      //     DataCell(Text(widget.maghrib.toString())),
-                      //     DataCell(Text(widget.isha.toString())),
-                      //   ],
-                      // ),
-                      // DataRow(
-                      //   cells: <DataCell>[
-                      //     DataCell(Text('Wednesday')),
-                      //     DataCell(Text(widget.fajr.toString())),
-                      //     DataCell(Text(widget.duhr.toString())),
-                      //     DataCell(Text(widget.asr.toString())),
-                      //     DataCell(Text(widget.maghrib.toString())),
-                      //     DataCell(Text(widget.isha.toString())),
-                      //   ],
-                      // ),
-                      // DataRow(
-                      //   cells: <DataCell>[
-                      //     DataCell(Text('Thursday')),
-                      //     DataCell(Text(widget.fajr.toString())),
-                      //     DataCell(Text(widget.duhr.toString())),
-                      //     DataCell(Text(widget.asr.toString())),
-                      //     DataCell(Text(widget.maghrib.toString())),
-                      //     DataCell(Text(widget.isha.toString())),
-                      //   ],
-                      // ),
-                      // DataRow(
-                      //   cells: <DataCell>[
-                      //     DataCell(Text('Friday')),
-                      //     DataCell(Text(widget.fajr.toString())),
-                      //     DataCell(Text(widget.duhr.toString())),
-                      //     DataCell(Text(widget.asr.toString())),
-                      //     DataCell(Text(widget.maghrib.toString())),
-                      //     DataCell(Text(widget.isha.toString())),
-                      //   ],
-                      // ),
-                      // DataRow(
-                      //   cells: <DataCell>[
-                      //     DataCell(Text('Saturday')),
-                      //     DataCell(Text(widget.fajr.toString())),
-                      //     DataCell(Text(widget.duhr.toString())),
-                      //     DataCell(Text(widget.asr.toString())),
-                      //     DataCell(Text(widget.maghrib.toString())),
-                      //     DataCell(Text(widget.isha.toString())),
-                      //   ],
-                      // ),
-                      // DataRow(
-                      //   cells: <DataCell>[
-                      //     DataCell(Text('Sunday')),
-                      //     DataCell(Text(widget.fajr.toString())),
-                      //     DataCell(Text(widget.duhr.toString())),
-                      //     DataCell(Text(widget.asr.toString())),
-                      //     DataCell(Text(widget.maghrib.toString())),
-                      //     DataCell(Text(widget.isha.toString())),
-                      //   ],
-                      // ),
-                    ],
-                  ),
-                  // Divider(
-                  //   color: Colors.grey,
-                  // ),
-                  // detailRow(
-                  //   title1: 'City : ',
-                  //   value1: widget.city,
-                  //   title2: 'Country : ',
-                  //   value2: widget.country,
-                  // ),
-                  // detailRow(
-                  //   title1: 'Description : ',
-                  //   value1: widget.desc,
-                  //   title2: 'Capacity : ',
-                  //   value2: widget.capacity == null
-                  //       ? ''
-                  //       : widget.capacity.toString(),
-                  // ),
-                  // detailRow(
-                  //   title1: 'Address : ',
-                  //   value1: widget.address,
-                  // ),
-                ],
-              ),
-            ),
-
-            // new TabScreen("Detail"),
-            // new TabScreen("Address"),
-            // new TabScreen("Earning"),
-          ],
-        ),
-      ),
-    );
+            ])));
 
     // DefaultTabController(
     //   length: 5,

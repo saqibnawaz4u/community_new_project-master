@@ -432,360 +432,300 @@ class MasjidPrayerTimingState extends State<MasjidPrayerTiming>
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  selectedendUserMasjids!.isEmpty
-                      ? Center(child: Text('empty'))
-                      : SmartRefresher(
-                          controller: _refreshController,
-                          onRefresh: _onRefresh,
-                          child: ReorderableListView.builder(
-                            shrinkWrap: true,
-                            primary: true,
-                            itemCount: //4,
-                                selectedendUserMasjids!.length,
-                            onReorder: reorderData,
-                            itemBuilder: ((context, index) {
-                              return isSelected(
-                                      selectedendUserMasjids![index].masjidid)
-                                  ? Padding(
-                                      key: ValueKey(masjids[index]),
-                                      padding: const EdgeInsets.only(
-                                        // bottom: 10,
-                                        left: 10.0,
-                                        right: 10.0,
-                                        top: 2.0,
-                                      ),
-                                      child: Container(
-                                        width: double.infinity,
-                                        // color: whiteColor,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: whiteColor,
-                                          boxShadow: <BoxShadow>[
-                                            BoxShadow(
-                                              color: Colors.black54,
-                                              blurRadius: 2.0,
-                                              offset: Offset(0.0, 0.75),
-                                            )
-                                          ],
-                                          // image:const DecorationImage(
-                                          //     image: AssetImage('assets/mosque.png'),
-                                          //     fit:BoxFit.cover
-                                          // ),
-                                          //   //color: appColor.withOpacity(0.5)
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            midPadding2,
-                                            ListTile(
-                                              onTap: () {
-                                                print('Going to Details page');
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        masjidPrayerTimeDetails(
-                                                      isprayerTime: false,
-                                                      name: masjids[index]
-                                                          .Name
-                                                          .toString(),
-                                                      fajr: masjids[index]
-                                                          .Fajr
-                                                          .toString(),
-                                                      duhr: masjids[index]
-                                                          .Duhr
-                                                          .toString(),
-                                                      asr: masjids[index]
-                                                          .Asr
-                                                          .toString(),
-                                                      maghrib: masjids[index]
-                                                          .Maghrib
-                                                          .toString(),
-                                                      isha: masjids[index]
-                                                          .Isha
-                                                          .toString(),
-                                                      desc: masjids[index]
-                                                          .Description
-                                                          .toString(),
-                                                      address: masjids[index]
-                                                          .AddressLine1,
-                                                      masjidId:
-                                                          masjids[index].Id,
-                                                      // eid_Sno: eidTimes[index].sNo,
-                                                      // takberat_time: eidTimes[index].takbeeratTime,
-                                                      // lec_time: eidTimes[index].lectureTime,
-                                                      // salah_time: eidTimes[index].salahTime,
-                                                      // startDate:
-                                                      //     ramadanTimes[index].startDate == null
-                                                      //         ? ''
-                                                      //         : ramadanTimes[index].startDate,
-                                                      // endDate:
-                                                      //     ramadanTimes[index].endDate == null
-                                                      //         ? ''
-                                                      //         : ramadanTimes[index].endDate,
-                                                      // format: ramadanTimes[index].format == null
-                                                      //     ? 1
-                                                      //     : ramadanTimes[index].format,
-                                                      // Sno: ramadanTimes[index].sNo == null
-                                                      //     ? 5
-                                                      //     : ramadanTimes[index].sNo,
-                                                      city: masjids[index].City,
-                                                      capacity: masjids[index]
-                                                          .capacity,
-                                                      country: masjids[index]
-                                                          .Country,
-                                                      // first_juma:
-                                                      //     masjids[index].Id==jummaList[0].masjidId?jummaList[0].iqamaTime:
-                                                      //     '',
-                                                      // sec_juma:
-                                                      //     masjids[index].Id==jummaList[0].masjidId?
-                                                    ),
-                                                  ),
-                                                );
-                                                // Navigator.push(
-                                                //   context,
-                                                //   MaterialPageRoute(
-                                                //     builder: (context) => masjidPrayerTimeDetails(
-                                                //       isprayerTime: false,
-                                                //       name: masjids[index].Name.toString(),
-                                                //       fajr: masjids[index].Fajr.toString(),
-                                                //       duhr: masjids[index].Duhr.toString(),
-                                                //       asr: masjids[index].Asr.toString(),
-                                                //       maghrib: masjids[index].Maghrib.toString(),
-                                                //       isha: masjids[index].Isha.toString(),
-                                                //       desc: masjids[index].Description.toString(),
-                                                //       address: masjids[index].AddressLine1,
-                                                //       startDate: ramadanTimes[index].startDate == null
-                                                //           ? ''
-                                                //           : ramadanTimes[index].startDate,
-                                                //       endDate: ramadanTimes[index].endDate == null
-                                                //           ? ''
-                                                //           : ramadanTimes[index].endDate,
-                                                //       format: ramadanTimes[index].format == null
-                                                //           ? 1
-                                                //           : ramadanTimes[index].format,
-                                                //       Sno: ramadanTimes[index].sNo == null
-                                                //           ? 5
-                                                //           : ramadanTimes[index].sNo,
-                                                //       takberat_time:
-                                                //           eidTimes[index].takbeeratTime == null
-                                                //               ? ''
-                                                //               : eidTimes[index].takbeeratTime,
-                                                //       salah_time: eidTimes[index].salahTime == null
-                                                //           ? ''
-                                                //           : eidTimes[index].salahTime,
-                                                //       eid_Sno: eidTimes[index].sNo == null
-                                                //           ? 5
-                                                //           : eidTimes[index].sNo,
-                                                //       lec_time: eidTimes[index].lectureTime == null
-                                                //           ? ''
-                                                //           : eidTimes[index].lectureTime,
-                                                //       // masjidId: eidTimes[index].masjidId,
-                                                //       juma: masjids[index].FirstJuma == null
-                                                //           ? ''
-                                                //           : masjids[index].FirstJuma,
-                                                //       capacity: masjids[index].capacity,
-                                                //       city: masjids[index].City,
-                                                //       country: masjids[index].Country,
-                                                //     ),
-                                                //   ),
-                                                // );
-                                              },
-                                              title: copiedmasjids.isEmpty
-                                                  ? Text(
-                                                      masjids[index]
-                                                              .Name
-                                                              .toString() +
-                                                          " Masjid\n",
-                                                      style: const TextStyle(
-                                                          color: appColor,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    )
-                                                  : Text(
-                                                      copiedmasjids[index]
-                                                              .Name
-                                                              .toString() +
-                                                          " Masjid\n",
-                                                      style: const TextStyle(
-                                                          color: appColor,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                              subtitle: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: Row(
-                                                  children: [
-                                                    Container(
-                                                        width: 80,
-                                                        height: 40,
-                                                        decoration: BoxDecoration(
-                                                            color: Color(
-                                                                0xffd08e63),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            8))),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 8.0,
-                                                                  right: 8,
-                                                                  top: 4,
-                                                                  bottom: 4),
-                                                          child: Text(
-                                                            'Fajr  \n' +
-                                                                masjids[index]
-                                                                    .Fajr
-                                                                    .toString(),
-                                                            style: TextStyle(
-                                                                color:
-                                                                    whiteColor,
-                                                                fontSize: 12),
-                                                          ),
-                                                        )),
-                                                    widthSizedBox,
-                                                    Container(
-                                                        width: 80,
-                                                        height: 40,
-                                                        decoration: BoxDecoration(
-                                                            color: Color(
-                                                                0xffd08e63),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            8))),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 8.0,
-                                                                  right: 8,
-                                                                  top: 4,
-                                                                  bottom: 4),
-                                                          child: Text(
-                                                            'Duhr  \n' +
-                                                                masjids[index]
-                                                                    .Duhr
-                                                                    .toString(),
-                                                            style: TextStyle(
-                                                                color:
-                                                                    whiteColor,
-                                                                fontSize: 12),
-                                                          ),
-                                                        )),
-                                                    widthSizedBox,
-                                                    Container(
-                                                        width: 80,
-                                                        height: 40,
-                                                        decoration: BoxDecoration(
-                                                            color: Color(
-                                                                0xffd08e63),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            8))),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 8.0,
-                                                                  right: 8,
-                                                                  top: 4,
-                                                                  bottom: 4),
-                                                          child: Text(
-                                                            'Asr  \n' +
-                                                                masjids[index]
-                                                                    .Asr
-                                                                    .toString(),
-                                                            style: TextStyle(
-                                                                color:
-                                                                    whiteColor,
-                                                                fontSize: 12),
-                                                          ),
-                                                        )),
-                                                    widthSizedBox,
-                                                    Container(
-                                                        width: 80,
-                                                        height: 40,
-                                                        decoration: BoxDecoration(
-                                                            color: Color(
-                                                                0xffd08e63),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            8))),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 8.0,
-                                                                  right: 8,
-                                                                  top: 4,
-                                                                  bottom: 4),
-                                                          child: Text(
-                                                            'Maghrib  \n' +
-                                                                masjids[index]
-                                                                    .Maghrib
-                                                                    .toString(),
-                                                            style: TextStyle(
-                                                                color:
-                                                                    whiteColor,
-                                                                fontSize: 12),
-                                                          ),
-                                                        )),
-                                                    widthSizedBox,
-                                                    Container(
-                                                      width: 80,
-                                                      height: 40,
-                                                      decoration: BoxDecoration(
-                                                          color:
-                                                              Color(0xffd08e63),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          8))),
-                                                      //color:  Colors.white.withOpacity(0.4),
-                                                      //Colors.white.withOpacity(0.5),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 8.0,
-                                                                right: 8,
-                                                                top: 4,
-                                                                bottom: 4),
-                                                        child: Text(
-                                                          'Isha  \n' +
-                                                              masjids[index]
-                                                                  .Isha
-                                                                  .toString(),
-                                                          style: TextStyle(
-                                                              color: whiteColor,
-                                                              fontSize: 12),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            midPadding2,
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                  : Container();
-                            }),
+                  SmartRefresher(
+                    controller: _refreshController,
+                    onRefresh: _onRefresh,
+                    child: ReorderableListView.builder(
+                      shrinkWrap: true,
+                      primary: true,
+                      itemCount: //4,
+                          copiedmasjids.isEmpty
+                              ? masjids.length
+                              : copiedmasjids.length,
+                      onReorder: reorderData,
+                      itemBuilder: ((context, index) {
+                        return Padding(
+                          key: ValueKey(masjids[index]),
+                          padding: const EdgeInsets.only(
+                            // bottom: 10,
+                            left: 10.0,
+                            right: 10.0,
+                            top: 2.0,
                           ),
-                        ),
+                          child: Container(
+                            width: double.infinity,
+                            // color: whiteColor,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: whiteColor,
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                  color: Colors.black54,
+                                  blurRadius: 2.0,
+                                  offset: Offset(0.0, 0.75),
+                                )
+                              ],
+                              // image:const DecorationImage(
+                              //     image: AssetImage('assets/mosque.png'),
+                              //     fit:BoxFit.cover
+                              // ),
+                              //   //color: appColor.withOpacity(0.5)
+                            ),
+                            child: Column(
+                              children: [
+                                midPadding2,
+                                ListTile(
+                                  onTap: () {
+                                    print('Going to Details page');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            masjidPrayerTimeDetails(
+                                          isprayerTime: false,
+                                          name: masjids[index].Name.toString(),
+                                          fajr: masjids[index].Fajr.toString(),
+                                          duhr: masjids[index].Duhr.toString(),
+                                          asr: masjids[index].Asr.toString(),
+                                          maghrib:
+                                              masjids[index].Maghrib.toString(),
+                                          isha: masjids[index].Isha.toString(),
+                                          desc: masjids[index]
+                                              .Description
+                                              .toString(),
+                                          address: masjids[index].AddressLine1,
+                                          masjidId: masjids[index].Id,
+                                          // eid_Sno: eidTimes[index].sNo,
+                                          // takberat_time: eidTimes[index].takbeeratTime,
+                                          // lec_time: eidTimes[index].lectureTime,
+                                          // salah_time: eidTimes[index].salahTime,
+                                          // startDate:
+                                          //     ramadanTimes[index].startDate == null
+                                          //         ? ''
+                                          //         : ramadanTimes[index].startDate,
+                                          // endDate:
+                                          //     ramadanTimes[index].endDate == null
+                                          //         ? ''
+                                          //         : ramadanTimes[index].endDate,
+                                          // format: ramadanTimes[index].format == null
+                                          //     ? 1
+                                          //     : ramadanTimes[index].format,
+                                          // Sno: ramadanTimes[index].sNo == null
+                                          //     ? 5
+                                          //     : ramadanTimes[index].sNo,
+                                          city: masjids[index].City,
+                                          capacity: masjids[index].capacity,
+                                          country: masjids[index].Country,
+                                          // first_juma:
+                                          //     masjids[index].Id==jummaList[0].masjidId?jummaList[0].iqamaTime:
+                                          //     '',
+                                          // sec_juma:
+                                          //     masjids[index].Id==jummaList[0].masjidId?
+                                        ),
+                                      ),
+                                    );
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) => masjidPrayerTimeDetails(
+                                    //       isprayerTime: false,
+                                    //       name: masjids[index].Name.toString(),
+                                    //       fajr: masjids[index].Fajr.toString(),
+                                    //       duhr: masjids[index].Duhr.toString(),
+                                    //       asr: masjids[index].Asr.toString(),
+                                    //       maghrib: masjids[index].Maghrib.toString(),
+                                    //       isha: masjids[index].Isha.toString(),
+                                    //       desc: masjids[index].Description.toString(),
+                                    //       address: masjids[index].AddressLine1,
+                                    //       startDate: ramadanTimes[index].startDate == null
+                                    //           ? ''
+                                    //           : ramadanTimes[index].startDate,
+                                    //       endDate: ramadanTimes[index].endDate == null
+                                    //           ? ''
+                                    //           : ramadanTimes[index].endDate,
+                                    //       format: ramadanTimes[index].format == null
+                                    //           ? 1
+                                    //           : ramadanTimes[index].format,
+                                    //       Sno: ramadanTimes[index].sNo == null
+                                    //           ? 5
+                                    //           : ramadanTimes[index].sNo,
+                                    //       takberat_time:
+                                    //           eidTimes[index].takbeeratTime == null
+                                    //               ? ''
+                                    //               : eidTimes[index].takbeeratTime,
+                                    //       salah_time: eidTimes[index].salahTime == null
+                                    //           ? ''
+                                    //           : eidTimes[index].salahTime,
+                                    //       eid_Sno: eidTimes[index].sNo == null
+                                    //           ? 5
+                                    //           : eidTimes[index].sNo,
+                                    //       lec_time: eidTimes[index].lectureTime == null
+                                    //           ? ''
+                                    //           : eidTimes[index].lectureTime,
+                                    //       // masjidId: eidTimes[index].masjidId,
+                                    //       juma: masjids[index].FirstJuma == null
+                                    //           ? ''
+                                    //           : masjids[index].FirstJuma,
+                                    //       capacity: masjids[index].capacity,
+                                    //       city: masjids[index].City,
+                                    //       country: masjids[index].Country,
+                                    //     ),
+                                    //   ),
+                                    // );
+                                  },
+                                  title: copiedmasjids.isEmpty
+                                      ? Text(
+                                          masjids[index].Name.toString() +
+                                              " Masjid\n",
+                                          style: const TextStyle(
+                                              color: appColor,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      : Text(
+                                          copiedmasjids[index].Name.toString() +
+                                              " Masjid\n",
+                                          style: const TextStyle(
+                                              color: appColor,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                  subtitle: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                            width: 80,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                color: Color(0xffd08e63),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(8))),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0,
+                                                  right: 8,
+                                                  top: 4,
+                                                  bottom: 4),
+                                              child: Text(
+                                                'Fajr  \n' +
+                                                    masjids[index]
+                                                        .Fajr
+                                                        .toString(),
+                                                style: TextStyle(
+                                                    color: whiteColor,
+                                                    fontSize: 12),
+                                              ),
+                                            )),
+                                        widthSizedBox,
+                                        Container(
+                                            width: 80,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                color: Color(0xffd08e63),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(8))),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0,
+                                                  right: 8,
+                                                  top: 4,
+                                                  bottom: 4),
+                                              child: Text(
+                                                'Duhr  \n' +
+                                                    masjids[index]
+                                                        .Duhr
+                                                        .toString(),
+                                                style: TextStyle(
+                                                    color: whiteColor,
+                                                    fontSize: 12),
+                                              ),
+                                            )),
+                                        widthSizedBox,
+                                        Container(
+                                            width: 80,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                color: Color(0xffd08e63),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(8))),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0,
+                                                  right: 8,
+                                                  top: 4,
+                                                  bottom: 4),
+                                              child: Text(
+                                                'Asr  \n' +
+                                                    masjids[index]
+                                                        .Asr
+                                                        .toString(),
+                                                style: TextStyle(
+                                                    color: whiteColor,
+                                                    fontSize: 12),
+                                              ),
+                                            )),
+                                        widthSizedBox,
+                                        Container(
+                                            width: 80,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                color: Color(0xffd08e63),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(8))),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0,
+                                                  right: 8,
+                                                  top: 4,
+                                                  bottom: 4),
+                                              child: Text(
+                                                'Maghrib  \n' +
+                                                    masjids[index]
+                                                        .Maghrib
+                                                        .toString(),
+                                                style: TextStyle(
+                                                    color: whiteColor,
+                                                    fontSize: 12),
+                                              ),
+                                            )),
+                                        widthSizedBox,
+                                        Container(
+                                          width: 80,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                              color: Color(0xffd08e63),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(8))),
+                                          //color:  Colors.white.withOpacity(0.4),
+                                          //Colors.white.withOpacity(0.5),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0,
+                                                right: 8,
+                                                top: 4,
+                                                bottom: 4),
+                                            child: Text(
+                                              'Isha  \n' +
+                                                  masjids[index]
+                                                      .Isha
+                                                      .toString(),
+                                              style: TextStyle(
+                                                  color: whiteColor,
+                                                  fontSize: 12),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                midPadding2,
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
                   Container(
                     child: ReorderableListView.builder(
                         itemCount: //4,
@@ -1132,76 +1072,76 @@ class MasjidPrayerTimingState extends State<MasjidPrayerTiming>
                                                     ],
                                                   ),
                                                 ),
-                                                trailing: IconButton(
-                                                  key: ValueKey(masjids[index]),
-                                                  onPressed: () async {
-                                                    isSelected(index);
-                                                    //masjids[index].Id
-                                                    //bool? chkedValue;
-                                                    //isChecked[index]=chkedValue!;
-                                                    int currentUserId =
-                                                        await prefs
-                                                            .get('userId');
-                                                    if (value.selectedItem
-                                                        .contains(index)) {
-                                                      value.removeItem(index);
-                                                      await apiService
-                                                          .deleteendUserMaterial(
-                                                              'endusermasjids',
-                                                              currentUserId,
-                                                              masjids[index]
-                                                                  .Id);
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(SnackBar(
-                                                              duration:
-                                                                  Duration(
-                                                                      seconds:
-                                                                          1),
-                                                              content: Text(masjids[
-                                                                          index]
-                                                                      .Name
-                                                                      .toString() +
-                                                                  " Deleted Successfully")));
-                                                    } else {
-                                                      //isChecked[index]=true;
-                                                      value.addItem(index);
-                                                      var postEndUserMasjid =
-                                                          UserMasjids(
-                                                              userId:
-                                                                  currentUserId,
-                                                              masjidid:
-                                                                  masjids[index]
-                                                                      .Id);
-                                                      await ApiServices
-                                                          .postendUsermasjid(
-                                                              postEndUserMasjid);
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                              SnackBar(
-                                                        duration: Duration(
-                                                            seconds: 1),
-                                                        content: Text(masjids[
-                                                                    index]
-                                                                .Name
-                                                                .toString() +
-                                                            " added to your wish list"),
-                                                      ));
-                                                    }
-                                                  },
-                                                  icon: Icon(
-                                                    value.selectedItem.contains(
-                                                                index) ||
-                                                            isSelected(
-                                                                masjids[index]
-                                                                    .Id)
-                                                        //(masjids[index].Id==6)
-                                                        ? Icons.favorite
-                                                        : Icons.favorite_border,
-                                                    color: Colors.red,
-                                                  ),
-                                                ),
+                                                // trailing: IconButton(
+                                                //   key: ValueKey(masjids[index]),
+                                                //   onPressed: () async {
+                                                //     isSelected(index);
+                                                //     //masjids[index].Id
+                                                //     //bool? chkedValue;
+                                                //     //isChecked[index]=chkedValue!;
+                                                //     int currentUserId =
+                                                //         await prefs
+                                                //             .get('userId');
+                                                //     if (value.selectedItem
+                                                //         .contains(index)) {
+                                                //       value.removeItem(index);
+                                                //       await apiService
+                                                //           .deleteendUserMaterial(
+                                                //               'endusermasjids',
+                                                //               currentUserId,
+                                                //               masjids[index]
+                                                //                   .Id);
+                                                //       ScaffoldMessenger.of(
+                                                //               context)
+                                                //           .showSnackBar(SnackBar(
+                                                //               duration:
+                                                //                   Duration(
+                                                //                       seconds:
+                                                //                           1),
+                                                //               content: Text(masjids[
+                                                //                           index]
+                                                //                       .Name
+                                                //                       .toString() +
+                                                //                   " Deleted Successfully")));
+                                                //     } else {
+                                                //       //isChecked[index]=true;
+                                                //       value.addItem(index);
+                                                //       var postEndUserMasjid =
+                                                //           UserMasjids(
+                                                //               userId:
+                                                //                   currentUserId,
+                                                //               masjidid:
+                                                //                   masjids[index]
+                                                //                       .Id);
+                                                //       await ApiServices
+                                                //           .postendUsermasjid(
+                                                //               postEndUserMasjid);
+                                                //       ScaffoldMessenger.of(
+                                                //               context)
+                                                //           .showSnackBar(
+                                                //               SnackBar(
+                                                //         duration: Duration(
+                                                //             seconds: 1),
+                                                //         content: Text(masjids[
+                                                //                     index]
+                                                //                 .Name
+                                                //                 .toString() +
+                                                //             " added to your wish list"),
+                                                //       ));
+                                                //     }
+                                                //   },
+                                                //   icon: Icon(
+                                                //     value.selectedItem.contains(
+                                                //                 index) ||
+                                                //             isSelected(
+                                                //                 masjids[index]
+                                                //                     .Id)
+                                                //         //(masjids[index].Id==6)
+                                                //         ? Icons.favorite
+                                                //         : Icons.favorite_border,
+                                                //     color: Colors.red,
+                                                //   ),
+                                                // ),
                                               ),
                                               midPadding2,
                                             ],

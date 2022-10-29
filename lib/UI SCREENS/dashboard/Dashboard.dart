@@ -212,7 +212,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 )),
-            body: rss_List.isEmpty
+            body: rss_List.isEmpty || rss_List == []
                 ? Container(
                     height: double.infinity,
                     width: double.infinity,
