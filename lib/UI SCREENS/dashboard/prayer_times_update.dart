@@ -133,11 +133,52 @@ class _PrayerTimesAddState extends State<PrayerTimesAdd> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 12.0),
-                      child: Text(
-                        widget.description,
-                        style: TextStyle(
-                          color: appColor,
-                        ),
+                      child: Row(
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                (widget.description).substring(24, 36),
+                                style: TextStyle(
+                                  color: appColor,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15.0,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 20.0,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                'OLD',
+                                // style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              Text((widget.description).substring(48, 52)),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 20.0,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                'NEW',
+                                // style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              Text((widget.description).substring(54, 61)),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                     midPadding2,

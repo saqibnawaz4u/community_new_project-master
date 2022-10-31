@@ -179,11 +179,14 @@ class _home2State extends State<home2> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
                             builder: (context) => PostAccommodation(
-                                  isNew: false,
-                                  accId: accomudationPost[index].id,
-                                )));
+                              isNew: false,
+                              accId: accomudationPost[index].id,
+                            ),
+                          ),
+                        );
                       },
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 10),

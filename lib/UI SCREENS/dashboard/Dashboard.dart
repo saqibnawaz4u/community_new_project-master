@@ -321,7 +321,7 @@ class _DashboardState extends State<Dashboard> {
                                     'assets/bilalmasjid.png',
                                     width: MediaQuery.of(context).size.width,
                                   )),
-                                  descrtiption:
+                                  description:
                                       rss_List[index].description.toString(),
                                   event_id: int.parse(
                                       rss_List[index].source_id.toString()),

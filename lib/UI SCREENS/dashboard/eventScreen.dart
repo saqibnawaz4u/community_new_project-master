@@ -9,14 +9,14 @@ import '../../constants/styles.dart';
 
 class EevntAddScreen extends StatefulWidget {
   final int event_id;
-  final String descrtiption, title;
+  final String description, title;
   final String name;
   final Widget image;
   const EevntAddScreen({
     Key? key,
     required this.image,
     required this.event_id,
-    required this.descrtiption,
+    required this.description,
     required this.title,
     required this.name,
   }) : super(key: key);
@@ -109,12 +109,60 @@ class _EevntAddScreenState extends State<EevntAddScreen> {
           midPadding2,
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 8),
-            child: Text(
-              widget.descrtiption,
-              style: TextStyle(
-                color: appColor,
-              ),
+            child: Row(
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      (widget.description).substring(24, 30),
+                      style: TextStyle(
+                        color: appColor,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 20.0,
+                ),
+                Column(
+                  children: [
+                    Text(
+                      'OLD',
+                      // style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    Text((widget.description).substring(41)),
+                  ],
+                ),
+                SizedBox(
+                  width: 20.0,
+                ),
+                Column(
+                  children: [
+                    Text(
+                      'NEW',
+                      // style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    Text((widget.description).substring(41)),
+                  ],
+                ),
+              ],
             ),
+
+            //  Text(
+            //   widget.descrtiption,
+            //   style: TextStyle(
+            //     color: appColor,
+            //   ),
+            // ),
           ),
           widget.image,
           // Padding(

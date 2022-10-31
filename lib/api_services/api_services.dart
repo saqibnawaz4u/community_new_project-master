@@ -253,6 +253,7 @@ class ApiServices {
     var res =
         await http.post(Uri.parse(EventUrl), headers: header, body: eventBody);
     print(res.body);
+    print('This is status code${res.statusCode}');
     return res.statusCode;
   }
 
@@ -397,6 +398,14 @@ class ApiServices {
     return res.statusCode;
   }
 
+  // static Future postAccommodationfn(AccommodationPosting postingAcc) async {
+  //   var response = await http.post(Uri.parse(postingAccommodationUrl));
+
+  //   if (response.statusCode == 200) {
+  //     postingAcc.toJson();
+  //   }
+  // }
+
   // posting accommodation  [POST]
   static Future postAccommodationfn(AccommodationPosting postingAcc) async {
     Map<String, String> header = {
@@ -404,11 +413,15 @@ class ApiServices {
       'Accept': 'application/json'
     };
     var mypostingAcc = postingAcc.toJson();
-    print(mypostingAcc);
-    var eventBody = json.encode(mypostingAcc);
-    var res = await http.post(Uri.parse(postingAccommodationUrl),
-        headers: header, body: eventBody);
-    print(res.body);
+    print('This is body$mypostingAcc');
+    var accBody = jsonEncode(mypostingAcc);
+    var res = await http.post(
+      Uri.parse(postingAccommodationUrl),
+      headers: header,
+      body: accBody,
+    );
+    print('This is the whole body${res.body}');
+    print('status code is${res.statusCode}');
     return res.statusCode;
   }
 

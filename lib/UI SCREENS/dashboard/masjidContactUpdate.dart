@@ -141,29 +141,30 @@ class _masjidContactUpdate extends State<masjidContactUpdate> {
             ),
           ),
           midPadding2,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                children: [
-                  Text('OLD'),
-                  widget.id == rssFeedChangeHistory[0].rssFeedId
-                      ? Text(
-                          rssFeedChangeHistory[0].oldValue.toString(),
-                        )
-                      : Text(''),
-                ],
-              ),
-              Column(
-                children: [
-                  Text('NEW'),
-                  widget.id == rssFeedChangeHistory[0].rssFeedId
-                      ? Text(rssFeedChangeHistory[0].newValue.toString())
-                      : Text(''),
-                ],
-              ),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //   children: [
+          //     Column(
+          //       children: [
+          //         Text('OLD'),
+          //         widget.id == rssFeedChangeHistory[0].rssFeedId
+          //             ? Text(
+          //                 rssFeedChangeHistory[0].oldValue.toString(),
+          //               )
+          //             : Text(''),
+          //       ],
+          //     ),
+          //     Column(
+          //       children: [
+          //         Text('NEW'),
+          //         widget.id == rssFeedChangeHistory[0].rssFeedId
+          //             ? Text(rssFeedChangeHistory[0].newValue.toString())
+          //             : Text(''),
+          //       ],
+          //     ),
+          //   ],
+          // ),
+
           midPadding2,
           Padding(
             padding: const EdgeInsets.all(6.0),
@@ -173,12 +174,60 @@ class _masjidContactUpdate extends State<masjidContactUpdate> {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 12),
-                      child: Text(
-                        widget.description,
-                        style: TextStyle(
-                          color: appColor,
-                        ),
+                      child: Row(
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                (widget.description).substring(24, 30),
+                                style: TextStyle(
+                                  color: appColor,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15.0,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 20.0,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                'OLD',
+                                // style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              Text((widget.description).substring(41)),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 20.0,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                'NEW',
+                                // style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              Text((widget.description).substring(41)),
+                            ],
+                          ),
+                        ],
                       ),
+
+                      // Text(
+                      //   widget.description,
+                      //   style: TextStyle(
+                      //     color: appColor,
+                      //   ),
+                      // ),
                     ),
                     midPadding2,
                   ],

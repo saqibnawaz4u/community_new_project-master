@@ -7984,9 +7984,9 @@ class _masjidPrayerTimeDetailsState extends State<masjidPrayerTimeDetails>
                             //   ],
                             // ),
 
-                            SizedBox(
-                              height: 70.0,
-                            ),
+                            // SizedBox(
+                            //   height: 70.0,
+                            // ),
 
                             //       //     // Divider(
                             //       //     //   color: Colors.grey,
