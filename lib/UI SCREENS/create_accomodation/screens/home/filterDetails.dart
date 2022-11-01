@@ -9,7 +9,59 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../constants/styles.dart';
 
 class FilterDetails extends StatefulWidget {
-  const FilterDetails({super.key});
+  final String? title, description, location;
+  final String? forRentBy,
+      petFriendly,
+      furnished,
+      laundryInUnit,
+      laundryInBuilding,
+      dishwasher,
+      fridge,
+      airCondition,
+      yard,
+      balcony,
+      smoking,
+      barrier,
+      visualAids,
+      accessible,
+      hydro,
+      heat,
+      water,
+      cable,
+      internet,
+      parking,
+      adType;
+  final int? price;
+  final int? size;
+  const FilterDetails({
+    this.accessible,
+    this.adType,
+    this.airCondition,
+    this.balcony,
+    this.barrier,
+    this.cable,
+    this.description,
+    this.dishwasher,
+    this.forRentBy,
+    this.fridge,
+    this.furnished,
+    this.heat,
+    this.hydro,
+    this.internet,
+    this.laundryInBuilding,
+    this.laundryInUnit,
+    this.location,
+    this.parking,
+    this.petFriendly,
+    this.price,
+    this.size,
+    this.smoking,
+    this.title,
+    this.visualAids,
+    this.water,
+    this.yard,
+    super.key,
+  });
 
   @override
   State<FilterDetails> createState() => _FilterDetailsState();
@@ -64,35 +116,35 @@ class _FilterDetailsState extends State<FilterDetails>
                           ),
                           items: [
                             Image.asset(
-                              'assets/bilalmasjid.png',
+                              'assets/images/offer01.jpeg',
                               fit: BoxFit.fill,
                               height: double.infinity,
                             ),
                             Image.asset(
-                              'assets/bilalmasjid.png',
+                              'assets/images/offer01.jpeg',
                               fit: BoxFit.fill,
                               height: double.infinity,
                             ),
                             Image.asset(
-                              'assets/bilalmasjid.png',
+                              'assets/images/offer01.jpeg',
                               fit: BoxFit.fill,
                               height: double.infinity,
                             ),
-                            Image.asset(
-                              'assets/bilalmasjid.png',
-                              fit: BoxFit.fill,
-                              height: double.infinity,
-                            ),
-                            Image.asset(
-                              'assets/bilalmasjid.png',
-                              fit: BoxFit.fill,
-                              height: double.infinity,
-                            ),
-                            Image.asset(
-                              'assets/bilalmasjid.png',
-                              fit: BoxFit.fill,
-                              height: double.infinity,
-                            ),
+                            // Image.asset(
+                            //   'assets/bilalmasjid.png',
+                            //   fit: BoxFit.fill,
+                            //   height: double.infinity,
+                            // ),
+                            // Image.asset(
+                            //   'assets/bilalmasjid.png',
+                            //   fit: BoxFit.fill,
+                            //   height: double.infinity,
+                            // ),
+                            // Image.asset(
+                            //   'assets/bilalmasjid.png',
+                            //   fit: BoxFit.fill,
+                            //   height: double.infinity,
+                            // ),
                           ]),
                       SafeArea(
                         child: Padding(
@@ -156,7 +208,7 @@ class _FilterDetailsState extends State<FilterDetails>
                                     Expanded(
                                       flex: 4,
                                       child: Text(
-                                        '3-Bedroom Apartment for Rent in Maple',
+                                        widget.title!,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline1!
@@ -199,7 +251,7 @@ class _FilterDetailsState extends State<FilterDetails>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '\$2900.00',
+                                  '\$${widget.price!}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline1!
@@ -217,7 +269,7 @@ class _FilterDetailsState extends State<FilterDetails>
                                       size: 20,
                                     ),
                                     Text(
-                                      'Kohat  ...',
+                                      'Kohat',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyText1!
@@ -228,26 +280,26 @@ class _FilterDetailsState extends State<FilterDetails>
                                     ),
                                   ],
                                 ),
-                                SizedBox(
-                                  height: 5.0,
-                                ),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 20.0,
-                                    ),
-                                    Text(
-                                      'KDA Gate 2 Kohat',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .copyWith(
-                                            fontSize: 10,
-                                            color: blackColor,
-                                          ),
-                                    ),
-                                  ],
-                                ),
+                                // SizedBox(
+                                //   height: 5.0,
+                                // ),
+                                // Row(
+                                //   children: [
+                                //     SizedBox(
+                                //       width: 20.0,
+                                //     ),
+                                //     Text(
+                                //       'KDA Gate 2 Kohat',
+                                //       style: Theme.of(context)
+                                //           .textTheme
+                                //           .bodyText1!
+                                //           .copyWith(
+                                //             fontSize: 10,
+                                //             color: blackColor,
+                                //           ),
+                                //     ),
+                                //   ],
+                                // ),
                                 SizedBox(
                                   height: 20.0,
                                 ),
@@ -303,7 +355,7 @@ class _FilterDetailsState extends State<FilterDetails>
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Text(
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
+                          widget.description!,
                           style: TextStyle(
                             color: blackColor,
                             fontWeight: FontWeight.bold,
@@ -312,7 +364,30 @@ class _FilterDetailsState extends State<FilterDetails>
                         ),
                       ),
                     ),
-                    _tabSection(context, _tabController!),
+                    _tabSection(
+                      context,
+                      _tabController!,
+                      widget.adType,
+                      widget.accessible,
+                      widget.airCondition,
+                      widget.balcony,
+                      widget.barrier,
+                      widget.cable,
+                      widget.dishwasher,
+                      widget.forRentBy,
+                      widget.fridge,
+                      widget.furnished,
+                      widget.heat,
+                      widget.hydro,
+                      widget.internet,
+                      widget.parking,
+                      widget.petFriendly,
+                      widget.smoking,
+                      widget.visualAids,
+                      widget.water,
+                      widget.yard,
+                      widget.size,
+                    ),
                     // DefaultTabController(
                     //   length: 4,
                     //   child: Card(
@@ -396,7 +471,30 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
-Widget _tabSection(BuildContext context, TabController _tabController) {
+Widget _tabSection(
+  BuildContext context,
+  TabController _tabController,
+  String? forRentBy,
+  petFriendly,
+  furnished,
+  dishwasher,
+  fridge,
+  airCondition,
+  yard,
+  balcony,
+  smoking,
+  barrier,
+  visualAids,
+  hydro,
+  heat,
+  water,
+  cable,
+  internet,
+  parking,
+  accessible,
+  adType,
+  int? size,
+) {
   // TabController? _tabController;
   return DefaultTabController(
     length: 4,
@@ -717,7 +815,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                             customRow(
                               icon: Icons.check,
                               iconcolor: appColor,
-                              text: 'Hydro',
+                              text: hydro,
                               textColor: blackColor,
                               size: 10.0,
                             ),
@@ -727,7 +825,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                             customRow(
                               icon: Icons.check,
                               iconcolor: appColor,
-                              text: 'Heat',
+                              text: heat,
                               textColor: blackColor,
                               size: 10.0,
                             ),
@@ -737,7 +835,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                             customRow(
                               icon: Icons.check,
                               iconcolor: appColor,
-                              text: 'Water',
+                              text: water,
                               textColor: blackColor,
                               size: 10.0,
                             ),
@@ -765,7 +863,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                             customRow(
                               icon: Icons.clear,
                               iconcolor: Colors.red,
-                              text: 'Cable/TV',
+                              text: cable,
                               textColor: Colors.grey,
                               size: 10.0,
                             ),
@@ -775,7 +873,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                             customRow(
                               icon: Icons.check,
                               iconcolor: appColor,
-                              text: 'Internet',
+                              text: internet,
                               textColor: blackColor,
                               size: 10.0,
                             ),
@@ -802,7 +900,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                         padding: const EdgeInsets.only(
                           left: 50.0,
                         ),
-                        child: Text('1'),
+                        child: Text(parking),
                       ),
                       SizedBox(
                         height: 20.0,
@@ -848,7 +946,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                       customRow(
                         icon: Icons.pets,
                         iconcolor: textColor,
-                        text: 'Per Friendly',
+                        text: 'Pet Friendly',
                         textColor: Colors.grey,
                         size: 20.0,
                       ),
@@ -859,7 +957,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                         padding: const EdgeInsets.only(
                           left: 50.0,
                         ),
-                        child: Text('No'),
+                        child: Text(petFriendly),
                       ),
                       SizedBox(
                         height: 20.0,
@@ -878,7 +976,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                         padding: const EdgeInsets.only(
                           left: 50.0,
                         ),
-                        child: Text('Professional'),
+                        child: Text(petFriendly),
                       ),
                       SizedBox(
                         height: 70.0,
@@ -918,7 +1016,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                         padding: const EdgeInsets.only(
                           left: 50.0,
                         ),
-                        child: Text('1,900'),
+                        child: Text(size.toString()),
                       ),
                       SizedBox(
                         height: 20.0,
@@ -937,7 +1035,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                         padding: const EdgeInsets.only(
                           left: 50.0,
                         ),
-                        child: Text('No'),
+                        child: Text(furnished),
                       ),
                       SizedBox(
                         height: 20.0,
@@ -981,7 +1079,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                             customRow(
                               icon: Icons.check,
                               iconcolor: appColor,
-                              text: 'Dishwasher',
+                              text: dishwasher,
                               textColor: blackColor,
                               size: 10.0,
                             ),
@@ -991,7 +1089,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                             customRow(
                               icon: Icons.check,
                               iconcolor: appColor,
-                              text: 'Fridge/Freezer',
+                              text: fridge,
                               textColor: blackColor,
                               size: 10.0,
                             ),
@@ -1015,7 +1113,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                         padding: const EdgeInsets.only(
                           left: 50.0,
                         ),
-                        child: Text('Yes'),
+                        child: Text(airCondition),
                       ),
                       SizedBox(
                         height: 20.0,
@@ -1039,7 +1137,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                             customRow(
                               icon: Icons.check,
                               iconcolor: appColor,
-                              text: 'Yard',
+                              text: yard,
                               textColor: Colors.grey,
                               size: 10.0,
                             ),
@@ -1049,7 +1147,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                             customRow(
                               icon: Icons.check,
                               iconcolor: appColor,
-                              text: 'Balcony',
+                              text: balcony,
                               textColor: blackColor,
                               size: 10.0,
                             ),
@@ -1076,7 +1174,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                         padding: const EdgeInsets.only(
                           left: 50.0,
                         ),
-                        child: Text('NO'),
+                        child: Text(smoking),
                       ),
                       SizedBox(
                         height: 70.0,
@@ -1218,7 +1316,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                         padding: const EdgeInsets.only(
                           left: 50.0,
                         ),
-                        child: Text('NO'),
+                        child: Text(barrier),
                       ),
                       SizedBox(
                         height: 20.0,
@@ -1237,7 +1335,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                         padding: const EdgeInsets.only(
                           left: 50.0,
                         ),
-                        child: Text('NO'),
+                        child: Text(visualAids),
                       ),
                       SizedBox(
                         height: 20.0,
@@ -1256,7 +1354,7 @@ Widget _tabSection(BuildContext context, TabController _tabController) {
                         padding: const EdgeInsets.only(
                           left: 50.0,
                         ),
-                        child: Text('NO'),
+                        child: Text(accessible),
                       ),
                     ],
                   ),

@@ -56,7 +56,7 @@ class _Fav_masajidsState extends State<Fav_masajids>
 
   final _controller = TextEditingController();
   _getMasjid() async {
-    ApiServices.fetch('masjid', actionName: null, param1: null)
+    await ApiServices.fetch('masjid', actionName: null, param1: null)
         .whenComplete(() => setState(() {}))
         .then((response) {
       setState(() {
@@ -131,7 +131,7 @@ class _Fav_masajidsState extends State<Fav_masajids>
   _getendUserFavMasjid() async {
     String currentRole = await prefs.getString('role_name');
     int currentUserId = await prefs.get('userId');
-    ApiServices.fetch('endusermasjids',
+    await ApiServices.fetch('endusermasjids',
             actionName: currentUserId.toString(), param1: null)
         .whenComplete(() => setState(() {}))
         .whenComplete(() => setState(() {}))

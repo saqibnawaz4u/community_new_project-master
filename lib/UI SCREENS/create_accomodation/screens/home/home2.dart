@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:community_new/UI%20SCREENS/create_accomodation/screens/home/filterDetails.dart';
+import 'package:community_new/UI%20SCREENS/create_accomodation/screens/home/postDetails.dart';
 import 'package:community_new/UI%20SCREENS/create_accomodation/screens/home/searchFilter.dart';
 import 'package:community_new/constants/styles.dart';
 import 'package:community_new/models/accommodationPosting.dart';
@@ -20,7 +22,59 @@ import '../postAccomodation.dart';
 import 'chat.dart';
 
 class home2 extends StatefulWidget {
-  const home2({Key? key}) : super(key: key);
+  final String? title, description, location;
+  final String? forRentBy,
+      petFriendly,
+      furnished,
+      laundryInUnit,
+      laundryInBuilding,
+      dishwasher,
+      fridge,
+      airCondition,
+      yard,
+      balcony,
+      smoking,
+      barrier,
+      visualAids,
+      accessible,
+      hydro,
+      heat,
+      water,
+      cable,
+      internet,
+      parking,
+      adType;
+  final int? price;
+  final int? size;
+  const home2({
+    Key? key,
+    this.accessible,
+    this.adType,
+    this.airCondition,
+    this.balcony,
+    this.barrier,
+    this.cable,
+    this.description,
+    this.dishwasher,
+    this.forRentBy,
+    this.fridge,
+    this.furnished,
+    this.heat,
+    this.hydro,
+    this.internet,
+    this.laundryInBuilding,
+    this.laundryInUnit,
+    this.location,
+    this.parking,
+    this.petFriendly,
+    this.price,
+    this.size,
+    this.smoking,
+    this.title,
+    this.visualAids,
+    this.water,
+    this.yard,
+  }) : super(key: key);
 
   @override
   State<home2> createState() => _home2State();
@@ -181,10 +235,38 @@ class _home2State extends State<home2> {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => PostAccommodation(
-                              isNew: false,
-                              accId: accomudationPost[index].id,
+                            builder: (context) => FilterDetails(
+                              accessible: widget.accessible,
+                              adType: widget.adType,
+                              airCondition: widget.airCondition,
+                              balcony: widget.balcony,
+                              barrier: widget.barrier,
+                              cable: widget.cable,
+                              description: widget.description,
+                              dishwasher: widget.dishwasher,
+                              forRentBy: widget.forRentBy,
+                              fridge: widget.fridge,
+                              furnished: widget.furnished,
+                              heat: widget.heat,
+                              hydro: widget.hydro,
+                              internet: widget.internet,
+                              laundryInBuilding: widget.laundryInBuilding,
+                              laundryInUnit: widget.laundryInUnit,
+                              location: widget.location,
+                              parking: widget.parking,
+                              petFriendly: widget.petFriendly,
+                              price: widget.price,
+                              size: widget.size,
+                              smoking: widget.smoking,
+                              title: widget.title,
+                              visualAids: widget.visualAids,
+                              water: widget.water,
+                              yard: widget.yard,
                             ),
+                            // PostAccommodation(
+                            //   isNew: false,
+                            //   accId: accomudationPost[index].id,
+                            // ),
                           ),
                         );
                       },

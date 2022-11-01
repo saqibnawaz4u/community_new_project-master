@@ -31,6 +31,7 @@ class PostingDetails extends StatefulWidget {
 class _PostingDetailsState extends State<PostingDetails> {
   TextEditingController _sizeController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
   String noofbedrroms = '';
   String NoOFBathrooms = '';
   String untilityIncluded = '';
@@ -409,6 +410,13 @@ class _PostingDetailsState extends State<PostingDetails> {
                     text: 'Enter Size(sqft)',
                     controller: _sizeController,
                   ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  customTextField(
+                    text: 'Enter price',
+                    controller: _priceController,
+                  ),
                   customRadio(
                     fn: (v) {
                       setState(() {
@@ -672,10 +680,12 @@ class _PostingDetailsState extends State<PostingDetails> {
                             heat: heat,
                             hydro: hydro,
                             internet: internet,
+
                             laundryInBuilding: laundryInBuilding,
                             laundryInUnit: laundryInUnit,
                             // noofbedrroms: int.parse(widget.bedrooms!),
                             parkingIncluded: parkingIncluded,
+                            price: int.parse(_priceController.text),
                             personalOutdoorSpaces: personalOutdoorSpaces,
                             petFriendly: petFriendly,
                             size: int.parse(_sizeController.text),

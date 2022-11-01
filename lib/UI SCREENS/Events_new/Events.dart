@@ -792,12 +792,21 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                                                     : copiedListEvents.length,
                                                 itemBuilder: (context, index) {
                                                   return GestureDetector(
-                                                    onTap: () {
+                                                    onTap: () async {
+                                                      int currentUserId =
+                                                          await prefs
+                                                              .get('userId');
                                                       Navigator.of(context)
                                                           .push(
                                                         MaterialPageRoute(
                                                           builder: (context) =>
                                                               UsereventDetails(
+                                                            eventId:
+                                                                allEventsForUser[
+                                                                        index]
+                                                                    .Id,
+                                                            userId:
+                                                                currentUserId,
                                                             eventName:
                                                                 allEventsForUser[
                                                                         index]
@@ -1534,7 +1543,10 @@ class EventsState extends State<Events> with SingleTickerProviderStateMixin {
                                                     : copiedListEvents.length,
                                                 itemBuilder: (context, index) {
                                                   return GestureDetector(
-                                                    onTap: () {
+                                                    onTap: () async {
+                                                      int currentUserId =
+                                                          await prefs
+                                                              .get('userId');
                                                       Navigator.of(context)
                                                           .push(
                                                         MaterialPageRoute(

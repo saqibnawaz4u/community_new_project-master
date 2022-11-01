@@ -1,14 +1,24 @@
+import 'dart:convert';
+
 import 'package:community_new/UI%20SCREENS/Events_new/Events.dart';
 import 'package:community_new/UI%20SCREENS/masjid_screens/masjidStepper.dart';
+import 'package:community_new/models/UserEvent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
+import '../../api_services/api_services.dart';
 import '../../constants/styles.dart';
 
 class UsereventDetails extends StatefulWidget {
   final String? imageUrlEvent, eventName, discription;
+  final bool? isNew;
+  final int? eventId, userId;
   const UsereventDetails({
     Key? key,
+    this.eventId,
+    this.userId,
     this.discription,
+    this.isNew,
     this.eventName,
     this.imageUrlEvent,
   }) : super(key: key);
@@ -20,6 +30,56 @@ class UsereventDetails extends StatefulWidget {
 class _UsereventDetailsState extends State<UsereventDetails> {
   String currentRole = //'admin';
       prefs.getString('role_name');
+
+  UserEvents userEvents = UserEvents();
+
+  getUserEvents() async {
+    var response =
+        await http.get(Uri.parse("http://ijtimaee.com/api/enduserevents"));
+
+    if (response.statusCode == 200) {
+      userEvents = UserEvents.fromJson(jsonDecode(response.body));
+      print(response.statusCode);
+      // print(userEvents.statusCode);
+      // setState(() {
+      //   _isloading = false;
+      // });
+    }
+  }
+
+  //saving data
+  Future<void> _regEvent(UserEvents userEvents) async {
+    // final isValid = _form.currentState!.validate();
+    // if (isValid) {
+    // if (widget.isNew!) {
+    await ApiServices.postendUserEvents(userEvents);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("userEvent Added Successfully"),
+    ));
+    // }
+    //  else {
+    //   await ApiServices.postendUserEventsbyId(
+    //       widget.userId.toString(), userEvents);
+    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //     content: Text("userevent Updated Successfully"),
+    //   ));
+    // }
+    // } else {
+    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //     content: Text("Please fill form correctly"),
+    //   ));
+    // }
+  }
+
+  @override
+  void initState() {
+    getUserEvents();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  int currentUserId = prefs.get('userId');
+
   @override
   Widget build(BuildContext context) {
     final _form = GlobalKey<FormState>();
@@ -131,35 +191,46 @@ class _UsereventDetailsState extends State<UsereventDetails> {
                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
                           fontSize: 14,
                         ),
-                  )
+                  ),
                 ],
               ),
             ),
             const SizedBox(height: 20),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  primary: appColor,
-                ),
-                child: Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: const Text(
-                    'Register',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+
+            userEvents.user_Id == currentUserId
+                ? Text('Attendies List')
+                : Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        UserEvents userEvents;
+                        userEvents = UserEvents(
+                          event_Id: widget.eventId,
+                          user_Id: widget.userId,
+                        );
+
+                        await _regEvent(userEvents);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        primary: appColor,
+                      ),
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: const Text(
+                          'Register',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
             // NestedTabBar(nestedTabbarView: [
             //   Form(key: formKeys[0], child: Container()),
             //   Form(key: formKeys[1], child: Container()),

@@ -7,7 +7,6 @@ import 'package:community_new/models/rssFeedChangeHistory.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-
 import '../models/UserEvent.dart';
 import '../models/UserMasjids.dart';
 import '../models/accommodationPosting.dart';
@@ -327,6 +326,20 @@ class ApiServices {
     var eventBody = json.encode(myendUserevent);
     print(eventBody);
     var res = await http.post(Uri.parse(endUserEventUrl),
+        headers: header, body: eventBody);
+    return res.statusCode;
+  }
+
+  static Future postendUserEventsbyId(
+      String id, UserEvents endUserEvents) async {
+    Map<String, String> header = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    var myendUserevent = endUserEvents.toJson();
+    var eventBody = json.encode(myendUserevent);
+    print(eventBody);
+    var res = await http.put(Uri.parse('$endUserEventUrl/$id'),
         headers: header, body: eventBody);
     return res.statusCode;
   }

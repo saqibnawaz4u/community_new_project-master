@@ -37,6 +37,7 @@ final List<String> imgList = [
 
 class PostAccommodation extends StatefulWidget {
   final int? noofbedrroms;
+  final String? category;
   final double? NoOFBathrooms;
   final String? untilityIncluded;
   final String? parkingIncluded;
@@ -63,13 +64,16 @@ class PostAccommodation extends StatefulWidget {
   final String? cable;
   final String? internet;
   final int? size;
+  final int? price;
   final String? adType;
   final bool isNew;
   final int? accId;
   const PostAccommodation({
     Key? key,
+    this.category,
     required this.isNew,
     this.size,
+    this.price,
     this.accId,
     this.NoOFBathrooms,
     this.accessibleWahshroms,
@@ -997,7 +1001,37 @@ class _PostAccommodationState extends State<PostAccommodation>
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: ((context) => home2())));
+                                    builder: ((context) => home2(
+                                          accessible:
+                                              widget.accessibleWahshroms,
+                                          adType: widget.adType,
+                                          airCondition: widget.airConditioning,
+                                          balcony: widget.balcony,
+                                          barrier: widget.barrierFreeEntrance,
+                                          cable: widget.cable,
+                                          description:
+                                              descriptionController.text,
+                                          dishwasher: widget.dishwasher,
+                                          forRentBy: widget.forRentBy,
+                                          fridge: widget.fridge,
+                                          furnished: widget.furnished,
+                                          heat: widget.heat,
+                                          hydro: widget.hydro,
+                                          internet: widget.internet,
+                                          laundryInBuilding:
+                                              widget.laundryInBuilding,
+                                          laundryInUnit: widget.laundryInUnit,
+                                          location: lctnController.text,
+                                          parking: widget.parkingIncluded,
+                                          petFriendly: widget.petFriendly,
+                                          price: widget.price,
+                                          size: widget.size,
+                                          smoking: widget.smookingPermitted,
+                                          title: titleCntrl.text,
+                                          visualAids: widget.visualAids,
+                                          water: widget.water,
+                                          yard: widget.yard,
+                                        ))));
                           },
                           'Post Ad',
                         ),

@@ -1,3 +1,4 @@
+import 'package:community_new/UI%20SCREENS/create_accomodation/screens/postAccomodation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,16 @@ class AccCategories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<AccCategories> {
+  List<String> forRent = [
+    'long term rentals',
+    'short term rentals',
+    'room rentals',
+    'storage, parking for rent',
+    'commercial, office space for rent',
+  ];
+  List<String> forsale = [
+    'real state services',
+  ];
   showAlertDialog(BuildContext context) {
     // Create button
     Widget yesButton = TextButton(
@@ -95,54 +106,6 @@ class _CategoriesState extends State<AccCategories> {
                 height: 10.0,
               ),
               Container(
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                decoration: BoxDecoration(
-                  // border: Border(
-                  //   bottom: BorderSide(
-                  //     color: Colors.grey,
-                  //     width: 1,
-                  //   ),
-                  // ),
-                  borderRadius: BorderRadius.circular(30.0),
-                  color: Color(0xffddc2ae),
-                ),
-                padding: EdgeInsets.only(
-                  top: 15.0,
-                  bottom: 10,
-                  left: 20,
-                ),
-                child: Text(
-                  'RECENT CATEGORIES',
-                  style: TextStyle(color: textColor),
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  // border: Border(
-                  //   bottom: BorderSide(
-                  //     color: Colors.grey,
-                  //     width: 1,
-                  //   ),
-                  // ),
-                  color: whiteColor,
-                ),
-                margin: EdgeInsets.only(top: 10.0),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 15,
-                ),
-                child: Text(
-                  'long term rentals',
-                  style: TextStyle(
-                    color: blackColor,
-                  ),
-                ),
-              ),
-              Container(
                 margin: EdgeInsets.symmetric(vertical: 10.0),
                 width: MediaQuery.of(context).size.width,
                 height: 50,
@@ -200,70 +163,58 @@ class _CategoriesState extends State<AccCategories> {
                       children: [
                         // Divider(),
                         ExpansionTile(
-                          title: Text(
-                            'for rent',
-                            style: TextStyle(
-                              color: appColor,
-                              fontSize: 15.0,
-                            ),
-                          ),
-                          leading: Icon(
-                            Icons.keyboard_arrow_down,
-                          ),
-                          trailing: Text(''),
-                          iconColor: appColor,
-                          collapsedIconColor: appColor,
-                          expandedCrossAxisAlignment:
-                              CrossAxisAlignment.stretch,
-                          // maintainState: true,
-                          childrenPadding: EdgeInsets.only(
-                            left: 50.0,
-                          ),
-                          children: [
-                            Text(
-                              'long term rentals',
+                            title: Text(
+                              'for rent',
                               style: TextStyle(
                                 color: appColor,
-                                fontSize: 12.0,
+                                fontSize: 15.0,
                               ),
                             ),
-                            Divider(),
-                            Text(
-                              'short term rentals',
-                              style: TextStyle(
-                                color: appColor,
-                                fontSize: 12.0,
-                              ),
+                            leading: Icon(
+                              Icons.keyboard_arrow_down,
                             ),
-                            Divider(),
-                            Text(
-                              'room rentals,roommates',
-                              style: TextStyle(
-                                color: appColor,
-                                fontSize: 12.0,
-                              ),
+                            trailing: Text(''),
+                            iconColor: appColor,
+                            collapsedIconColor: appColor,
+                            expandedCrossAxisAlignment:
+                                CrossAxisAlignment.stretch,
+                            // maintainState: true,
+                            childrenPadding: EdgeInsets.only(
+                              left: 50.0,
                             ),
-                            Divider(),
-                            Text(
-                              'storage,parking for rent',
-                              style: TextStyle(
-                                color: appColor,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                            Divider(),
-                            Text(
-                              'commercial,office space for rent',
-                              style: TextStyle(
-                                color: appColor,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            )
-                          ],
-                        ),
+                            children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.2,
+                                child: ListView.builder(
+                                    itemCount: forRent.length,
+                                    itemBuilder: (_, index) {
+                                      return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PostAccommodation(
+                                                        isNew: true,
+                                                        category: forRent[index]
+                                                            .toString(),
+                                                      )));
+                                        },
+                                        child: Container(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(forRent[index]),
+                                              Divider(),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                              )
+                            ]),
                         // Divider(),
                         ExpansionTile(
                           title: Text(
@@ -285,19 +236,36 @@ class _CategoriesState extends State<AccCategories> {
                             left: 50.0,
                           ),
                           children: [
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            Text(
-                              'real estate services',
-                              style: TextStyle(
-                                color: appColor,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.2,
+                              child: ListView.builder(
+                                  itemCount: forsale.length,
+                                  itemBuilder: (_, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PostAccommodation(
+                                                      isNew: true,
+                                                      category: forsale[index]
+                                                          .toString(),
+                                                    )));
+                                      },
+                                      child: Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(forsale[index]),
+                                            Divider(),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            )
                           ],
                         ),
                       ],
