@@ -170,7 +170,7 @@ class _masjidPrayerTimeDetailsState extends State<masjidPrayerTimeDetails>
     ).then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
-        print(response.body);
+        print('ramdan body${response.body}');
         ramadanTimes =
             list.map((model) => RamadanTimes.fromJson(model)).toList();
       });
@@ -1689,27 +1689,29 @@ class _masjidPrayerTimeDetailsState extends State<masjidPrayerTimeDetails>
                                 return DataRow(
                                   cells: <DataCell>[
                                     DataCell(widget.masjidId ==
-                                            ramadanTimes[index].id
+                                            ramadanTimes[index].masjidId
                                         ? Text(
                                             ramadanTimes[index].sNo.toString())
                                         : Text('')),
                                     DataCell(widget.masjidId ==
-                                            ramadanTimes[index].id
+                                            ramadanTimes[index].masjidId
                                         ? Text(ramadanTimes[index]
                                             .format
                                             .toString())
                                         : Text('')),
                                     DataCell(widget.masjidId ==
-                                            ramadanTimes[index].id
+                                            ramadanTimes[index].masjidId
                                         ? Text(ramadanTimes[index]
                                             .startDate
-                                            .toString())
+                                            .toString()
+                                            .substring(0, 9))
                                         : Text('')),
                                     DataCell(widget.masjidId ==
-                                            ramadanTimes[index].id
+                                            ramadanTimes[index].masjidId
                                         ? Text(ramadanTimes[index]
                                             .endDate
-                                            .toString())
+                                            .toString()
+                                            .substring(0, 9))
                                         : Text('')),
                                     // DataCell(Text(widget.maghrib.toString())),
                                     // DataCell(Text(widget.isha.toString())),

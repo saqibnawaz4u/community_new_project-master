@@ -12,7 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class PostingDetails extends StatefulWidget {
-  String? unitType, bedrooms, bathrooms;
+  final String? bathrooms;
+  final String? unitType;
+  final String? bedrooms;
   int? num;
   final bool? isNew;
   PostingDetails({
@@ -658,6 +660,9 @@ class _PostingDetailsState extends State<PostingDetails> {
                   padding: const EdgeInsets.all(10.0),
                   child: customEmailBtn(
                     () {
+                      print(widget.bathrooms);
+                      print(widget.bedrooms);
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -665,6 +670,11 @@ class _PostingDetailsState extends State<PostingDetails> {
                             isNew: true,
                             // NoOFBathrooms: double.parse(widget.bathrooms!),
                             // NoOFBathrooms: double.parse(NoOFBathrooms),
+                            NoOFBathrooms: widget.bathrooms!.isEmpty
+                                ? 4.0
+                                : double.parse(
+                                    widget.bathrooms!,
+                                  ),
                             accessibleWahshroms: accessibleWahshroms,
                             adType: adType,
                             agreementTypeString: agreementTypeString,
@@ -680,10 +690,11 @@ class _PostingDetailsState extends State<PostingDetails> {
                             heat: heat,
                             hydro: hydro,
                             internet: internet,
-
                             laundryInBuilding: laundryInBuilding,
                             laundryInUnit: laundryInUnit,
-                            // noofbedrroms: int.parse(widget.bedrooms!),
+                            noofbedrroms: widget.bedrooms == null
+                                ? 5
+                                : int.parse(widget.bedrooms!),
                             parkingIncluded: parkingIncluded,
                             price: int.parse(_priceController.text),
                             personalOutdoorSpaces: personalOutdoorSpaces,

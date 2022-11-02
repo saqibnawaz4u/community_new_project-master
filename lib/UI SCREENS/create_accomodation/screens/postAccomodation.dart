@@ -630,57 +630,57 @@ class _PostAccommodationState extends State<PostAccommodation>
                     SizedBox(
                       height: 20.0,
                     ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AccCategories(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          // border: Border(
-                          //   bottom: BorderSide(
-                          //     color: Colors.grey,
-                          //     width: 1,
-                          //   ),
-                          color: whiteColor,
-                          // ),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: Colors.black54,
-                                blurRadius: 1.0,
-                                offset: Offset(0.0, 0.75))
-                          ],
-                          // color: Colors.grey.shade300,
-                        ),
-                        padding: EdgeInsets.only(
-                          top: 10.0,
-                          bottom: 10,
-                          left: 10,
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Select Category ',
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Spacer(),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.grey.shade300,
-                              size: 20.0,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) => AccCategories(),
+                    //       ),
+                    //     );
+                    //   },
+                    //   child: Container(
+                    //     width: MediaQuery.of(context).size.width,
+                    //     height: 40,
+                    //     decoration: BoxDecoration(
+                    //       // border: Border(
+                    //       //   bottom: BorderSide(
+                    //       //     color: Colors.grey,
+                    //       //     width: 1,
+                    //       //   ),
+                    //       color: whiteColor,
+                    //       // ),
+                    //       boxShadow: <BoxShadow>[
+                    //         BoxShadow(
+                    //             color: Colors.black54,
+                    //             blurRadius: 1.0,
+                    //             offset: Offset(0.0, 0.75))
+                    //       ],
+                    //       // color: Colors.grey.shade300,
+                    //     ),
+                    //     padding: EdgeInsets.only(
+                    //       top: 10.0,
+                    //       bottom: 10,
+                    //       left: 10,
+                    //     ),
+                    //     child: Row(
+                    //       children: [
+                    //         Text(
+                    //           'Select Category ',
+                    //           style: TextStyle(
+                    //             color: Colors.grey,
+                    //           ),
+                    //         ),
+                    //         Spacer(),
+                    //         Icon(
+                    //           Icons.arrow_forward_ios,
+                    //           color: Colors.grey.shade300,
+                    //           size: 20.0,
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 20.0,
                     ),
@@ -942,7 +942,6 @@ class _PostAccommodationState extends State<PostAccommodation>
                                 ///
                                 advancePayment: 0,
 
-                                rent: 10,
                                 id: 0,
                                 furnished: widget.furnished,
                                 country: 'Pakistan',
@@ -958,7 +957,7 @@ class _PostAccommodationState extends State<PostAccommodation>
                                 accommodationType_Id: 8,
                                 city: 'Kohat',
                                 sizeInSqft: widget.size,
-                                // rent: int.parse(priceController.text),
+                                rent: widget.price,
                                 smokingPermitted: widget.smookingPermitted,
                                 visualAids: widget.visualAids,
                                 utilitiesIncluded: widget.untilityIncluded,
@@ -1002,35 +1001,35 @@ class _PostAccommodationState extends State<PostAccommodation>
                                 context,
                                 MaterialPageRoute(
                                     builder: ((context) => home2(
-                                          accessible:
-                                              widget.accessibleWahshroms,
-                                          adType: widget.adType,
-                                          airCondition: widget.airConditioning,
-                                          balcony: widget.balcony,
-                                          barrier: widget.barrierFreeEntrance,
-                                          cable: widget.cable,
-                                          description:
-                                              descriptionController.text,
-                                          dishwasher: widget.dishwasher,
-                                          forRentBy: widget.forRentBy,
-                                          fridge: widget.fridge,
-                                          furnished: widget.furnished,
-                                          heat: widget.heat,
-                                          hydro: widget.hydro,
-                                          internet: widget.internet,
-                                          laundryInBuilding:
-                                              widget.laundryInBuilding,
-                                          laundryInUnit: widget.laundryInUnit,
-                                          location: lctnController.text,
-                                          parking: widget.parkingIncluded,
-                                          petFriendly: widget.petFriendly,
-                                          price: widget.price,
-                                          size: widget.size,
-                                          smoking: widget.smookingPermitted,
-                                          title: titleCntrl.text,
-                                          visualAids: widget.visualAids,
-                                          water: widget.water,
-                                          yard: widget.yard,
+                                        // accessible:
+                                        //     widget.accessibleWahshroms,
+                                        // adType: widget.adType,
+                                        // airCondition: widget.airConditioning,
+                                        // balcony: widget.balcony,
+                                        // barrier: widget.barrierFreeEntrance,
+                                        // cable: widget.cable,
+                                        // // description:
+                                        // //     descriptionController.text,
+                                        // dishwasher: widget.dishwasher,
+                                        // forRentBy: widget.forRentBy,
+                                        // fridge: widget.fridge,
+                                        // furnished: widget.furnished,
+                                        // heat: widget.heat,
+                                        // hydro: widget.hydro,
+                                        // internet: widget.internet,
+                                        // laundryInBuilding:
+                                        //     widget.laundryInBuilding,
+                                        // laundryInUnit: widget.laundryInUnit,
+                                        // // location: lctnController.text,
+                                        // parking: widget.parkingIncluded,
+                                        // petFriendly: widget.petFriendly,
+                                        // price: widget.price,
+                                        // size: widget.size,
+                                        // smoking: widget.smookingPermitted,
+                                        // // title: titleCntrl.text,
+                                        // visualAids: widget.visualAids,
+                                        // water: widget.water,
+                                        // yard: widget.yard,
                                         ))));
                           },
                           'Post Ad',

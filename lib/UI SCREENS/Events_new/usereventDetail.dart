@@ -31,6 +31,8 @@ class _UsereventDetailsState extends State<UsereventDetails> {
   String currentRole = //'admin';
       prefs.getString('role_name');
 
+  int currentUserId = prefs.get('userId');
+
   UserEvents userEvents = UserEvents();
 
   getUserEvents() async {
@@ -77,8 +79,6 @@ class _UsereventDetailsState extends State<UsereventDetails> {
     // TODO: implement initState
     super.initState();
   }
-
-  int currentUserId = prefs.get('userId');
 
   @override
   Widget build(BuildContext context) {

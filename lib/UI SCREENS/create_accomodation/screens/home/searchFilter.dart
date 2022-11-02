@@ -1,5 +1,8 @@
+import 'package:community_new/UI%20SCREENS/create_accomodation/screens/home/bathrooms.dart';
 import 'package:community_new/UI%20SCREENS/create_accomodation/screens/home/filterDetails.dart';
 import 'package:community_new/UI%20SCREENS/create_accomodation/screens/home/filterList.dart';
+import 'package:community_new/UI%20SCREENS/create_accomodation/screens/home/home2.dart';
+import 'package:community_new/UI%20SCREENS/create_accomodation/screens/home/unitType.dart';
 import 'package:community_new/UI%20SCREENS/create_accomodation/widgets/custom_app_bar.dart';
 import 'package:community_new/models/accommodationPosting.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
@@ -14,6 +17,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import '../../widgets/customTextField.dart';
 import '../../widgets/search_input.dart';
 import '../../widgets/welcome_text.dart';
+import 'bedrooms.dart';
 import 'chat.dart';
 
 class SearchFilter extends StatefulWidget {
@@ -25,6 +29,8 @@ class SearchFilter extends StatefulWidget {
 
 class _SearchFilterState extends State<SearchFilter> {
   var lctnController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController sizeController = TextEditingController();
   String dropdownValue = 'Select';
   List<int> selectedItemsMultiDialogForAmeneties = [];
   List<int> selectedItemsMultiDialogForFeatures = [];
@@ -69,9 +75,6 @@ class _SearchFilterState extends State<SearchFilter> {
   ];
   RangeValues _currentRangeValues = const RangeValues(20, 60);
   RangeValues _currentRangeValuesforsqrt = const RangeValues(20, 60);
-  bool status1 = false;
-  bool status2 = false;
-  bool status3 = false;
 
   var accPosting = AccommodationPosting();
 
@@ -175,68 +178,68 @@ class _SearchFilterState extends State<SearchFilter> {
             primary: false,
             padding: EdgeInsets.all(15),
             children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                decoration: BoxDecoration(
-                  // border: Border(
-                  //   bottom: BorderSide(
-                  //     color: Colors.grey,
-                  //     width: 1,
-                  //   ),
-                  // ),
-                  borderRadius: BorderRadius.circular(30.0),
-                  color: Color(0xffddc2ae),
-                ),
-                padding: EdgeInsets.only(
-                  top: 15.0,
-                  bottom: 10,
-                  left: 20,
-                ),
-                child: Text(
-                  'SORT OPTIONS',
-                  style: TextStyle(color: textColor),
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                    // border: Border(
-                    //   bottom: BorderSide(
-                    //     color: Colors.grey,
-                    //     width: 1,
-                    //   ),
-                    // ),
-                    // color: Colors.grey.shade300,
-                    ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Sort Type ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    Text(
-                      'Most Recent',
-                      style: TextStyle(
-                          color: blackColor, fontWeight: FontWeight.bold),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   width: MediaQuery.of(context).size.width,
+              //   height: 50,
+              //   decoration: BoxDecoration(
+              //     // border: Border(
+              //     //   bottom: BorderSide(
+              //     //     color: Colors.grey,
+              //     //     width: 1,
+              //     //   ),
+              //     // ),
+              //     borderRadius: BorderRadius.circular(30.0),
+              //     color: Color(0xffddc2ae),
+              //   ),
+              //   padding: EdgeInsets.only(
+              //     top: 15.0,
+              //     bottom: 10,
+              //     left: 20,
+              //   ),
+              //   child: Text(
+              //     'SORT OPTIONS',
+              //     style: TextStyle(color: textColor),
+              //   ),
+              // ),
+              // Container(
+              //   width: MediaQuery.of(context).size.width,
+              //   height: 40,
+              //   decoration: BoxDecoration(
+              //       // border: Border(
+              //       //   bottom: BorderSide(
+              //       //     color: Colors.grey,
+              //       //     width: 1,
+              //       //   ),
+              //       // ),
+              //       // color: Colors.grey.shade300,
+              //       ),
+              //   padding: EdgeInsets.only(
+              //     top: 10.0,
+              //     bottom: 10,
+              //     left: 10,
+              //   ),
+              //   child: Row(
+              //     children: [
+              //       Text(
+              //         'Sort Type ',
+              //         style: TextStyle(
+              //           color: Colors.grey,
+              //         ),
+              //       ),
+              //       Spacer(),
+              //       Text(
+              //         'Most Recent',
+              //         style: TextStyle(
+              //             color: blackColor, fontWeight: FontWeight.bold),
+              //       ),
+              //       Icon(
+              //         Icons.arrow_forward_ios,
+              //         size: 20.0,
+              //         color: Colors.grey.shade300,
+              //       ),
+              //     ],
+              //   ),
+              // ),
 
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -267,64 +270,64 @@ class _SearchFilterState extends State<SearchFilter> {
                   style: TextStyle(color: textColor),
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Category ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20.0,
-                    ),
-                    Text(
-                      'for rent',
-                      style: TextStyle(
-                        color: blackColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey.shade300,
-                      size: 20.0,
-                    ),
-                    SizedBox(
-                      width: 20.0,
-                    ),
-                    Text(
-                      'long term rentals',
-                      style: TextStyle(
-                        color: blackColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey.shade300,
-                      size: 20.0,
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   width: MediaQuery.of(context).size.width,
+              //   height: 40,
+              //   decoration: BoxDecoration(
+              //     border: Border(
+              //       bottom: BorderSide(
+              //         color: Colors.grey,
+              //         width: 1,
+              //       ),
+              //     ),
+              //     // color: Colors.grey.shade300,
+              //   ),
+              //   padding: EdgeInsets.only(
+              //     top: 10.0,
+              //     bottom: 10,
+              //     left: 10,
+              //   ),
+              //   child: Row(
+              //     children: [
+              //       Text(
+              //         'Category ',
+              //         style: TextStyle(
+              //           color: Colors.grey,
+              //         ),
+              //       ),
+              //       SizedBox(
+              //         width: 20.0,
+              //       ),
+              //       Text(
+              //         'for rent',
+              //         style: TextStyle(
+              //           color: blackColor,
+              //           fontWeight: FontWeight.bold,
+              //         ),
+              //       ),
+              //       Icon(
+              //         Icons.arrow_forward_ios,
+              //         color: Colors.grey.shade300,
+              //         size: 20.0,
+              //       ),
+              //       SizedBox(
+              //         width: 20.0,
+              //       ),
+              //       Text(
+              //         'long term rentals',
+              //         style: TextStyle(
+              //           color: blackColor,
+              //           fontWeight: FontWeight.bold,
+              //         ),
+              //       ),
+              //       Icon(
+              //         Icons.arrow_forward_ios,
+              //         color: Colors.grey.shade300,
+              //         size: 20.0,
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 40,
@@ -397,282 +400,9 @@ class _SearchFilterState extends State<SearchFilter> {
                 ),
               ),
 
+              customTextField(controller: priceController, text: 'Price'),
               Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Price Type ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    Text(
-                      'Any',
-                      style: TextStyle(
-                          color: blackColor, fontWeight: FontWeight.bold),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Price ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Min \$',
-                          style: BlackTextStyleNormal16,
-                        ),
-                        Text(
-                          'Any Price',
-                          style: TextStyle(
-                            color: Colors.grey.shade300,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 50.0,
-                        ),
-                        Text(
-                          'Max \$',
-                          style: BlackTextStyleNormal16,
-                        ),
-                        Text(
-                          'Any Price',
-                          style: TextStyle(
-                            color: Colors.grey.shade300,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Offer Type ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Ads with images ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    FlutterSwitch(
-                      width: 40,
-                      value: status1,
-                      activeColor: appColor,
-                      toggleSize: 10,
-                      inactiveColor: Colors.grey.shade300,
-                      onToggle: (val) {
-                        setState(() {
-                          status1 = val;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Ads with video ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    FlutterSwitch(
-                      width: 40,
-                      value: status2,
-                      activeColor: appColor,
-                      toggleSize: 10,
-                      inactiveColor: Colors.grey.shade300,
-                      onToggle: (val) {
-                        setState(() {
-                          status2 = val;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                      // bottom: BorderSide(
-                      //   color: Colors.grey,
-                      //   width: 1,
-                      // ),
-                      ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Ads with virtual tour ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    FlutterSwitch(
-                      width: 40,
-                      value: status3,
-                      activeColor: appColor,
-                      toggleSize: 10,
-                      inactiveColor: Colors.grey.shade300,
-                      onToggle: (val) {
-                        setState(() {
-                          status3 = val;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(
+                margin: EdgeInsets.only(top: 5.0),
                 width: MediaQuery.of(context).size.width,
                 height: 50,
                 decoration: BoxDecoration(
@@ -703,7 +433,7 @@ class _SearchFilterState extends State<SearchFilter> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 40,
+                // height: 40,
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -718,221 +448,16 @@ class _SearchFilterState extends State<SearchFilter> {
                   bottom: 10,
                   left: 10,
                 ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Fot Rent By ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Unit type ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Bedrooms ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Bathrooms ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Agreement Type ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Pet Friendly ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
+                child: customRadio1(
+                  fn: (v) {
+                    setState(() {
+                      furnished = v;
+                    });
+                  },
+                  //width: 55,
+                  title: 'For Rent By',
+                  buttonLables: ['Owner', 'Professional'],
+                  buttonValues: ['Owner', 'Professional'],
                 ),
               ),
               Container(
@@ -952,47 +477,80 @@ class _SearchFilterState extends State<SearchFilter> {
                   bottom: 10,
                   left: 10,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Price (sqft) ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Min',
-                          style: BlackTextStyleNormal16,
-                        ),
-                        Text(
-                          'Any',
-                          style: TextStyle(
-                            color: Colors.grey.shade300,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 50.0,
-                        ),
-                        Text(
-                          'Max',
-                          style: BlackTextStyleNormal16,
-                        ),
-                        Text(
-                          'Any',
-                          style: TextStyle(
-                            color: Colors.grey.shade300,
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
+                child: customRadio1(
+                  fn: (v) {
+                    setState(() {
+                      furnished = v;
+                    });
+                  },
+                  //width: 55,
+                  title: 'Bedrooms',
+                  buttonLables: ['1', '2', '3', '4', '5'],
+                  buttonValues: ['1', '2', '3', '4', '5'],
                 ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                // height: 40,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
+                  ),
+                  // color: Colors.grey.shade300,
+                ),
+                padding: EdgeInsets.only(
+                  top: 10.0,
+                  bottom: 10,
+                  left: 10,
+                ),
+                child: customRadio1(
+                  fn: (v) {
+                    setState(() {
+                      furnished = v;
+                    });
+                  },
+                  //width: 55,
+                  title: 'Bathrooms',
+                  buttonLables: ['1', '2', '3', '6', '7', '10'],
+                  buttonValues: ['1', '2', '3', '6', '7', '10'],
+                ),
+              ),
+
+              Container(
+                width: MediaQuery.of(context).size.width,
+                // height: 40,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
+                  ),
+                  // color: Colors.grey.shade300,
+                ),
+                padding: EdgeInsets.only(
+                  top: 10.0,
+                  bottom: 10,
+                  left: 10,
+                ),
+                child: customRadio1(
+                  fn: (v) {
+                    setState(() {
+                      furnished = v;
+                    });
+                  },
+                  //width: 55,
+                  title: 'Pet Friendly',
+                  buttonLables: ['Any', 'Yes', 'No'],
+                  buttonValues: ['Any', 'Yes', 'No'],
+                ),
+              ),
+              customTextField(
+                text: 'Size',
+                controller: sizeController,
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -1047,7 +605,7 @@ class _SearchFilterState extends State<SearchFilter> {
                     });
                   },
                   //width: 55,
-                  title: 'Laundry (In Unit)',
+                  title: 'Smoking Permitted',
                   buttonLables: ['Any', 'Yes', 'No'],
                   buttonValues: ['Any', 'Yes', 'No'],
                 ),
@@ -1076,532 +634,9 @@ class _SearchFilterState extends State<SearchFilter> {
                     });
                   },
                   //width: 55,
-                  title: 'Laundry (In Building)',
+                  title: 'Barrier-free Entrance and Ramps',
                   buttonLables: ['Any', 'Yes', 'No'],
                   buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Dishwasher',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Fridge/Freezer',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Air Conditioning',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Yard',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Balcony',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Smoking Permitted ',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Gym',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Pool',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Concierge',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: '24 Hour Security',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Bicycle Parking',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Storage Space',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Elevator in Building',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Wheelchair accessible',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Braille Labels',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Audio Prompts',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Barrier-free Entrances and Ramps',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
                 ),
               ),
               Container(
@@ -1635,45 +670,6 @@ class _SearchFilterState extends State<SearchFilter> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Accessible Washrooms in Suite',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
                 // height: 40,
                 decoration: BoxDecoration(
                   border: Border(
@@ -1696,230 +692,7 @@ class _SearchFilterState extends State<SearchFilter> {
                     });
                   },
                   //width: 55,
-                  title: 'Hydro',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Heat',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Water',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Cable/TV',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Internet',
-                  buttonLables: ['Any', 'Yes', 'No'],
-                  buttonValues: ['Any', 'Yes', 'No'],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Parking Included',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Additional Options',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Spacer(),
-                    // Text(
-                    //   'Any',
-                    //   style: TextStyle(
-                    //       color: blackColor, fontWeight: FontWeight.bold),
-                    // ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.0,
-                      color: Colors.grey.shade300,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                // height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  // color: Colors.grey.shade300,
-                ),
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10,
-                  left: 10,
-                ),
-                child: customRadio1(
-                  fn: (v) {
-                    setState(() {
-                      furnished = v;
-                    });
-                  },
-                  //width: 55,
-                  title: 'Term Agreement',
+                  title: 'Accessible washrooms in suite',
                   buttonLables: ['Any', 'Yes', 'No'],
                   buttonValues: ['Any', 'Yes', 'No'],
                 ),
@@ -1927,15 +700,29 @@ class _SearchFilterState extends State<SearchFilter> {
               SizedBox(
                 height: 20.0,
               ),
+
               TextButton(
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => FilterDetails()));
+                            builder: (context) => home2(
+                                  accessible: accessibleWahshroms,
+                                  barrier: barrierFreeEntrance,
+                                  bathrooms: NoOFBathrooms,
+                                  bedrooms: noofbedrroms,
+                                  forRentBy: forRentBy,
+                                  furnished: furnished,
+                                  location: lctnController.text,
+                                  petFriendly: petFriendly,
+                                  price: int.parse(priceController.text),
+                                  size: int.parse(sizeController.text),
+                                  smokingpermitted: smookingPermitted,
+                                  visual: visualAids,
+                                )));
                   },
                   child: Text(
-                    'Reset',
+                    'Done',
                     style: BlackTextStyleNormal16,
                   )),
               // const Padding(

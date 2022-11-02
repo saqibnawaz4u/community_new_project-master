@@ -140,11 +140,11 @@ class _UnitTypeScreenState extends State<UnitTypeScreen> {
                                 MaterialPageRoute(
                                     builder: (context) => PostingDetails(
                                           isNew: true,
-                                          unitType: unitType[index],
+                                          unitType: unitType[index].toString(),
                                         )));
                           },
                           title: Text(
-                            unitType[index],
+                            unitType[index].toString(),
                           ),
                         ),
                         Divider(),

@@ -16,17 +16,7 @@ class BedroomsScreen extends StatefulWidget {
 }
 
 class _BedroomsScreenState extends State<BedroomsScreen> {
-  List<String> bedrooms = [
-    '1',
-    '1+Den',
-    '2',
-    '2+Den',
-    '3',
-    '3+Den',
-    '4',
-    '4+Den',
-    '5+'
-  ];
+  List<String> bedrooms = ['1', '2', '3', '4', '5+'];
   showAlertDialog(BuildContext context) {
     // Create button
     Widget yesButton = TextButton(
@@ -89,7 +79,7 @@ class _BedroomsScreenState extends State<BedroomsScreen> {
                 style: TextStyle(fontSize: 20, color: appColor),
               )
             : Text(
-                "UnitType",
+                "Bedrooms",
                 style: TextStyle(fontSize: 20, color: appColor),
               ),
       ),
@@ -142,11 +132,11 @@ class _BedroomsScreenState extends State<BedroomsScreen> {
                                 MaterialPageRoute(
                                     builder: (context) => PostingDetails(
                                           isNew: true,
-                                          bedrooms: bedrooms[index],
+                                          bedrooms: bedrooms[index].toString(),
                                         )));
                           },
                           title: Text(
-                            bedrooms[index],
+                            bedrooms[index].toString(),
                           ),
                         ),
                         Divider(),

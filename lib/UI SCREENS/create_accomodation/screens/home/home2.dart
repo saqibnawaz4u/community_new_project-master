@@ -22,58 +22,31 @@ import '../postAccomodation.dart';
 import 'chat.dart';
 
 class home2 extends StatefulWidget {
-  final String? title, description, location;
-  final String? forRentBy,
+  final String? location,
+      forRentBy,
+      bedrooms,
+      bathrooms,
       petFriendly,
       furnished,
-      laundryInUnit,
-      laundryInBuilding,
-      dishwasher,
-      fridge,
-      airCondition,
-      yard,
-      balcony,
-      smoking,
+      smokingpermitted,
       barrier,
-      visualAids,
-      accessible,
-      hydro,
-      heat,
-      water,
-      cable,
-      internet,
-      parking,
-      adType;
-  final int? price;
-  final int? size;
+      visual,
+      accessible;
+  final int? price, size;
   const home2({
     Key? key,
     this.accessible,
-    this.adType,
-    this.airCondition,
-    this.balcony,
     this.barrier,
-    this.cable,
-    this.description,
-    this.dishwasher,
+    this.bathrooms,
+    this.bedrooms,
     this.forRentBy,
-    this.fridge,
     this.furnished,
-    this.heat,
-    this.hydro,
-    this.internet,
-    this.laundryInBuilding,
-    this.laundryInUnit,
     this.location,
-    this.parking,
     this.petFriendly,
     this.price,
     this.size,
-    this.smoking,
-    this.title,
-    this.visualAids,
-    this.water,
-    this.yard,
+    this.smokingpermitted,
+    this.visual,
   }) : super(key: key);
 
   @override
@@ -165,6 +138,30 @@ class _home2State extends State<home2> {
 
   @override
   Widget build(BuildContext context) {
+    List<AccommodationPosting> filter = accomudationPost
+        .where(
+          (f) =>
+              f.accessibleWashroomsInSuite == widget.accessible &&
+              f.barrier_free_entrancesAndRamps == widget.barrier &&
+              f.forRentBy == widget.forRentBy &&
+              f.furnished == widget.furnished &&
+              f.noofBathrooms == widget.bathrooms &&
+              f.noofBedrooms == widget.bedrooms &&
+              f.petFriendly == widget.petFriendly &&
+              f.rent == widget.price &&
+              f.sizeInSqft == widget.size &&
+              f.smokingPermitted == widget.smokingpermitted &&
+              f.visualAids == widget.visual,
+        )
+        .toList();
+
+    !filter.isEmpty
+        ? setState(() {
+            accomudationPost = filter;
+          })
+        : setState(() {
+            accomudationPost;
+          });
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -186,16 +183,34 @@ class _home2State extends State<home2> {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: appColor,
-          child: Icon(Icons.add),
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => PostAccommodation(
-                      isNew: true,
-                      accId: 0,
-                    )));
-          },
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  filter = accomudationPost;
+                });
+              },
+              child: Text(
+                'Reset',
+                style: TextStyle(
+                  fontSize: 10.0,
+                ),
+              ),
+            ),
+            FloatingActionButton(
+              backgroundColor: appColor,
+              child: Icon(Icons.add),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => PostAccommodation(
+                          isNew: true,
+                          accId: 0,
+                        )));
+              },
+            ),
+          ],
         ),
         backgroundColor: whiteColor,
         body: Theme(
@@ -236,32 +251,33 @@ class _home2State extends State<home2> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => FilterDetails(
-                              accessible: widget.accessible,
-                              adType: widget.adType,
-                              airCondition: widget.airCondition,
-                              balcony: widget.balcony,
-                              barrier: widget.barrier,
-                              cable: widget.cable,
-                              description: widget.description,
-                              dishwasher: widget.dishwasher,
-                              forRentBy: widget.forRentBy,
-                              fridge: widget.fridge,
-                              furnished: widget.furnished,
-                              heat: widget.heat,
-                              hydro: widget.hydro,
-                              internet: widget.internet,
-                              laundryInBuilding: widget.laundryInBuilding,
-                              laundryInUnit: widget.laundryInUnit,
-                              location: widget.location,
-                              parking: widget.parking,
-                              petFriendly: widget.petFriendly,
-                              price: widget.price,
-                              size: widget.size,
-                              smoking: widget.smoking,
-                              title: widget.title,
-                              visualAids: widget.visualAids,
-                              water: widget.water,
-                              yard: widget.yard,
+                              accessible: accomudationPost[index]
+                                  .accessibleWashroomsInSuite,
+                              // adType: widget.adType,
+                              // airCondition: widget.airCondition,
+                              // balcony: widget.balcony,
+                              barrier: accomudationPost[index]
+                                  .barrier_free_entrancesAndRamps,
+                              // cable: widget.cable,
+                              description: accomudationPost[index].description,
+                              // dishwasher: widget.dishwasher,
+                              forRentBy: accomudationPost[index].forRentBy,
+                              // fridge: widget.fridge,
+                              furnished: accomudationPost[index].furnished,
+                              // heat: widget.heat,
+                              // hydro: widget.hydro,
+                              // internet: widget.internet,
+                              // laundryInBuilding: widget.laundryInBuilding,
+                              // laundryInUnit: widget.laundryInUnit,
+                              // parking: widget.parking,
+                              petFriendly: accomudationPost[index].petFriendly,
+                              price: accomudationPost[index].rent,
+                              size: accomudationPost[index].sizeInSqft,
+                              smoking: accomudationPost[index].smokingPermitted,
+                              title: accomudationPost[index].title,
+                              visualAids: accomudationPost[index].visualAids,
+                              // water: widget.water,
+                              // yard: widget.yard,
                             ),
                             // PostAccommodation(
                             //   isNew: false,
@@ -326,7 +342,7 @@ class _home2State extends State<home2> {
                                     copiedAcc.isEmpty
                                         ? Text(
                                             accomudationPost[index]
-                                                .location
+                                                .city
                                                 .toString(),
                                             style: Theme.of(context)
                                                 .textTheme

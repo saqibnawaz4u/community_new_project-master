@@ -91,7 +91,7 @@ class _BathroomScreenState extends State<BathroomScreen> {
                 style: TextStyle(fontSize: 20, color: appColor),
               )
             : Text(
-                "UnitType",
+                "Bathrooms",
                 style: TextStyle(fontSize: 20, color: appColor),
               ),
       ),

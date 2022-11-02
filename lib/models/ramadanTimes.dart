@@ -3,6 +3,7 @@ class RamadanTimes {
   String? entryDt;
   String? enteredBy;
   int? sNo;
+  int? masjidId;
   String? modifiedDt;
   String? modifiedBy;
   String? startDate;
@@ -13,6 +14,7 @@ class RamadanTimes {
     this.id,
     this.entryDt,
     this.enteredBy,
+    this.masjidId,
     this.sNo,
     this.modifiedDt,
     this.modifiedBy,
@@ -26,6 +28,7 @@ class RamadanTimes {
     entryDt = json['entry_Dt'];
     enteredBy = json['entered_By'];
     sNo = json['sNo'];
+    masjidId = json['masjidId'];
     modifiedDt = json['modified_Dt'];
     modifiedBy = json['modified_By'];
     startDate = json['startDate'];
@@ -39,6 +42,7 @@ class RamadanTimes {
     data['entry_Dt'] = this.entryDt;
     data['entered_By'] = this.enteredBy;
     data['sNo'] = this.sNo;
+    data['masjidId'] = this.masjidId;
     data['modified_Dt'] = this.modifiedDt;
     data['modified_By'] = this.modifiedBy;
     data['startDate'] = this.startDate;

@@ -13,53 +13,53 @@ class FilterDetails extends StatefulWidget {
   final String? forRentBy,
       petFriendly,
       furnished,
-      laundryInUnit,
-      laundryInBuilding,
-      dishwasher,
-      fridge,
-      airCondition,
-      yard,
-      balcony,
+      // laundryInUnit,
+      // laundryInBuilding,
+      // dishwasher,
+      // fridge,
+      // airCondition,
+      // yard,
+      // balcony,
       smoking,
       barrier,
       visualAids,
-      accessible,
-      hydro,
-      heat,
-      water,
-      cable,
-      internet,
-      parking,
-      adType;
+      accessible;
+  // hydro,
+  // heat,
+  // water,
+  // cable,
+  // internet,
+  // parking,
+  // adType;
   final int? price;
   final int? size;
   const FilterDetails({
     this.accessible,
-    this.adType,
-    this.airCondition,
-    this.balcony,
+    // this.adType,
+    // this.airCondition,
+    // this.balcony,
     this.barrier,
-    this.cable,
+    // this.cable,
     this.description,
-    this.dishwasher,
+    // this.dishwasher,
     this.forRentBy,
-    this.fridge,
+    // this.fridge,
     this.furnished,
-    this.heat,
-    this.hydro,
-    this.internet,
-    this.laundryInBuilding,
-    this.laundryInUnit,
+    // this.heat,
+    // this.hydro,
+    // this.internet,
+    // this.laundryInBuilding,
+    // this.laundryInUnit,
     this.location,
-    this.parking,
+    // this.parking,
     this.petFriendly,
     this.price,
     this.size,
     this.smoking,
     this.title,
     this.visualAids,
-    this.water,
-    this.yard,
+    // this.water,
+    // this.yard,
     super.key,
   });
 
@@ -208,7 +208,7 @@ class _FilterDetailsState extends State<FilterDetails>
                                     Expanded(
                                       flex: 4,
                                       child: Text(
-                                        widget.title!,
+                                        widget.title.toString(),
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline1!
@@ -251,7 +251,7 @@ class _FilterDetailsState extends State<FilterDetails>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '\$${widget.price!}',
+                                  '\$${widget.price}'.toString(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline1!
@@ -268,16 +268,18 @@ class _FilterDetailsState extends State<FilterDetails>
                                       color: appColor,
                                       size: 20,
                                     ),
-                                    Text(
-                                      'Kohat',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .copyWith(
-                                            fontSize: 10,
-                                            color: appColor,
+                                    widget.location == null
+                                        ? Text('Kohat')
+                                        : Text(
+                                            widget.location.toString(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .copyWith(
+                                                  fontSize: 10,
+                                                  color: appColor,
+                                                ),
                                           ),
-                                    ),
                                   ],
                                 ),
                                 // SizedBox(
@@ -355,7 +357,7 @@ class _FilterDetailsState extends State<FilterDetails>
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Text(
-                          widget.description!,
+                          widget.description.toString(),
                           style: TextStyle(
                             color: blackColor,
                             fontWeight: FontWeight.bold,
@@ -367,25 +369,25 @@ class _FilterDetailsState extends State<FilterDetails>
                     _tabSection(
                       context,
                       _tabController!,
-                      widget.adType,
-                      widget.accessible,
-                      widget.airCondition,
-                      widget.balcony,
+                      // widget.adType,
+                      // widget.airCondition,
+                      // widget.balcony,
                       widget.barrier,
-                      widget.cable,
-                      widget.dishwasher,
+
+                      // widget.dishwasher,
                       widget.forRentBy,
-                      widget.fridge,
+                      // widget.fridge,
                       widget.furnished,
-                      widget.heat,
-                      widget.hydro,
-                      widget.internet,
-                      widget.parking,
+                      // widget.heat,
+                      // widget.hydro,
+                      // widget.internet,
+                      // widget.parking,
                       widget.petFriendly,
                       widget.smoking,
                       widget.visualAids,
-                      widget.water,
-                      widget.yard,
+                      // widget.water,
+                      // widget.yard,
+                      widget.accessible,
                       widget.size,
                     ),
                     // DefaultTabController(
@@ -477,22 +479,22 @@ Widget _tabSection(
   String? forRentBy,
   petFriendly,
   furnished,
-  dishwasher,
-  fridge,
-  airCondition,
-  yard,
-  balcony,
+  // dishwasher,
+  // fridge,
+  // airCondition,
+  // yard,
+  // balcony,
   smoking,
   barrier,
   visualAids,
-  hydro,
-  heat,
-  water,
-  cable,
-  internet,
-  parking,
+  // hydro,
+  // heat,
+  // water,
+  // cable,
+  // internet,
+  // parking,
+  // adType,
   accessible,
-  adType,
   int? size,
 ) {
   // TabController? _tabController;
@@ -741,25 +743,7 @@ Widget _tabSection(
                       SizedBox(
                         height: 20.0,
                       ),
-                      customRow(
-                        icon: Icons.house,
-                        iconcolor: textColor,
-                        text: 'Unit Type',
-                        size: 20.0,
-                        textColor: Colors.grey,
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 50.0,
-                        ),
-                        child: Text('Apartment'),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
+
                       customRow(
                         icon: Icons.bedroom_baby,
                         text: 'Bedrooms',
@@ -806,105 +790,24 @@ Widget _tabSection(
                         size: 20.0,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 50.0),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            customRow(
-                              icon: Icons.check,
-                              iconcolor: appColor,
-                              text: hydro,
-                              textColor: blackColor,
-                              size: 10.0,
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            customRow(
-                              icon: Icons.check,
-                              iconcolor: appColor,
-                              text: heat,
-                              textColor: blackColor,
-                              size: 10.0,
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            customRow(
-                              icon: Icons.check,
-                              iconcolor: appColor,
-                              text: water,
-                              textColor: blackColor,
-                              size: 10.0,
-                            ),
-                          ],
-                        ),
-                      ),
+                          padding: EdgeInsets.only(left: 50.0),
+                          child: Text('No')),
                       SizedBox(
                         height: 20.0,
                       ),
-                      customRow(
-                        icon: Icons.file_copy_outlined,
-                        text: 'Also Included',
-                        textColor: Colors.grey,
-                        iconcolor: textColor,
-                        size: 20.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 50.0),
-                        child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            customRow(
-                              icon: Icons.clear,
-                              iconcolor: Colors.red,
-                              text: cable,
-                              textColor: Colors.grey,
-                              size: 10.0,
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            customRow(
-                              icon: Icons.check,
-                              iconcolor: appColor,
-                              text: internet,
-                              textColor: blackColor,
-                              size: 10.0,
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      customRow(
-                        icon: Icons.local_parking,
-                        iconcolor: textColor,
-                        text: 'Parking Included',
-                        textColor: Colors.grey,
-                        size: 20.0,
-                      ),
+
                       SizedBox(
                         height: 10.0,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 50.0,
-                        ),
-                        child: Text(parking),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(
+                      //     left: 50.0,
+                      //   ),
+                      //   child: Text(parking),
+                      // ),
+                      // SizedBox(
+                      //   height: 20.0,
+                      // ),
                       customRow(
                         icon: Icons.lock_clock,
                         iconcolor: textColor,
@@ -1040,123 +943,123 @@ Widget _tabSection(
                       SizedBox(
                         height: 20.0,
                       ),
-                      customRow(
-                        icon: Icons.card_travel,
-                        iconcolor: textColor,
-                        text: 'Appliances',
-                        textColor: Colors.grey,
-                        size: 20.0,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: 50.0,
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            customRow(
-                              icon: Icons.check,
-                              iconcolor: appColor,
-                              text: 'Laundry (In Unit)',
-                              textColor: blackColor,
-                              size: 10.0,
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            customRow(
-                              icon: Icons.clear,
-                              iconcolor: Colors.red,
-                              text: 'Laundry (In Building)',
-                              textColor: Colors.grey,
-                              size: 10.0,
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            customRow(
-                              icon: Icons.check,
-                              iconcolor: appColor,
-                              text: dishwasher,
-                              textColor: blackColor,
-                              size: 10.0,
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            customRow(
-                              icon: Icons.check,
-                              iconcolor: appColor,
-                              text: fridge,
-                              textColor: blackColor,
-                              size: 10.0,
-                            ),
-                          ],
-                        ),
-                      ),
+                      // customRow(
+                      //   icon: Icons.card_travel,
+                      //   iconcolor: textColor,
+                      //   text: 'Appliances',
+                      //   textColor: Colors.grey,
+                      //   size: 20.0,
+                      // ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(
+                      //     left: 50.0,
+                      //   ),
+                      //   child: Column(
+                      //     children: [
+                      //       SizedBox(
+                      //         height: 10.0,
+                      //       ),
+                      //       customRow(
+                      //         icon: Icons.check,
+                      //         iconcolor: appColor,
+                      //         text: 'Laundry (In Unit)',
+                      //         textColor: blackColor,
+                      //         size: 10.0,
+                      //       ),
+                      //       SizedBox(
+                      //         height: 10.0,
+                      //       ),
+                      //       customRow(
+                      //         icon: Icons.clear,
+                      //         iconcolor: Colors.red,
+                      //         text: 'Laundry (In Building)',
+                      //         textColor: Colors.grey,
+                      //         size: 10.0,
+                      //       ),
+                      //       SizedBox(
+                      //         height: 10.0,
+                      //       ),
+                      //       customRow(
+                      //         icon: Icons.check,
+                      //         iconcolor: appColor,
+                      //         text: dishwasher,
+                      //         textColor: blackColor,
+                      //         size: 10.0,
+                      //       ),
+                      //       SizedBox(
+                      //         height: 10.0,
+                      //       ),
+                      //       customRow(
+                      //         icon: Icons.check,
+                      //         iconcolor: appColor,
+                      //         text: fridge,
+                      //         textColor: blackColor,
+                      //         size: 10.0,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       SizedBox(
                         height: 20.0,
                       ),
-                      customRow(
-                        icon: Icons.flood,
-                        text: 'Air Conditioning',
-                        textColor: Colors.grey,
-                        iconcolor: textColor,
-                        size: 20.0,
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 50.0,
-                        ),
-                        child: Text(airCondition),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      customRow(
-                        icon: Icons.file_copy_outlined,
-                        text: 'Personal Outdoor Space',
-                        textColor: Colors.grey,
-                        iconcolor: textColor,
-                        size: 20.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 50.0,
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            customRow(
-                              icon: Icons.check,
-                              iconcolor: appColor,
-                              text: yard,
-                              textColor: Colors.grey,
-                              size: 10.0,
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            customRow(
-                              icon: Icons.check,
-                              iconcolor: appColor,
-                              text: balcony,
-                              textColor: blackColor,
-                              size: 10.0,
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                          ],
-                        ),
-                      ),
+                      // customRow(
+                      //   icon: Icons.flood,
+                      //   text: 'Air Conditioning',
+                      //   textColor: Colors.grey,
+                      //   iconcolor: textColor,
+                      //   size: 20.0,
+                      // ),
+                      // SizedBox(
+                      //   height: 10.0,
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(
+                      //     left: 50.0,
+                      //   ),
+                      //   child: Text(airCondition),
+                      // ),
+                      // SizedBox(
+                      //   height: 20.0,
+                      // ),
+                      // customRow(
+                      //   icon: Icons.file_copy_outlined,
+                      //   text: 'Personal Outdoor Space',
+                      //   textColor: Colors.grey,
+                      //   iconcolor: textColor,
+                      //   size: 20.0,
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(
+                      //     left: 50.0,
+                      //   ),
+                      //   child: Column(
+                      //     children: [
+                      //       SizedBox(
+                      //         height: 10.0,
+                      //       ),
+                      //       customRow(
+                      //         icon: Icons.check,
+                      //         iconcolor: appColor,
+                      //         text: yard,
+                      //         textColor: Colors.grey,
+                      //         size: 10.0,
+                      //       ),
+                      //       SizedBox(
+                      //         height: 10.0,
+                      //       ),
+                      //       customRow(
+                      //         icon: Icons.check,
+                      //         iconcolor: appColor,
+                      //         text: balcony,
+                      //         textColor: blackColor,
+                      //         size: 10.0,
+                      //       ),
+                      //       SizedBox(
+                      //         height: 10.0,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       SizedBox(
                         height: 20.0,
                       ),
