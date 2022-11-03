@@ -194,53 +194,54 @@ class _PostingDetailsState extends State<PostingDetails> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UnitTypeScreen()));
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Colors.grey,
-                            width: 1,
-                          ),
-                        ),
-                        // color: Colors.grey.shade300,
-                      ),
-                      padding: EdgeInsets.only(
-                        top: 10.0,
-                        bottom: 10,
-                        left: 10,
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Unit type ',
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Spacer(),
-                          // Text(
-                          //   'Any',
-                          //   style: TextStyle(
-                          //       color: blackColor, fontWeight: FontWeight.bold),
-                          // ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 20.0,
-                            color: Colors.grey.shade300,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //             builder: (context) => UnitTypeScreen()));
+                  //   },
+                  //   child: Container(
+                  //     width: MediaQuery.of(context).size.width,
+                  //     height: 40,
+                  //     decoration: BoxDecoration(
+                  //       border: Border(
+                  //         bottom: BorderSide(
+                  //           color: Colors.grey,
+                  //           width: 1,
+                  //         ),
+                  //       ),
+                  //       // color: Colors.grey.shade300,
+                  //     ),
+                  //     padding: EdgeInsets.only(
+                  //       top: 10.0,
+                  //       bottom: 10,
+                  //       left: 10,
+                  //     ),
+                  //     child: Row(
+                  //       children: [
+                  //         Text(
+                  //           'Unit type ',
+                  //           style: TextStyle(
+                  //             color: Colors.grey,
+                  //           ),
+                  //         ),
+                  //         Spacer(),
+                  //         // Text(
+                  //         //   'Any',
+                  //         //   style: TextStyle(
+                  //         //       color: blackColor, fontWeight: FontWeight.bold),
+                  //         // ),
+                  //         Icon(
+                  //           Icons.arrow_forward_ios,
+                  //           size: 20.0,
+                  //           color: Colors.grey.shade300,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -335,19 +336,19 @@ class _PostingDetailsState extends State<PostingDetails> {
                       ),
                     ),
                   ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        agreementTypeString = v;
-                      });
-                    },
-                    title: 'Agreement Type',
-                    buttonLables: ['Month to Month', '1 Year'],
-                    buttonValues: ['Month to Month', '1 Year'],
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       agreementTypeString = v;
+                  //     });
+                  //   },
+                  //   title: 'Agreement Type',
+                  //   buttonLables: ['Month to Month', '1 Year'],
+                  //   buttonValues: ['Month to Month', '1 Year'],
+                  // ),
+                  // SizedBox(
+                  //   height: 20.0,
+                  // ),
                   // InkWell(
                   //   onTap: onTappedFunctionOfStartDate,
                   //   child: Container(
@@ -430,83 +431,84 @@ class _PostingDetailsState extends State<PostingDetails> {
                     buttonLables: ['Yes', 'No'],
                     buttonValues: ['Yes', 'No'],
                   ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        laundryInUnit = v;
-                      });
-                    },
-                    //width: 55,
-                    title: 'Laundry (In Unit)',
-                    buttonLables: ['Yes', 'No'],
-                    buttonValues: ['Yes', 'No'],
-                  ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        laundryInBuilding = v;
-                      });
-                    },
-                    //width: 55,
-                    title: 'Laundry (In Building)',
-                    buttonLables: ['Yes', 'No'],
-                    buttonValues: ['Yes', 'No'],
-                  ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        dishwasher = v;
-                      });
-                    },
-                    //width: 55,
-                    title: 'Dishwasher',
-                    buttonLables: ['Yes', 'No'],
-                    buttonValues: ['Yes', 'No'],
-                  ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        fridge = v;
-                      });
-                    },
-                    //width: 55,
-                    title: 'Fridge/Freezer',
-                    buttonLables: ['Yes', 'No'],
-                    buttonValues: ['Yes', 'No'],
-                  ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        airConditioning = v;
-                      });
-                    },
-                    //width: 55,
-                    title: 'Air Conditioning',
-                    buttonLables: ['Yes', 'No'],
-                    buttonValues: ['Yes', 'No'],
-                  ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        yard = v;
-                      });
-                    },
-                    //width: 55,
-                    title: 'Yard',
-                    buttonLables: ['Yes', 'No'],
-                    buttonValues: ['Yes', 'No'],
-                  ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        balcony = v;
-                      });
-                    },
-                    //width: 55,
-                    title: 'Balcony',
-                    buttonLables: ['Yes', 'No'],
-                    buttonValues: ['Yes', 'No'],
-                  ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       laundryInUnit = v;
+                  //     });
+                  //   },
+                  //   //width: 55,
+                  //   title: 'Laundry (In Unit)',
+                  //   buttonLables: ['Yes', 'No'],
+                  //   buttonValues: ['Yes', 'No'],
+                  // ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       laundryInBuilding = v;
+                  //     });
+                  //   },
+                  //   //width: 55,
+                  //   title: 'Laundry (In Building)',
+                  //   buttonLables: ['Yes', 'No'],
+                  //   buttonValues: ['Yes', 'No'],
+                  // ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       dishwasher = v;
+                  //     });
+                  //   },
+                  //   //width: 55,
+                  //   title: 'Dishwasher',
+                  //   buttonLables: ['Yes', 'No'],
+                  //   buttonValues: ['Yes', 'No'],
+                  // ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       fridge = v;
+                  //     });
+                  //   },
+                  //   //width: 55,
+                  //   title: 'Fridge/Freezer',
+                  //   buttonLables: ['Yes', 'No'],
+                  //   buttonValues: ['Yes', 'No'],
+                  // ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       airConditioning = v;
+                  //     });
+                  //   },
+                  //   //width: 55,
+                  //   title: 'Air Conditioning',
+                  //   buttonLables: ['Yes', 'No'],
+                  //   buttonValues: ['Yes', 'No'],
+                  // ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       yard = v;
+                  //     });
+                  //   },
+                  //   //width: 55,
+                  //   title: 'Yard',
+                  //   buttonLables: ['Yes', 'No'],
+                  //   buttonValues: ['Yes', 'No'],
+                  // ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       balcony = v;
+                  //     });
+                  //   },
+                  //   //width: 55,
+                  //   title: 'Balcony',
+                  //   buttonLables: ['Yes', 'No'],
+                  //   buttonValues: ['Yes', 'No'],
+                  // ),
+
                   customRadio(
                     fn: (v) {
                       setState(() {
@@ -550,91 +552,92 @@ class _PostingDetailsState extends State<PostingDetails> {
                     buttonLables: ['Yes', 'No'],
                     buttonValues: ['Yes', 'No'],
                   ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        hydro = v;
-                      });
-                    },
-                    //width: 55,
-                    title: 'Hydro',
-                    buttonLables: ['Yes', 'No'],
-                    buttonValues: ['Yes', 'No'],
-                  ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        heat = v;
-                      });
-                    },
-                    //width: 55,
-                    title: 'Heat',
-                    buttonLables: ['Yes', 'No'],
-                    buttonValues: ['Yes', 'No'],
-                  ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        water = v;
-                      });
-                    },
-                    //width: 55,
-                    title: 'Water',
-                    buttonLables: ['Yes', 'No'],
-                    buttonValues: ['Yes', 'No'],
-                  ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        cable = v;
-                      });
-                    },
-                    //width: 55,
-                    title: 'Cable/TV',
-                    buttonLables: ['Yes', 'No'],
-                    buttonValues: ['Yes', 'No'],
-                  ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        internet = v;
-                      });
-                    },
-                    //width: 55,
-                    title: 'Internet',
-                    buttonLables: ['Yes', 'No'],
-                    buttonValues: ['Yes', 'No'],
-                  ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        parkingIncluded = v;
-                      });
-                    },
-                    // width: 55,
-                    title: 'Parking included',
-                    buttonLables: [
-                      '1',
-                      '2',
-                      '3+',
-                    ],
-                    buttonValues: [
-                      '1',
-                      '2',
-                      '3+',
-                    ],
-                  ),
-                  customRadio(
-                    fn: (v) {
-                      setState(() {
-                        adType = v;
-                      });
-                    },
-                    //width: 55,
-                    title: 'Ad Type',
-                    buttonLables: ['I am offering', 'I want'],
-                    buttonValues: ['I am offering', 'I want'],
-                  ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       hydro = v;
+                  //     });
+                  //   },
+                  //   //width: 55,
+                  //   title: 'Hydro',
+                  //   buttonLables: ['Yes', 'No'],
+                  //   buttonValues: ['Yes', 'No'],
+                  // ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       heat = v;
+                  //     });
+                  //   },
+                  //   //width: 55,
+                  //   title: 'Heat',
+                  //   buttonLables: ['Yes', 'No'],
+                  //   buttonValues: ['Yes', 'No'],
+                  // ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       water = v;
+                  //     });
+                  //   },
+                  //   //width: 55,
+                  //   title: 'Water',
+                  //   buttonLables: ['Yes', 'No'],
+                  //   buttonValues: ['Yes', 'No'],
+                  // ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       cable = v;
+                  //     });
+                  //   },
+                  //   //width: 55,
+                  //   title: 'Cable/TV',
+                  //   buttonLables: ['Yes', 'No'],
+                  //   buttonValues: ['Yes', 'No'],
+                  // ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       internet = v;
+                  //     });
+                  //   },
+                  //   //width: 55,
+                  //   title: 'Internet',
+                  //   buttonLables: ['Yes', 'No'],
+                  //   buttonValues: ['Yes', 'No'],
+                  // ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       parkingIncluded = v;
+                  //     });
+                  //   },
+                  //   // width: 55,
+                  //   title: 'Parking included',
+                  //   buttonLables: [
+                  //     '1',
+                  //     '2',
+                  //     '3+',
+                  //   ],
+                  //   buttonValues: [
+                  //     '1',
+                  //     '2',
+                  //     '3+',
+                  //   ],
+                  // ),
+                  // customRadio(
+                  //   fn: (v) {
+                  //     setState(() {
+                  //       adType = v;
+                  //     });
+                  //   },
+                  //   //width: 55,
+                  //   title: 'Ad Type',
+                  //   buttonLables: ['I am offering', 'I want'],
+                  //   buttonValues: ['I am offering', 'I want'],
+                  // ),
+
                   SizedBox(
                     height: 70.0,
                   ),
@@ -676,35 +679,35 @@ class _PostingDetailsState extends State<PostingDetails> {
                                     widget.bathrooms!,
                                   ),
                             accessibleWahshroms: accessibleWahshroms,
-                            adType: adType,
-                            agreementTypeString: agreementTypeString,
-                            airConditioning: airConditioning,
+                            // adType: adType,
+                            // agreementTypeString: agreementTypeString,
+                            // airConditioning: airConditioning,
                             // appliances: appliances,
-                            balcony: balcony,
+                            // balcony: balcony,
                             barrierFreeEntrance: barrierFreeEntrance,
-                            cable: cable,
-                            dishwasher: dishwasher,
+                            // cable: cable,
+                            // dishwasher: dishwasher,
                             forRentBy: forRentBy,
-                            fridge: fridge,
+                            // fridge: fridge,
                             furnished: furnished,
-                            heat: heat,
-                            hydro: hydro,
-                            internet: internet,
-                            laundryInBuilding: laundryInBuilding,
-                            laundryInUnit: laundryInUnit,
+                            // heat: heat,
+                            // hydro: hydro,
+                            // internet: internet,
+                            // laundryInBuilding: laundryInBuilding,
+                            // laundryInUnit: laundryInUnit,
                             noofbedrroms: widget.bedrooms == null
                                 ? 5
                                 : int.parse(widget.bedrooms!),
-                            parkingIncluded: parkingIncluded,
+                            // parkingIncluded: parkingIncluded,
                             price: int.parse(_priceController.text),
-                            personalOutdoorSpaces: personalOutdoorSpaces,
+                            // personalOutdoorSpaces: personalOutdoorSpaces,
                             petFriendly: petFriendly,
                             size: int.parse(_sizeController.text),
                             smookingPermitted: smookingPermitted,
-                            untilityIncluded: untilityIncluded,
+                            // untilityIncluded: untilityIncluded,
                             visualAids: visualAids,
-                            water: water,
-                            yard: yard,
+                            // water: water,
+                            // yard: yard,
                           ),
                         ),
                       );

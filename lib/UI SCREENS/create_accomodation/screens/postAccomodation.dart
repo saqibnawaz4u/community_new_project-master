@@ -37,71 +37,71 @@ final List<String> imgList = [
 
 class PostAccommodation extends StatefulWidget {
   final int? noofbedrroms;
-  final String? category;
+
   final double? NoOFBathrooms;
-  final String? untilityIncluded;
-  final String? parkingIncluded;
+  // final String? untilityIncluded;
+  // final String? parkingIncluded;
   final String? furnished;
-  final String? appliances;
+  // final String? appliances;
   final String? petFriendly;
   final String? barrierFreeEntrance;
   final String? visualAids;
   final String? accessibleWahshroms;
-  final String? personalOutdoorSpaces;
+  // final String? personalOutdoorSpaces;
   final String? smookingPermitted;
   final String? forRentBy;
-  final String? agreementTypeString;
-  final String? laundryInUnit;
-  final String? laundryInBuilding;
-  final String? dishwasher;
-  final String? airConditioning;
-  final String? fridge;
-  final String? balcony;
-  final String? hydro;
-  final String? heat;
-  final String? water;
-  final String? yard;
-  final String? cable;
-  final String? internet;
+  // final String? agreementTypeString;
+  // final String? laundryInUnit;
+  // final String? laundryInBuilding;
+  // final String? dishwasher;
+  // final String? airConditioning;
+  // final String? fridge;
+  // final String? balcony;
+  // final String? hydro;
+  // final String? heat;
+  // final String? water;
+  // final String? yard;
+  // final String? cable;
+  // final String? internet;
   final int? size;
   final int? price;
-  final String? adType;
+  // final String? adType;
   final bool isNew;
   final int? accId;
   const PostAccommodation({
     Key? key,
-    this.category,
+    // this.category,
     required this.isNew,
     this.size,
     this.price,
     this.accId,
     this.NoOFBathrooms,
     this.accessibleWahshroms,
-    this.adType,
-    this.agreementTypeString,
-    this.airConditioning,
-    this.appliances,
-    this.balcony,
+    // this.adType,
+    // this.agreementTypeString,
+    // this.airConditioning,
+    // this.appliances,
+    // this.balcony,
     this.barrierFreeEntrance,
-    this.cable,
-    this.dishwasher,
+    // this.cable,
+    // this.dishwasher,
     this.forRentBy,
-    this.fridge,
+    // this.fridge,
     this.furnished,
-    this.heat,
-    this.hydro,
-    this.internet,
-    this.laundryInBuilding,
-    this.laundryInUnit,
+    // this.heat,
+    // this.hydro,
+    // this.internet,
+    // this.laundryInBuilding,
+    // this.laundryInUnit,
     this.noofbedrroms,
-    this.parkingIncluded,
-    this.personalOutdoorSpaces,
+    // this.parkingIncluded,
+    // this.personalOutdoorSpaces,
     this.petFriendly,
     this.smookingPermitted,
-    this.untilityIncluded,
+    // this.untilityIncluded,
     this.visualAids,
-    this.water,
-    this.yard,
+    // this.water,
+    // this.yard,
   }) : super(key: key);
   @override
   _PostAccommodationState createState() => _PostAccommodationState();
@@ -922,15 +922,15 @@ class _PostAccommodationState extends State<PostAccommodation>
                                 rent: int.parse(priceController.text),
                                 smokingPermitted: widget.smookingPermitted,
                                 visualAids: widget.visualAids,
-                                utilitiesIncluded: widget.untilityIncluded,
+                                // utilitiesIncluded: widget.untilityIncluded,
                                 petFriendly: widget.petFriendly,
-                                personalOutdoorSpace:
-                                    widget.personalOutdoorSpaces,
+                                // personalOutdoorSpace:
+                                // widget.personalOutdoorSpaces,
                                 noofBathrooms: double.parse(NoOFBathrooms),
                                 forRentBy: widget.forRentBy,
                                 barrier_free_entrancesAndRamps:
                                     widget.barrierFreeEntrance,
-                                appliances: widget.appliances,
+                                // appliances: widget.appliances,
                                 accessibleWashroomsInSuite:
                                     widget.accessibleWahshroms,
                                 photo: imageFile.path,
@@ -960,16 +960,16 @@ class _PostAccommodationState extends State<PostAccommodation>
                                 rent: widget.price,
                                 smokingPermitted: widget.smookingPermitted,
                                 visualAids: widget.visualAids,
-                                utilitiesIncluded: widget.untilityIncluded,
+                                // utilitiesIncluded: widget.untilityIncluded,
                                 petFriendly: widget.petFriendly,
-                                personalOutdoorSpace:
-                                    widget.personalOutdoorSpaces,
+                                // personalOutdoorSpace:
+                                //     widget.personalOutdoorSpaces,
                                 noofBathrooms: 10,
                                 location: lctnController.text,
                                 forRentBy: widget.forRentBy,
                                 barrier_free_entrancesAndRamps:
                                     widget.barrierFreeEntrance,
-                                appliances: widget.appliances,
+                                // appliances: widget.appliances,
                                 accessibleWashroomsInSuite:
                                     widget.accessibleWahshroms,
                                 photo: imageFile.path,

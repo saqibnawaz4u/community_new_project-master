@@ -33,20 +33,21 @@ class _UsereventDetailsState extends State<UsereventDetails> {
 
   int currentUserId = prefs.get('userId');
 
-  UserEvents userEvents = UserEvents();
-
-  getUserEvents() async {
-    var response =
-        await http.get(Uri.parse("http://ijtimaee.com/api/enduserevents"));
-
-    if (response.statusCode == 200) {
-      userEvents = UserEvents.fromJson(jsonDecode(response.body));
-      print(response.statusCode);
-      // print(userEvents.statusCode);
-      // setState(() {
-      //   _isloading = false;
-      // });
-    }
+  List<UserEvents> userEvents = [];
+  _getUserEvents() async {
+    int currentUserId = await prefs.get('userId');
+    await ApiServices.fetch(
+      'enduserevents',
+      // actionName: 'GetForEndUser',
+      // param1: currentUserId.toString(),
+    ).then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body);
+        print(response.body);
+        userEvents = list.map((model) => UserEvents.fromJson(model)).toList();
+        print(response.statusCode);
+      });
+    });
   }
 
   //saving data
@@ -75,7 +76,7 @@ class _UsereventDetailsState extends State<UsereventDetails> {
 
   @override
   void initState() {
-    getUserEvents();
+    _getUserEvents();
     // TODO: implement initState
     super.initState();
   }
@@ -197,8 +198,22 @@ class _UsereventDetailsState extends State<UsereventDetails> {
             ),
             const SizedBox(height: 20),
 
-            userEvents.user_Id == currentUserId
-                ? Text('Attendies List')
+            userEvents[1].user_Id == currentUserId
+                ? Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Attendies',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20.0),
+                        ),
+                        Text('user 1'),
+                        Text('user 2'),
+                        Text('user 3'),
+                      ],
+                    ),
+                  )
                 : Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: ElevatedButton(
@@ -231,6 +246,64 @@ class _UsereventDetailsState extends State<UsereventDetails> {
                       ),
                     ),
                   ),
+
+            // Container(
+            //   height: MediaQuery.of(context).size.height * 0.2,
+            //   child: ListView.builder(
+            //       itemCount: userEvents.length,
+            //       itemBuilder: (_, index) {
+            //         return userEvents[index].user_Id == currentUserId
+            //             ? Container(
+            //                 child: Column(
+            //                   children: [
+            //                     Text(
+            //                       'Attendies',
+            //                       style: TextStyle(
+            //                           fontWeight: FontWeight.bold,
+            //                           fontSize: 30.0),
+            //                     ),
+            //                     Text('user 1'),
+            //                     Text('user 2'),
+            //                     Text('user 3'),
+            //                   ],
+            //                 ),
+            //               )
+            //             : Container(
+            //                 padding: const EdgeInsets.symmetric(horizontal: 20),
+            //                 child: ElevatedButton(
+            //                   onPressed: () async {
+            //                     UserEvents userEvents;
+            //                     userEvents = UserEvents(
+            //                       event_Id: widget.eventId,
+            //                       user_Id: widget.userId,
+            //                     );
+
+            //                     await _regEvent(userEvents);
+            //                   },
+            //                   style: ElevatedButton.styleFrom(
+            //                     shape: RoundedRectangleBorder(
+            //                       borderRadius: BorderRadius.circular(8),
+            //                     ),
+            //                     primary: appColor,
+            //                   ),
+            //                   child: Container(
+            //                     alignment: Alignment.center,
+            //                     padding:
+            //                         const EdgeInsets.symmetric(vertical: 15),
+            //                     child: const Text(
+            //                       'Register',
+            //                       style: TextStyle(
+            //                         color: Colors.white,
+            //                         fontSize: 16,
+            //                         fontWeight: FontWeight.bold,
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 ),
+            //               );
+            //       }),
+            // ),
+
             // NestedTabBar(nestedTabbarView: [
             //   Form(key: formKeys[0], child: Container()),
             //   Form(key: formKeys[1], child: Container()),
